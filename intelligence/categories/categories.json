@@ -1,0 +1,9 @@
+﻿[
+{"id":"humint","name":"HUMINT"},
+{"id":"socmint","name":"SOCMINT"},
+{"id":"geoint","name":"GEOINT"},
+{"id":"cti","name":"Cyber Threat Intelligence"},
+{"id":"dfir","name":"DFIR"},
+{"id":"cloud","name":"Cloud Security"},
+{"id":"darkweb","name":"Dark Web"}
+]

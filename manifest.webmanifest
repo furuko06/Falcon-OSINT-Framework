@@ -1,0 +1,8 @@
+﻿{
+  "name":"Falcon OSINT Framework",
+  "short_name":"Falcon",
+  "display":"standalone",
+  "start_url":".",
+  "background_color":"#020617",
+  "theme_color":"#22d3ee"
+}
