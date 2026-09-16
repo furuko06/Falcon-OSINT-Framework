@@ -1,4 +1,6 @@
 import { applyFilters, clearFilters } from "./filters.js";
+import { createDashboardSection } from "../dashboard/layout.js";
+import { initializeDashboard } from "../dashboard/dashboard.js";
 import { renderCards } from "./cards.js";
 import { renderSidebar } from "./sidebar.js";
 
@@ -7,8 +9,11 @@ export async function initializeExplorer() {
     const sidebar = document.getElementById("sidebar");
     const toolbar = document.getElementById("toolbar");
     const cards = document.getElementById("cards");
+    const dashboard = createDashboardSection();
 
+    toolbar.before(dashboard);
     renderToolbar(toolbar);
+    await initializeDashboard(dashboard);
 
     subscribe(state => {
 

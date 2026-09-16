@@ -6,6 +6,48 @@ import { ExplorerState, setFavorites } from "./state.js";
 import { applyCurrentFilters } from "./filters.js";
 import { toggleFavorite } from "./favorites.js";
 
+function githubUrl(value) {
+    if (!value) {
+        return "";
+    }
+
+    return value.startsWith("http")
+        ? value
+        : `https://github.com/${value}`;
+}
+
+function sameDestination(first, second) {
+    return first &&
+        second &&
+        first.replace(/\/$/, "").toLowerCase() ===
+            second.replace(/\/$/, "").toLowerCase();
+}
+
+function renderToolActions(tool) {
+    const website = tool.website || "";
+    const github = githubUrl(tool.github);
+
+    if (sameDestination(website, github)) {
+        return `<a href="${github}" target="_blank">GitHub</a>`;
+    }
+
+    const links = [];
+
+    if (website) {
+        links.push(
+            `<a href="${website}" target="_blank">Website</a>`
+        );
+    }
+
+    if (github) {
+        links.push(
+            `<a href="${github}" target="_blank">GitHub</a>`
+        );
+    }
+
+    return links.length ? links.join("") : "<span></span>";
+}
+
 export function renderCards(container, tools){
 
     container.innerHTML="";
@@ -26,6 +68,7 @@ export function renderCards(container, tools){
         const toolId = String(tool.id);
         const isFavorite = ExplorerState.favorites.has(toolId);
         const favoriteIcon = isFavorite ? "\u2605" : "\u2606";
+        const actions = renderToolActions(tool);
         const card=document.createElement("article");
         card.className="tool-card";
 
@@ -100,17 +143,7 @@ export function renderCards(container, tools){
 
         <div class="tool-footer">
 
-            ${
-              tool.website
-                ? `<a href="${tool.website}" target="_blank">Website</a>`
-                : "<span></span>"
-            }
-
-            ${
-              tool.github
-                ? `<a href="https://github.com/${tool.github}" target="_blank">GitHub</a>`
-                : ""
-            }
+            ${actions}
 
         </div>
 
