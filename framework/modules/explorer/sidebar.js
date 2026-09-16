@@ -9,6 +9,21 @@ export function renderSidebar(container){
 
     container.innerHTML = "";
 
+    const favoritesButton = document.createElement("button");
+
+    favoritesButton.className = "sidebar-item";
+
+    favoritesButton.textContent =
+        `Favorites (${ExplorerState.favorites.size})`;
+
+    favoritesButton.onclick = ()=>{
+
+        applyFilters({favorites: true});
+
+    };
+
+    container.appendChild(favoritesButton);
+
     categories.forEach(category=>{
 
         const button = document.createElement("button");

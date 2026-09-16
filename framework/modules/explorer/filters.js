@@ -1,63 +1,98 @@
-import { ExplorerState, updateState, updateFilters } from "./state.js";
+import { ExplorerState, updateState, updateFilters, resetFilters } from "./state.js";
 
-export function applyFilters(filters={}){
+function matchesTool(tool, filters, query, favorites) {
 
-    updateFilters(filters);
+    const text = query.trim().toLowerCase();
 
-    let results = [...ExplorerState.tools];
+    if (text) {
+        const haystack = [
+            tool.name,
+            tool.category,
+            tool.subcategory,
+            tool.description,
+            tool.country
+        ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
 
-    const current = ExplorerState.filters;
-
-    if(current.category){
-
-        results = results.filter(
-            tool=>tool.category===current.category
-        );
-
+        if (!haystack.includes(text)) {
+            return false;
+        }
     }
 
-    if(current.country){
-
-        results = results.filter(
-            tool=>tool.country===current.country
-        );
-
+    if (filters.category && tool.category !== filters.category) {
+        return false;
     }
 
-    if(current.offline){
-
-        results = results.filter(tool=>tool.offline===1);
-
+    if (filters.country && tool.country !== filters.country) {
+        return false;
     }
 
-    if(current.docker){
-
-        results = results.filter(tool=>tool.docker===1);
-
+    if (filters.offline && Number(tool.offline) !== 1) {
+        return false;
     }
 
-    if(current.api){
-
-        results = results.filter(tool=>tool.api===1);
-
+    if (filters.docker && Number(tool.docker) !== 1) {
+        return false;
     }
 
-    updateState({results});
+    if (filters.api && Number(tool.api) !== 1) {
+        return false;
+    }
 
+    if (filters.favorites && !favorites.has(String(tool.id))) {
+        return false;
+    }
+
+    return true;
 }
 
-export function clearFilters(){
+export function applyFilters(patch = {}) {
+
+    updateFilters(patch);
+
+    const results = ExplorerState.tools.filter(tool =>
+        matchesTool(
+            tool,
+            ExplorerState.filters,
+            ExplorerState.query,
+            ExplorerState.favorites
+        )
+    );
+
+    updateState({ results });
+}
+
+export function applyCurrentFilters() {
+
+    const results = ExplorerState.tools.filter(tool =>
+        matchesTool(
+            tool,
+            ExplorerState.filters,
+            ExplorerState.query,
+            ExplorerState.favorites
+        )
+    );
+
+    updateState({ results });
+}
+
+export function clearFilters() {
+
+    resetFilters();
+
+    const results = ExplorerState.tools.filter(tool =>
+        matchesTool(
+            tool,
+            ExplorerState.filters,
+            "",
+            ExplorerState.favorites
+        )
+    );
 
     updateState({
-        filters:{
-            category:null,
-            country:null,
-            offline:false,
-            docker:false,
-            api:false,
-            favorites:false
-        },
-        results:ExplorerState.tools
+        query: "",
+        results
     });
-
 }

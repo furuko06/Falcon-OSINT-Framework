@@ -1,7 +1,10 @@
 /* ==========================================================
-   Falcon Explorer Cards — M3.1.2
-   Reemplazo completo
+   Falcon Explorer Cards - M3.1.3
    ========================================================== */
+
+import { ExplorerState, setFavorites } from "./state.js";
+import { applyCurrentFilters } from "./filters.js";
+import { toggleFavorite } from "./favorites.js";
 
 export function renderCards(container, tools){
 
@@ -20,6 +23,9 @@ export function renderCards(container, tools){
 
     tools.forEach(tool=>{
 
+        const toolId = String(tool.id);
+        const isFavorite = ExplorerState.favorites.has(toolId);
+        const favoriteIcon = isFavorite ? "\u2605" : "\u2606";
         const card=document.createElement("article");
         card.className="tool-card";
 
@@ -29,8 +35,13 @@ export function renderCards(container, tools){
 
             <h3>${tool.name}</h3>
 
-            <button class="favorite-btn" title="Favorites">
-                ☆
+            <button
+                class="favorite-btn"
+                title="${isFavorite ? "Remove from favorites" : "Add to favorites"}"
+                aria-label="${isFavorite ? "Remove from favorites" : "Add to favorites"}"
+                aria-pressed="${isFavorite}"
+                data-tool-id="${toolId}">
+                ${favoriteIcon}
             </button>
 
         </div>
@@ -104,6 +115,34 @@ export function renderCards(container, tools){
         </div>
 
         `;
+
+        const favoriteButton =
+            card.querySelector(".favorite-btn");
+
+        favoriteButton.addEventListener("click", () => {
+            const favorites = toggleFavorite(
+                toolId,
+                ExplorerState.favorites
+            );
+
+            setFavorites(favorites);
+
+            const nextFavorite = favorites.has(toolId);
+            const nextLabel = nextFavorite
+                ? "Remove from favorites"
+                : "Add to favorites";
+
+            favoriteButton.textContent =
+                nextFavorite ? "\u2605" : "\u2606";
+            favoriteButton.title = nextLabel;
+            favoriteButton.setAttribute("aria-label", nextLabel);
+            favoriteButton.setAttribute(
+                "aria-pressed",
+                String(nextFavorite)
+            );
+
+            applyCurrentFilters();
+        });
 
         container.appendChild(card);
 
