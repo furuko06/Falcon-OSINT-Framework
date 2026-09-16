@@ -1,37 +1,108 @@
-export function renderCards(container, tools = []) {
+/* ==========================================================
+   Falcon Explorer Cards — M3.1.2
+   Reemplazo completo
+   ========================================================== */
 
-    container.innerHTML = "";
+export function renderCards(container, tools){
 
-    if (!tools.length) {
+    container.innerHTML="";
 
-        container.innerHTML = `
+    if(!tools.length){
+
+        container.innerHTML=`
             <div class="empty-state">
-                <h2>No tools found</h2>
-                <p>The current search returned no results.</p>
+                No tools found.
             </div>
         `;
 
         return;
     }
 
-    tools.forEach(tool => {
+    tools.forEach(tool=>{
 
-        const card = document.createElement("article");
+        const card=document.createElement("article");
+        card.className="tool-card";
 
-        card.className = "tool-card";
+        card.innerHTML=`
 
-        card.innerHTML = `
-            <header class="tool-header">
-                <h3>${tool.name}</h3>
-                <span class="tool-status">${tool.status || "verified"}</span>
-            </header>
+        <div class="tool-header">
 
-            <p>${tool.description || "No description available."}</p>
+            <h3>${tool.name}</h3>
 
-            <div class="tool-meta">
-                <span>${tool.category}</span>
-                <span>${tool.country}</span>
+            <button class="favorite-btn" title="Favorites">
+                ☆
+            </button>
+
+        </div>
+
+        <span class="tool-status">
+            ${tool.status}
+        </span>
+
+        <div class="tool-description">
+            ${tool.description || "No description available."}
+        </div>
+
+        <div class="badges">
+
+            <span class="badge">${tool.category}</span>
+
+            <span class="badge">${tool.country}</span>
+
+            ${Number(tool.offline) ? '<span class="badge offline">Offline</span>' : ""}
+
+            ${Number(tool.docker) ? '<span class="badge docker">Docker</span>' : ""}
+
+            ${Number(tool.api) ? '<span class="badge api">API</span>' : ""}
+
+        </div>
+
+        <div class="scores">
+
+            <div class="score">
+
+                <label>
+                    <span>Quality</span>
+                    <strong>${tool.quality_score}</strong>
+                </label>
+
+                <div class="progress">
+                    <div style="width:${tool.quality_score}%"></div>
+                </div>
+
             </div>
+
+            <div class="score">
+
+                <label>
+                    <span>OPSEC</span>
+                    <strong>${tool.opsec_score}</strong>
+                </label>
+
+                <div class="progress">
+                    <div style="width:${tool.opsec_score}%"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tool-footer">
+
+            ${
+              tool.website
+                ? `<a href="${tool.website}" target="_blank">Website</a>`
+                : "<span></span>"
+            }
+
+            ${
+              tool.github
+                ? `<a href="https://github.com/${tool.github}" target="_blank">GitHub</a>`
+                : ""
+            }
+
+        </div>
+
         `;
 
         container.appendChild(card);
