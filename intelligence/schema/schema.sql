@@ -1,58 +1,82 @@
-﻿CREATE TABLE IF NOT EXISTS tools(
+﻿CREATE TABLE categories(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
 
-id INTEGER PRIMARY KEY,
+CREATE TABLE countries(
+    id INTEGER PRIMARY KEY,
+    code TEXT UNIQUE,
+    name TEXT NOT NULL
+);
 
-name TEXT NOT NULL,
+CREATE TABLE licenses(
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
 
-category TEXT,
+CREATE TABLE tags(
+    id INTEGER PRIMARY KEY,
+    tag TEXT UNIQUE
+);
 
-subcategory TEXT,
+CREATE TABLE tools(
+    id INTEGER PRIMARY KEY,
 
-country TEXT,
+    name TEXT NOT NULL,
+    category TEXT,
+    subcategory TEXT,
 
-description TEXT,
+    description TEXT,
 
-website TEXT,
+    country TEXT,
 
-github TEXT,
+    website TEXT,
+    github TEXT,
 
-license TEXT,
+    license TEXT,
 
-status TEXT,
+    status TEXT DEFAULT 'verified',
 
-offline INTEGER,
+    offline INTEGER DEFAULT 0,
+    api INTEGER DEFAULT 0,
+    docker INTEGER DEFAULT 0,
 
-api INTEGER,
+    vpn_friendly INTEGER DEFAULT 0,
+    tor_friendly INTEGER DEFAULT 0,
 
-docker INTEGER,
+    opsec_score INTEGER DEFAULT 0,
+    quality_score INTEGER DEFAULT 0,
 
-vpn_friendly INTEGER,
+    last_verified TEXT
+);
 
-tor_friendly INTEGER,
+CREATE TABLE collections(
+    id INTEGER PRIMARY KEY,
+    name TEXT
+);
 
-opsec_score INTEGER,
+CREATE TABLE bookmarks(
+    id INTEGER PRIMARY KEY,
+    tool_id INTEGER
+);
 
-quality_score INTEGER,
+CREATE TABLE schema_version(
+    version INTEGER
+);
 
-last_verified TEXT
-
+CREATE TABLE migration_history(
+    version INTEGER,
+    name TEXT,
+    applied_at TEXT
 );
 
 CREATE VIRTUAL TABLE tools_fts
 USING fts5(
-
-name,
-
-description,
-
-category,
-
-subcategory,
-
-country,
-
-content='tools',
-
-content_rowid='id'
-
+    name,
+    description,
+    category,
+    subcategory,
+    country,
+    content='tools',
+    content_rowid='id'
 );

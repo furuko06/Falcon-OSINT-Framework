@@ -1,0 +1,18 @@
+[
+  {
+    "id": "people",
+    "name": "People Search"
+  },
+  {
+    "id": "phone",
+    "name": "Phone Intelligence"
+  },
+  {
+    "id": "email",
+    "name": "Email Intelligence"
+  },
+  {
+    "id": "username",
+    "name": "Username Enumeration"
+  }
+]

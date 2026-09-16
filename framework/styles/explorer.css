@@ -1,0 +1,59 @@
+body{
+    margin:0;
+    font-family:Inter,Arial,sans-serif;
+    background:#09090B;
+    color:white;
+}
+
+.app-layout{
+    display:grid;
+    grid-template-columns:240px 1fr;
+    min-height:100vh;
+}
+
+.sidebar{
+    background:#111827;
+    padding:20px;
+}
+
+.content{
+    padding:24px;
+}
+
+.toolbar{
+    margin-bottom:24px;
+}
+
+.search-input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    background:#1F2937;
+    color:white;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:16px;
+}
+
+.tool-card{
+    background:#18181B;
+    padding:16px;
+    border-radius:12px;
+    border:1px solid #27272A;
+}
+
+.sidebar-item{
+    display:block;
+    width:100%;
+    margin-bottom:8px;
+    padding:10px;
+    border:none;
+    background:#1E293B;
+    color:white;
+    cursor:pointer;
+    text-align:left;
+}

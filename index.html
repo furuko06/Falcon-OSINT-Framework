@@ -10,7 +10,7 @@
 <title>Falcon OSINT Framework</title>
 
 <link rel="manifest" href="manifest.webmanifest"/>
-
+<link rel="stylesheet" href="./framework/styles/explorer.css">
 <style>
 
 body{
@@ -43,24 +43,21 @@ margin-bottom:18px;
 
 <body>
 
-<header>
+<div class="app-layout">
 
-<h1>Falcon OSINT Framework</h1>
+    <aside id="sidebar" class="sidebar"></aside>
 
-<small>Version 0.1.0-alpha</small>
+    <main class="content">
 
-</header>
+        <div id="toolbar" class="toolbar"></div>
 
-<main id="app">
+        <section id="cards" class="cards"></section>
 
-<div class="card">
-<h2>Dashboard</h2>
-<p>Framework iniciado correctamente.</p>
+    </main>
+
 </div>
 
-</main>
-
-<script type="module" src="./framework/core/app.js"></script>
+<script type="module" src="./framework/app.js"></script>
 
 </body>
 </html>
