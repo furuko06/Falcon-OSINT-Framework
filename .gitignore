@@ -1,0 +1,52 @@
+##################################################
+# Falcon OSINT Framework
+##################################################
+
+# Node
+node_modules/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Build
+dist/
+coverage/
+.vite/
+
+# SQLite
+*.sqlite
+*.db
+*.db-journal
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+Thumbs.db
+.DS_Store
+
+# GitHub CLI local
+tools/
+gh_*.zip
+
+# Logs
+logs/
+*.log
+
+# Temporary
+tmp/
+temp/
+.cache/
+
+# Python
+__pycache__/
+*.pyc
+
+# Docker
+.docker/

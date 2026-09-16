@@ -1,36 +1,5 @@
+import { search } from "./search.js";
 import { applyFilters, clearFilters } from "./filters.js";
-import { createDashboardSection } from "../dashboard/layout.js";
-import { initializeDashboard } from "../dashboard/dashboard.js";
-import { renderCards } from "./cards.js";
-import { renderSidebar } from "./sidebar.js";
-
-export async function initializeExplorer() {
-
-    const sidebar = document.getElementById("sidebar");
-    const toolbar = document.getElementById("toolbar");
-    const cards = document.getElementById("cards");
-    const dashboard = createDashboardSection();
-
-    toolbar.before(dashboard);
-    renderToolbar(toolbar);
-    await initializeDashboard(dashboard);
-
-    subscribe(state => {
-
-        renderSidebar(sidebar);
-        renderCards(cards, state.results);
-        renderStats(
-            toolbar.querySelector("#toolbar-stats"),
-            state.stats
-        );
-
-    });
-
-    const tools = await loadTools();
-
-    populateFilterOptions(toolbar, tools);
-
-}
 
 export function renderToolbar(container) {
 
@@ -258,67 +227,4 @@ export function renderStats(
         <span>${stats.favorites} Favorites</span>
         <span>${stats.offline} Offline</span>
     `;
-}
-
-import {
-    Database
-} from "../../database/database.js";
-
-import {
-    subscribe,
-    updateState
-} from "./state.js";
-
-import {
-    applyCurrentFilters
-} from "./filters.js";
-
-export async function loadTools() {
-
-    const tools = await Database.query(`
-        SELECT *
-        FROM tools
-        ORDER BY quality_score DESC;
-    `);
-
-    window.__falconTools = tools;
-
-    updateState({
-
-        tools,
-
-        results: tools,
-
-        stats: {
-
-            tools: tools.length,
-
-            categories:
-                new Set(
-                    tools
-                        .map(tool => tool.category)
-                        .filter(Boolean)
-                ).size,
-
-            countries:
-                new Set(
-                    tools
-                        .map(tool => tool.country)
-                        .filter(Boolean)
-                ).size
-
-        }
-
-    });
-
-    return tools;
-}
-
-export function search(query = "") {
-
-    updateState({
-        query
-    });
-
-    applyCurrentFilters();
 }

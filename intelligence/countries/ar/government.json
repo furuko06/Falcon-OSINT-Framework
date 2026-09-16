@@ -1,0 +1,26 @@
+[
+  {
+    "id": "boletin_oficial",
+    "name": "Boletín Oficial de la República Argentina",
+    "category": "Government",
+    "country": "AR",
+    "website": "https://www.boletinoficial.gob.ar",
+    "status": "verified"
+  },
+  {
+    "id": "datos_argentina",
+    "name": "Datos Argentina",
+    "category": "Open Data",
+    "country": "AR",
+    "website": "https://datos.gob.ar",
+    "status": "verified"
+  },
+  {
+    "id": "renaper",
+    "name": "RENAPER",
+    "category": "Identity",
+    "country": "AR",
+    "website": "https://www.argentina.gob.ar/interior/renaper",
+    "status": "verified"
+  }
+]
