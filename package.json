@@ -4,12 +4,15 @@
   "private": true,
   "type":"module",
 
-  "scripts":{
-    "dev":"vite",
-    "build":"vite build",
-    "preview":"vite preview",
-    "test":"vitest"
-  },
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "test": "vitest",
+  "db:compile": "node intelligence/build/compile-db.mjs",
+  "db:validate": "node intelligence/build/validate-json.mjs",
+  "db:seed": "node intelligence/build/seed.mjs"
+}
 
   "dependencies":{
     "lit":"^3.2.0",

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "cuit_constancia",
+    "name": "Constancia de CUIT (ARCA/AFIP)",
+    "country": "AR",
+    "category": "Companies",
+    "website": "https://www.arca.gob.ar",
+    "status": "verified"
+  }
+]

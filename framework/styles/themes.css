@@ -1,0 +1,72 @@
+import { ExplorerState, setTheme } from "./state.js";
+
+export const THEMES = ["dark","matrix","nato","light"];
+
+export function applyTheme(theme="dark"){
+
+    if(!THEMES.includes(theme)){
+        theme="dark";
+    }
+
+    document.documentElement.setAttribute(
+        "data-theme",
+        theme
+    );
+
+    ExplorerState.theme=theme;
+
+    localStorage.setItem(
+        "falcon-theme",
+        theme
+    );
+
+    setTheme(theme);
+
+}
+
+export function initializeTheme(){
+
+    const theme=
+        localStorage.getItem("falcon-theme")
+        || ExplorerState.theme
+        || "dark";
+
+    applyTheme(theme);
+
+}
+
+[data-theme="dark"]{
+    --bg:#09090B;
+    --surface:#18181B;
+    --surface2:#27272A;
+    --text:#FAFAFA;
+    --text2:#A1A1AA;
+    --accent:#2563EB;
+}
+
+[data-theme="matrix"]{
+    --bg:#010B01;
+    --surface:#001500;
+    --surface2:#003000;
+    --text:#7CFC7C;
+    --text2:#37C837;
+    --accent:#00FF66;
+}
+
+[data-theme="nato"]{
+    --bg:#161B16;
+    --surface:#273127;
+    --surface2:#364236;
+    --text:#F4F1E8;
+    --text2:#C8C4B7;
+    --accent:#A3BE4C;
+}
+
+[data-theme="light"]{
+    --bg:#F8FAFC;
+    --surface:#FFFFFF;
+    --surface2:#E5E7EB;
+    --text:#111827;
+    --text2:#4B5563;
+    --accent:#2563EB;
+}
