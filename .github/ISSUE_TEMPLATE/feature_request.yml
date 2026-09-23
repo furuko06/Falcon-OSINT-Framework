@@ -1,0 +1,68 @@
+name: Feature request
+description: Suggest an improvement or new capability for Falcon OSINT Framework.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the investigative workflow and safety considerations. Do not include sensitive target data.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or workflow
+      description: What user need or investigation workflow should this support?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature or improvement.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Explorer
+        - Intelligence graph
+        - Plugin engine
+        - AI assistant
+        - API
+        - Academy
+        - Database
+        - Documentation
+        - Security or OPSEC
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What workarounds or other designs did you consider?
+  - type: textarea
+    id: data_sources
+    attributes:
+      label: Data sources and provenance
+      description: If this feature touches intelligence data, explain sources, licensing, freshness, and provenance.
+  - type: textarea
+    id: safety
+    attributes:
+      label: Security, privacy, and OPSEC considerations
+      description: Explain abuse risks, data exposure risks, and mitigations.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: This request is for lawful, ethical, and consent-based use.
+          required: true
+        - label: I searched existing issues for a duplicate.
+          required: true
+
