@@ -1,27 +1,24 @@
-﻿{
-  "name":"falcon-osint-framework",
-  "version":"0.1.0-alpha",
+{
+  "name": "falcon-osint-framework",
+  "version": "0.1.0-alpha",
   "private": true,
-  "type":"module",
-
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview",
-  "test": "vitest",
-  "db:compile": "node intelligence/build/compile-db.mjs",
-  "db:validate": "node intelligence/build/validate-json.mjs",
-  "db:seed": "node intelligence/build/seed.mjs"
-}
-
-  "dependencies":{
-    "lit":"^3.2.0",
-    "sql.js":"^1.13.0"
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "db:compile": "node intelligence/build/compile-db.mjs",
+    "db:validate": "node intelligence/build/validate-json.mjs",
+    "db:seed": "node intelligence/build/seed.mjs"
   },
-
-  "devDependencies":{
-    "vite":"^7.1.3",
-    "vitest":"^3.2.4",
-    "eslint":"^9.30.1"
+  "dependencies": {
+    "lit": "^3.2.0",
+    "sql.js": "^1.13.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.3",
+    "vitest": "^3.2.4",
+    "eslint": "^9.30.1"
   }
 }
