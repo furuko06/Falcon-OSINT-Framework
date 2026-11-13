@@ -70,8 +70,9 @@ export function renderSidebar(container, state = ExplorerState) {
             ${collapsibleGroup({
                 id: "research",
                 title: "Investigación",
-                count: 3,
+                count: 4,
                 body: `
+                    <button class="sidebar-item ${state.panel === "assistant" ? "active" : ""}" data-action="assistant" aria-pressed="${state.panel === "assistant"}"><span>Asistente IA</span></button>
                     <button class="sidebar-item ${state.panel === "playbooks" ? "active" : ""}" data-action="playbooks" aria-pressed="${state.panel === "playbooks"}"><span>Playbooks</span></button>
                     <button class="sidebar-item ${state.panel === "graph" ? "active" : ""}" data-action="graph" aria-pressed="${state.panel === "graph"}"><span>Knowledge Graph</span></button>
                     <button class="sidebar-item ${state.panel === "ioc" ? "active" : ""}" data-action="ioc" aria-pressed="${state.panel === "ioc"}"><span>IOC Workspace</span></button>`
@@ -82,7 +83,7 @@ export function renderSidebar(container, state = ExplorerState) {
             <button class="sidebar-item ${state.panel === "academy" ? "active" : ""}" data-action="academy" aria-pressed="${state.panel === "academy"}"><span>Academy</span></button>
         </div>
         <div class="sidebar-footer">
-            <span>Falcon v0.1-alpha</span>
+            <span>Falcon v0.2-alpha</span>
             <span>SQLite: ${state.initialized ? "Loaded ✓" : "Loading…"}</span>
         </div>
     `;

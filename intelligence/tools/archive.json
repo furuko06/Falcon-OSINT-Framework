@@ -1,0 +1,5 @@
+[
+  { "name": "Auto Archiver", "category": "Archive", "subcategory": "Automated Capture", "description": "Archiva publicaciones, videos e imágenes de redes con metadatos; herramienta abierta de Bellingcat.", "country": "GLOBAL", "website": "https://github.com/bellingcat/auto-archiver", "github": "bellingcat/auto-archiver", "license": "MIT", "offline": true, "api": false, "docker": true, "quality_score": 88, "opsec_score": 92, "status": "verified" },
+  { "name": "Distill", "category": "Archive", "subcategory": "Change Monitoring", "description": "Vigila cambios en partes concretas de una página y avisa por correo o RSS.", "country": "GLOBAL", "website": "https://distill.io", "offline": false, "api": false, "docker": false, "quality_score": 84, "opsec_score": 85, "status": "verified" },
+  { "name": "Atlos", "category": "Archive", "subcategory": "Collaborative Investigation", "description": "Plataforma para archivar material y coordinar investigaciones; no sustituye evidencia forense.", "country": "GLOBAL", "website": "https://atlos.org", "offline": false, "api": true, "docker": true, "quality_score": 82, "opsec_score": 80, "status": "verified" }
+]

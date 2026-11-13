@@ -21,6 +21,13 @@ function renderStats(stats) {
     `;
 }
 
+function renderSources(sources = []) {
+    if (sources.length === 0) return "";
+    return `<p class="academy-sources">Fuentes: ${sources.map(source =>
+        `<a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a>`
+    ).join(" · ")}</p>`;
+}
+
 function renderLesson(lesson) {
     const completed = isLessonCompleted(lesson.id);
     return `
@@ -33,6 +40,7 @@ function renderLesson(lesson) {
             <p>${esc(lesson.summary)}</p>
             <ul>${lesson.keyPoints.map(point => `<li>${esc(point)}</li>`).join("")}</ul>
             <p><strong>Ejercicio:</strong> ${esc(lesson.exercise)}</p>
+            ${renderSources(lesson.sources)}
             <button class="btn-small" type="button" data-lesson="${esc(lesson.id)}">
                 ${completed ? "Marcar pendiente" : "Marcar como completada"}
             </button>
@@ -55,6 +63,7 @@ function renderLab(lab) {
                     </li>`).join("")}
             </ul>
             <p class="collections-empty">${checked.length}/${lab.steps.length} pasos · ${checked.length === lab.steps.length ? "laboratorio completado" : "en progreso"}</p>
+            ${renderSources(lab.sources)}
         </div>`;
 }
 

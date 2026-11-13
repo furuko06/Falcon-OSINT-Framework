@@ -977,11 +977,12 @@ IOC Workspace.
 
 ## E11
 
-Academy.
+Academy. Estado: entregado en `0.2.0-alpha`.
 
 ## E12
 
-AI Assistant.
+AI Assistant. Estado: entregado en `0.2.0-alpha` con recuperación local,
+respuestas offline, triage de notas y Ollama opcional en loopback.
 
 ---
 

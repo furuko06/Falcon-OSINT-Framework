@@ -17,6 +17,7 @@ import { renderPlaybooksPanel } from "../playbooks/panel.js";
 import { renderGraphPanel } from "../graph/panel.js";
 import { renderIOCPanel } from "../ioc/panel.js";
 import { renderAcademyPanel } from "../academy/panel.js";
+import { renderAssistantPanel } from "../assistant/panel.js";
 import { applyFilters } from "./filters.js";
 
 export async function initializeExplorer() {
@@ -34,7 +35,8 @@ export async function initializeExplorer() {
         playbooks: renderPlaybooksPanel,
         graph: renderGraphPanel,
         ioc: renderIOCPanel,
-        academy: renderAcademyPanel
+        academy: renderAcademyPanel,
+        assistant: renderAssistantPanel
     };
 
     const dashboard = createDashboardSection();

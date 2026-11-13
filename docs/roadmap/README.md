@@ -25,6 +25,9 @@ may shift as security, data quality, and usability findings emerge.
 
 ## M6 AI Assistant
 
+Status: delivered in `0.2.0-alpha` (E12). Next: streaming responses, evaluation
+harness and optional embedding-based retrieval.
+
 - Add assistant workflows for summarization, triage, and investigative note
   support.
 - Require explicit data handling boundaries for any model-backed features.
@@ -37,6 +40,9 @@ may shift as security, data quality, and usability findings emerge.
 - Include authentication and access controls where needed.
 
 ## M8 Academy
+
+Status: delivered in `0.2.0-alpha` (E11) with 8 lessons, 5 labs and 2 quizzes.
+Next: synthetic case packs and instructor mode.
 
 - Add educational material for OSINT methodology, OPSEC, data ethics, and Falcon
   workflows.
