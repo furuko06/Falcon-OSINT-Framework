@@ -1,7 +1,8 @@
 # Debug sprints — 0.7.0-beta
 
-Four debug sprints ran before the 0.7 release, in this order: data integrity,
-browser UI, security and recovery, then performance and the full release gates.
+Five debug sprints ran before the 0.7 release, in this order: data integrity,
+browser UI, security and recovery, performance and the full release gates, then
+catalog provenance.
 Each entry records what was checked, what broke and what changed as a result.
 
 ## Sprint 1 — Data integrity
@@ -67,10 +68,35 @@ render 710.8 ms, SQLite open 463.7 ms, retrieval p95 1.657 ms over 1,000
 documents, JavaScript 66.32 KB gzip, dist 1631.62 KB, heap 4.11 MB with the full
 catalog. Accessibility: 0 axe violations across 8 views, 5/5 manual checks.
 
+## Sprint 5 — Catalog provenance (G1)
+
+**Checked:** `npm run db:verify`, `db:provenance`, `db:import` and the offline
+model evaluation, after `scripts/verify-sources.mjs` was rewritten to check
+sources with `GET` instead of `HEAD`.
+
+**Found:** two problems. The `SOURCE_HEALTH.md` report and the `status` fields in
+the packs still came from the older `HEAD` run, so the document described a check
+that no longer existed and classified `400` answers as `broken`. Separately, the
+assistant context had been cut from six documents to four to speed up local
+models without re-running the evaluation: the geolocation playbook fell to sixth
+place, and `image-geolocation` stopped being retrieved, taking
+`retrieval_hit_rate` from 1.0 to 0.9. The 0.8 threshold accepted that silently.
+
+**Fixed:** the check was re-run over the whole catalog so packs, report and
+`database/falcon.db` agree; `db:provenance` now runs as a release gate; the
+owner of the regression, `MAX_CONTEXT_DOCS`, is back to six with a comment saying
+it is measured, and prompt size is controlled through `MAX_DOC_CHARS` and
+`num_predict` instead; `retrieval_hit_rate` now has to stay at 1.0.
+
+**Evidence:** 182 entries checked — 146 verified, 18 restricted, 2 broken
+(`oxt.me` and `archive.ph`, both network errors), 2 without a public URL, 1
+deprecated, 13 beta. `db:validate` and `db:provenance` pass; `db:import` reports
+`0 inserted, 168 updated, 14 unchanged`; 133 tests pass; the offline evaluation
+returns `retrieval_hit_rate` 1.0 and gates report `PASS_WITH_BLOCKED`.
+
 ## Known issues left open
 
-- The 165 pre-0.7 catalog rows still have no `last_verified` date, so the health
-  dashboard counts only the 17 dated entries. Gate G1 (catalog provenance)
-  remains open rather than being backfilled with invented dates.
 - The real-model assistant gate is `BLOCKED` on a 60 s CPU budget, as documented
   in `docs/audits/MODEL_EVAL.md`.
+- Two sources (`oxt.me`, `archive.ph`) are recorded as `broken` because the check
+  host could not reach them; they stay in the catalog rather than being deleted.

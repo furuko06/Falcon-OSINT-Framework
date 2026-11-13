@@ -7,6 +7,7 @@
     "website": "https://www.padron.gob.ar",
     "status": "verified",
     "subcategory": "Registro Electoral",
-    "description": "Consulta el padrón electoral por documento, con base legal y uso restringido."
+    "description": "Consulta el padrón electoral por documento, con base legal y uso restringido.",
+    "last_verified": "2026-11-13"
   }
 ]

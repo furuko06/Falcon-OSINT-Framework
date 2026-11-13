@@ -12,6 +12,8 @@
     "db:validate": "node intelligence/build/validate-json.mjs",
     "db:seed": "node intelligence/build/seed.mjs",
     "db:links": "node intelligence/build/check-links.mjs",
+    "db:verify": "node scripts/verify-sources.mjs",
+    "db:provenance": "node scripts/verify-sources.mjs --check",
     "db:import": "node intelligence/build/import-tools.mjs",
     "a11y": "node scripts/a11y-audit.mjs",
     "security:scan": "node scripts/security-scan.mjs",

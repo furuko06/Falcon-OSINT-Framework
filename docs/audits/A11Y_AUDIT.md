@@ -1,8 +1,8 @@
 # Auditoría de accesibilidad
 
-- Fecha: 2026-11-13T21:56:51.680Z
+- Fecha: 2026-11-13T22:48:53.433Z
 - Versión: 0.7.0-beta
-- Base Git: `1ebaa90` + cambios de la auditoría
+- Base Git: `346b84c` + cambios de la auditoría
 - URL: http://localhost:4173/
 - Alcance: WCAG 2.2 A/AA, 8 vistas principales
 - Motor: axe-core 4.14.0 en Chrome headless

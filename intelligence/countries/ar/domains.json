@@ -7,6 +7,7 @@
     "website": "https://nic.ar",
     "status": "verified",
     "subcategory": "Registro de Dominios",
-    "description": "Consulta la titularidad de dominios .ar y el estado del registro."
+    "description": "Consulta la titularidad de dominios .ar y el estado del registro.",
+    "last_verified": "2026-11-13"
   }
 ]

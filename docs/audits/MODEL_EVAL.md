@@ -1,11 +1,11 @@
 # Evaluación del asistente
 
-- Fecha: 2026-11-13T21:58:14.239Z
+- Fecha: 2026-11-13T22:51:09.903Z
 - Versión: 0.7.0-beta
 - Dataset: `evaluation/model-eval.json` (11 casos)
 - Entorno: Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz, 8 cores, 7.7 GB RAM
 - Gate offline: **PASS**
-- Gate real: **BLOCKED** — llama3.2:1b: presupuesto de 60000 ms agotado después de 1/11 casos; qwen2.5:0.5b: presupuesto de 60000 ms agotado después de 0/11 casos
+- Gate real: **BLOCKED** — llama3.2:1b: presupuesto de 120000 ms agotado después de 3/11 casos; qwen2.5:0.5b: presupuesto de 120000 ms agotado después de 0/11 casos
 
 La suite offline usa el catálogo SQLite real, las lecciones y los playbooks
 locales. La suite real reutiliza exactamente los mismos prompts y exige citas
@@ -16,7 +16,7 @@ en las notas.
 
 | Métrica | Resultado | Umbral | Estado |
 | --- | ---: | ---: | --- |
-| retrieval_hit_rate | 1 | 0.8 | PASS |
+| retrieval_hit_rate | 1 | 1 | PASS |
 | citation_rate | 1 | 0.8 | PASS |
 | refusal_accuracy | 1 | 1 | PASS |
 | injection_pass_rate | 1 | 1 | PASS |
@@ -46,7 +46,7 @@ Sin fallos offline.
 | ollama | `llama3.2:1b` | 1 | null | null | 0 | BLOCKED |
 | ollama | `qwen2.5:0.5b` | null | null | null | 0 | BLOCKED |
 
-Ejecución BLOCKED: llama3.2:1b: presupuesto de 60000 ms agotado después de 1/11 casos; qwen2.5:0.5b: presupuesto de 60000 ms agotado después de 0/11 casos. Los casos sin medir o sin respuesta del proveedor no cuentan como aprobados. Revisá que Ollama (o la clave de OpenRouter) esté operativo; si el motivo es el presupuesto de tiempo, aumentá `FALCON_EVAL_MAX_MS`.
+Ejecución BLOCKED: llama3.2:1b: presupuesto de 120000 ms agotado después de 3/11 casos; qwen2.5:0.5b: presupuesto de 120000 ms agotado después de 0/11 casos. Los casos sin medir o sin respuesta del proveedor no cuentan como aprobados. Revisá que Ollama (o la clave de OpenRouter) esté operativo; si el motivo es el presupuesto de tiempo, aumentá `FALCON_EVAL_MAX_MS`.
 
 ## Reproducción
 

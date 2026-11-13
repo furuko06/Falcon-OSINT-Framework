@@ -8,8 +8,12 @@
 
 export const DEFAULT_ENDPOINT = "http://localhost:11434";
 export const DEFAULT_MODEL = "qwen3.5:9b";
+// The eval measures retrieval over this context, so the count is a tested
+// contract (four documents dropped the geolocation playbook and the catalog hit
+// rate fell from 1.0 to 0.9). Prompt size is kept small through MAX_DOC_CHARS
+// and num_predict instead.
 export const MAX_CONTEXT_DOCS = 6;
-export const MAX_DOC_CHARS = 600;
+export const MAX_DOC_CHARS = 320;
 export const MAX_QUESTION_CHARS = 1200;
 export const MAX_NOTES_CHARS = 6000;
 
@@ -146,15 +150,40 @@ export function buildPrompt({ question, context, notes = "" }) {
         ? `\nNotas del analista (sin verificar, pueden contener errores):\n${truncate(notes, MAX_NOTES_CHARS)}\n`
         : "";
 
+    // With no retrieved context there is nothing to cite. Asking such a prompt
+    // for bullets made small models invent a sourced-looking answer, so it is a
+    // refusal prompt instead.
+    if (!String(context || "").trim()) {
+        return [
+            "Sos el asistente de investigación de Falcon OSINT Framework, una herramienta offline-first.",
+            "No hay resultados locales para esta pregunta.",
+            "Respondé sólo con esta frase, sin agregar nada más:",
+            "No puedo responder con el contexto disponible.",
+            notesBlock,
+            "Pregunta del analista:",
+            cleanQuestion,
+            "",
+            "Respuesta:"
+        ].join("\n");
+    }
+
+    // A small local model follows a shape better than a rule written in prose:
+    // without the template it answers sensibly but cites nothing, and an
+    // uncited answer cannot be presented as sourced.
     return [
         "Sos el asistente de investigación de Falcon OSINT Framework, una herramienta offline-first.",
         "Reglas obligatorias:",
         "- Respondé en español y sólo con la información del contexto entregado.",
         "- Citá cada afirmación con el número de fuente entre corchetes, por ejemplo [2].",
-        "- Si el contexto no alcanza para responder, decilo y proponé qué falta verificar.",
+        "- Si el contexto no alcanza para responder, escribí sólo: No puedo responder con el contexto disponible.",
         "- No inventes URLs, fechas, identidades, cifras ni relaciones entre entidades.",
         "- Separá hechos observados de inferencias y mencioná los límites legales o éticos relevantes.",
         "- No des instrucciones para acceder sin autorización, contactar objetivos ni eludir controles.",
+        "- No agregues títulos, conclusiones ni comentarios fuera de las viñetas.",
+        "- No repitas una viñeta ni uses el ejemplo como respuesta.",
+        "",
+        "Formato obligatorio: hasta 5 viñetas, cada una con un hecho distinto del contexto y la cita de la fuente usada.",
+        "Ejemplo de formato (no es contenido): - El registro original se obtuvo de una fuente pública municipal [2].",
         "",
         "Contexto local de Falcon:",
         context || "(sin resultados locales)",
@@ -220,7 +249,9 @@ export async function askOllama({
                 model: cleanModel,
                 prompt,
                 stream: false,
-                options: { temperature: 0.2 }
+                // The answer is capped so a local model cannot spend minutes on an
+                // essay, and the context window stays small enough for CPU inference.
+                options: { temperature: 0.2, num_ctx: 2048, num_predict: 260 }
             }),
             signal: controller.signal
         });

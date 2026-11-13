@@ -1,6 +1,6 @@
 # Release gates
 
-- Fecha: 2026-11-13T21:58:15.015Z
+- Fecha: 2026-11-13T22:51:10.760Z
 - Versión: 0.7.0-beta
 - Estado global: **PASS_WITH_BLOCKED**
 - Gate real: informativo (BLOCKED no bloquea el build)
@@ -11,11 +11,12 @@
 | Escaneo de secretos y workflows | PASS |  |
 | Auditoría de dependencias | PASS |  |
 | Validación de datos | PASS |  |
+| Provenance del catálogo | PASS |  |
 | Build de producción | PASS |  |
 | Presupuestos de rendimiento | PASS | PASS |
 | Auditoría de accesibilidad | PASS |  |
 | Evaluación offline del asistente | PASS | PASS |
-| Evaluación de modelo real | BLOCKED | BLOCKED: llama3.2:1b: presupuesto de 60000 ms agotado después de 1/11 casos; qwen2.5:0.5b: presupuesto de 60000 ms agotado después de 0/11 casos |
+| Evaluación de modelo real | BLOCKED | BLOCKED: llama3.2:1b: presupuesto de 120000 ms agotado después de 3/11 casos; qwen2.5:0.5b: presupuesto de 120000 ms agotado después de 0/11 casos |
 
 ## Artefactos
 
@@ -23,6 +24,7 @@
 - Accesibilidad: `docs/audits/A11Y_AUDIT.md`
 - Modelo: `docs/audits/MODEL_EVAL.md` y `docs/audits/model-eval-report.json`
 - Seguridad: `docs/security/CIS_CONTROLS.md`
+- Fuentes: `docs/audits/SOURCE_HEALTH.md` y `docs/audits/source-health.json`
 
 ## Reproducción
 

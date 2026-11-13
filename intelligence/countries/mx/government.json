@@ -7,7 +7,8 @@
     "website": "https://www.gob.mx",
     "status": "verified",
     "subcategory": "Portal de Gobierno",
-    "description": "Portal central con trámites, dependencias y publicaciones del gobierno mexicano."
+    "description": "Portal central con trámites, dependencias y publicaciones del gobierno mexicano.",
+    "last_verified": "2026-11-13"
   },
   {
     "id": "mx_sat",
@@ -17,7 +18,8 @@
     "website": "https://www.gob.mx/sat",
     "status": "verified",
     "subcategory": "Registro Fiscal",
-    "description": "Autoridad fiscal mexicana: RFC, obligaciones y situación fiscal."
+    "description": "Autoridad fiscal mexicana: RFC, obligaciones y situación fiscal.",
+    "last_verified": "2026-11-13"
   },
   {
     "id": "mx_cnbv",
@@ -27,6 +29,7 @@
     "website": "https://www.gob.mx/cnbv",
     "status": "verified",
     "subcategory": "Regulación Financiera",
-    "description": "Regula y supervisa entidades financieras; incluye registros y sanciones."
+    "description": "Regula y supervisa entidades financieras; incluye registros y sanciones.",
+    "last_verified": "2026-11-13"
   }
 ]

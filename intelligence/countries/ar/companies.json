@@ -7,6 +7,7 @@
     "website": "https://www.arca.gob.ar",
     "status": "verified",
     "subcategory": "Registro Fiscal",
-    "description": "Verifica la constancia de inscripción y la titularidad de un CUIT."
+    "description": "Verifica la constancia de inscripción y la titularidad de un CUIT.",
+    "last_verified": "2026-11-13"
   }
 ]

@@ -50,6 +50,7 @@ async function main() {
         results.push(["Escaneo de secretos y workflows", run("npm", ["run", "security:scan"])]);
         results.push(["Auditoría de dependencias", run("npm", ["audit", "--audit-level=high"])]);
         results.push(["Validación de datos", run("npm", ["run", "db:validate"])]);
+        results.push(["Provenance del catálogo", run("npm", ["run", "db:provenance"])]);
 
         buildOk = run("npm", ["run", "build"]);
         results.push(["Build de producción", buildOk]);
@@ -113,6 +114,7 @@ ${rows}
 - Accesibilidad: \`docs/audits/A11Y_AUDIT.md\`
 - Modelo: \`docs/audits/MODEL_EVAL.md\` y \`docs/audits/model-eval-report.json\`
 - Seguridad: \`docs/security/CIS_CONTROLS.md\`
+- Fuentes: \`docs/audits/SOURCE_HEALTH.md\` y \`docs/audits/source-health.json\`
 
 ## Reproducción
 
