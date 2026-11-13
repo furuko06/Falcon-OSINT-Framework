@@ -1,0 +1,24 @@
+/* App shell styles kept external so the CSP can forbid inline styles. */
+body {
+  margin: 0;
+  background: #020617;
+  color: #E2E8F0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+header {
+  padding: 18px;
+  background: #0F172A;
+  border-bottom: 1px solid #1E293B;
+}
+
+main {
+  padding: 20px;
+}
+
+.card {
+  background: #111827;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}

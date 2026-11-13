@@ -8,6 +8,45 @@ alpha releases and will be called out explicitly.
 
 ## [Unreleased]
 
+## [0.4.0-beta] - 2026-11-13
+
+### Added
+
+- Strict Content Security Policy with external shell styles, no inline
+  scripts/styles, a WASM allowance for sql.js, and an allowlist for loopback
+  Ollama and OpenRouter.
+- Formal accessibility audit: axe-core across 8 views plus keyboard, skip-link,
+  reduced-motion and mobile target-size checks; results in
+  `docs/audits/A11Y_AUDIT.md`.
+- CIS controls alignment and public-repository hardening documentation, with
+  CODEOWNERS, Dependabot, CodeQL, dependency review, secret scanning and an
+  automated accessibility workflow.
+- Repository secret/workflow scan (`npm run security:scan`) and an `npm run a11y`
+  audit command.
+- `_headers` defense-in-depth for static hosts that honor it (CSP, HSTS,
+  Permissions-Policy, frame denial).
+
+### Changed
+
+- Static UI state now uses CSS classes and native `<progress>` elements instead
+  of inline style attributes, so the CSP can forbid inline styles.
+- Version `0.4.0-beta`; Vite and Vitest were upgraded to resolve known
+  vulnerabilities.
+- GitHub Actions are pinned to full commit SHAs and use least-privilege
+  permissions and non-persistent checkout credentials.
+
+### Removed
+
+- `node_modules/` is no longer tracked in Git. It remains ignored and installed
+  from the lockfile.
+
+### Security
+
+- Fixed 5 dependency vulnerabilities, including 2 critical Vitest/tinypool
+  findings; `npm audit` now reports 0 vulnerabilities.
+- The security scan rejects indexed `.env` files, high-confidence secret
+  patterns and unpinned Actions.
+
 ## [0.3.0-alpha] - 2026-11-13
 
 ### Added

@@ -11,7 +11,8 @@ until versioned releases are published.
 
 | Version | Supported |
 | ------- | --------- |
-| 0.1.x alpha | Yes |
+| 0.4.x beta | Yes |
+| 0.3.x alpha | Security fixes only |
 | Older snapshots | No |
 
 ## Reporting a Vulnerability
@@ -55,6 +56,13 @@ When testing Falcon:
 Maintainers will aim to acknowledge valid reports within 7 days. Confirmed
 vulnerabilities will be triaged by severity, remediated in a focused patch, and
 documented in the changelog when disclosure is appropriate.
+
+## Repository Hardening
+
+Falcon is a public repository. The enforceable controls and the GitHub settings
+that require owner action are documented in
+[`docs/security/CIS_CONTROLS.md`](docs/security/CIS_CONTROLS.md) and
+[`docs/security/GITHUB_HARDENING.md`](docs/security/GITHUB_HARDENING.md).
 
 ## Disclosure
 

@@ -40,4 +40,4 @@ consulta IA; **Políticas y privacidad** registra la aceptación y deja el uso b
 
 ## Estado
 
-Version: 0.3.0-alpha
+Version: 0.4.0-beta

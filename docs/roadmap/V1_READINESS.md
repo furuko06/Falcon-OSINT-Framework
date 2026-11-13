@@ -25,20 +25,21 @@ Anything that cannot meet those promises stays behind a beta label.
 
 | Area | Current state | Evidence |
 | --- | --- | --- |
-| Version | `0.3.0-alpha` (unreleased commit) | `package.json` |
+| Version | `0.4.0-beta` | `package.json` |
 | Catalog | 165 tools across 9 packs | `npm run db:import`, SQLite `tools` |
 | Schema | Version 2 with recorded migrations; legacy empty metadata repaired | `tests/migrations.test.js`, `database/falcon.db` |
-| Tests | 94 unit/integration tests | `npx vitest run` |
+| Tests | 98 unit/integration tests | `npx vitest run` |
 | Production build | Vite build prepares DB, WASM and service worker | 165 cards, no 404s |
 | Offline shell | Precache verified with the browser network disabled | `tests` + browser smoke |
 | Assistant | Local retrieval, Ollama option, OpenRouter OAuth PKCE and query test | `tests/openrouter.test.js`, browser smoke |
 | Query audit | Environment, exact context, sources and prompt kept in local history | `tests/context-backup.test.js` |
 | Backup | JSON with SQLite checksum and query context; credentials excluded | `docs/development/BACKUP_FORMAT.md` |
 | Policies | Privacy panel and recorded acknowledgment | Browser smoke |
-| Accessibility | Skip link, focus-visible, 44 px coarse targets, reduced motion | Manual browser checks |
-| Secrets | Manual audit plus credential exclusions in backup | Repository audit |
+| CSP | Strict policy, no inline script/style, loopback + OpenRouter allowlist | `index.html`, `public/_headers`, `tests/security.test.js` |
+| Accessibility | axe 0 violations across 8 views and 5/5 manual checks | `docs/audits/A11Y_AUDIT.md` |
+| Repository security | Secret/workflow scan, audit 0, pinned Actions, CodeQL and Dependabot | `docs/security/CIS_CONTROLS.md` |
 | API/plugin contracts | Present but not frozen or versioned as public contracts | Gap |
-| Formal audits | None (security, accessibility, performance, legal) | Gap |
+| Formal audits | Accessibility and CIS alignment delivered; external security, performance and legal audits pending | Gap |
 
 The baseline is enough for an alpha. It is not enough for a compatibility
 promise.
@@ -76,29 +77,31 @@ Corrupt-database recovery and scheduled link checks are still missing.
 
 - [ ] Threat model covering local data, imported files, plugins and the model
       endpoint.
-- [ ] Content Security Policy compatible with SQLite WASM and the optional
+- [x] Content Security Policy compatible with SQLite WASM and the optional
       loopback model call.
-- [ ] Automated secret scanning and dependency audit in CI.
-- [ ] No telemetry, analytics or remote fonts by default.
+- [x] Automated secret scanning and dependency audit in CI.
+- [x] No telemetry, analytics or remote fonts by default.
 - [ ] Plugin permissions enforced at runtime, not only displayed.
 - [ ] Documented data retention and case deletion behavior.
 
-**Current:** manual secret audit is clean, model calls require per-query consent,
-OAuth keys stay in `sessionStorage` and backups exclude credentials. Runtime
-plugin isolation, CSP and automated scanning are pending.
+**Current:** CSP, secret scanning, dependency audit and credential exclusions
+are delivered; model calls require consent and OAuth keys stay in
+`sessionStorage`. Threat model, runtime plugin isolation and retention policy
+remain open.
 
 ### G4. Accessibility (WCAG 2.2 AA)
 
-- [ ] Keyboard-only pass through the catalog, assistant, connectors, Academy
+- [x] Keyboard-only pass through the catalog, assistant, connectors, Academy
       and dialogs.
 - [ ] Screen-reader pass (NVDA or VoiceOver) for the same flows.
-- [ ] Contrast check for text, badges, disabled states and focus rings.
-- [ ] Target size at least 24×24 CSS px, 44×44 on coarse pointers.
-- [ ] Reduced-motion behavior verified; no motion-only status messages.
-- [ ] Automated axe scan with no serious or critical findings.
+- [x] Contrast check for text, badges, disabled states and focus rings.
+- [x] Target size at least 24×24 CSS px, 44×44 on coarse pointers.
+- [x] Reduced-motion behavior verified; no motion-only status messages.
+- [x] Automated axe scan with no serious or critical findings.
 
-**Current:** skip link, global focus-visible, coarse-pointer targets, reduced
-motion and live status are in place. No screen-reader or axe audit has run.
+**Current:** axe reports 0 violations across 8 views and the manual suite passes
+5/5 (skip link, focus transfer, reduced motion, mobile targets). A real
+screen-reader pass is still required.
 
 ### G5. Performance budgets
 
@@ -136,14 +139,14 @@ harness are still pending. No remote credentials are stored by Falcon.
 
 ### G8. Release engineering and governance
 
-- [ ] CI runs tests, build, JSON validation, link checks and secret scan.
-- [ ] Reproducible Pages deployment from a clean checkout.
+- [x] CI runs tests, build, JSON validation, secret scan and dependency audit.
+- [x] Reproducible Pages deployment from a clean checkout.
 - [ ] Signed release notes, upgrade guide and rollback procedure.
-- [ ] License metadata consistent with `LICENSE` (AGPL-3.0).
-- [ ] Security disclosure, contribution and code-of-conduct paths verified.
+- [x] License metadata consistent with `LICENSE` (AGPL-3.0).
+- [x] Security disclosure, contribution and code-of-conduct paths verified.
 
-**Current:** manual release process worked for `0.2.0-alpha`; CI coverage and
-signed upgrade/rollback docs are incomplete.
+**Current:** CI, Pages, license metadata and disclosure paths are in place.
+Signed release artifacts and the upgrade/rollback guide are still missing.
 
 ### G9. Legal and ethical review
 
@@ -159,7 +162,8 @@ signed upgrade/rollback docs are incomplete.
 
 | Milestone | Focus | Exit criteria |
 | --- | --- | --- |
-| `0.3.0-alpha` | Hardening | Delivered G1 migrations/backup and G2 precache; G4 axe + keyboard and CI secret/dependency checks remain |
+| `0.3.0-alpha` | Hardening | Delivered G1 migrations/backup and G2 precache |
+| `0.4.0-beta` | Contracts and assurance | CSP, formal axe/keyboard audit, CIS repo controls and pinned CI delivered; G5 budgets and G6 frozen schemas remain |
 | `0.4.0-beta` | Contracts | G6 schemas and plugin permissions frozen as beta, G5 budgets measured |
 | `0.5.0-beta` | Trust | G3 threat model/CSP, G7 evaluation harness and real model run, G9 review started |
 | `0.9.0-rc` | Freeze | All must gates green, docs and upgrade/rollback guides complete, no open criticals |

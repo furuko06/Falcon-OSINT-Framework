@@ -30,7 +30,7 @@ export async function initializeExplorer() {
 
     const healthView = document.createElement("section");
     healthView.id = "health-view";
-    healthView.style.display = "none";
+    healthView.hidden = true;
     cards.before(healthView);
 
     const views = {
@@ -49,9 +49,9 @@ export async function initializeExplorer() {
 
     const showPanel = name => {
         if (name) views[name](healthView);
-        healthView.style.display = name ? "" : "none";
-        cards.style.display = name ? "none" : "";
-        dashboard.style.display = name ? "none" : "";
+        healthView.hidden = !name;
+        cards.hidden = Boolean(name);
+        dashboard.hidden = Boolean(name);
         updateState({ panel: name || null });
         if (name) {
             healthView.scrollIntoView({ block: "start", behavior: "smooth" });

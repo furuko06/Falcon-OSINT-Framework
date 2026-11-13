@@ -6,21 +6,20 @@ import { applyCurrentFilters } from "./filters.js";
 import { toggleFavorite } from "./favorites.js";
 import { renderCollectionMenu } from "../collections/panel.js";
 
-const HEALTH_COLORS = {
-    verified: "#22C55E",
-    working: "#3B82F6",
-    beta: "#F59E0B",
-    deprecated: "#F97316",
-    archived: "#6B7280",
-    broken: "#EF4444"
-};
+const HEALTH_STATUSES = new Set(["verified", "working", "beta", "deprecated", "archived", "broken"]);
 
 function normalizeStatus(s) { return String(s || "").toLowerCase(); }
 function statusLabel(s) {
     const n = normalizeStatus(s);
     return n ? n.charAt(0).toUpperCase() + n.slice(1) : "Unknown";
 }
-function getHealthColor(s) { return HEALTH_COLORS[normalizeStatus(s)] || "#6B7280"; }
+function healthClass(s) {
+    const status = normalizeStatus(s);
+    return HEALTH_STATUSES.has(status) ? `status-${status}` : "status-unknown";
+}
+function scoreValue(value) {
+    return Math.max(0, Math.min(100, Number(value) || 0));
+}
 
 function githubUrl(value) {
     if (!value) return "";
@@ -59,7 +58,8 @@ export function renderCards(container, tools) {
     tools.forEach(tool => {
         const toolId = String(tool.id);
         const isFavorite = ExplorerState.favorites.has(toolId);
-        const color = getHealthColor(tool.status);
+        const quality = scoreValue(tool.quality_score);
+        const opsec = scoreValue(tool.opsec_score);
         const card = document.createElement("article");
         card.className = "tool-card";
 
@@ -74,7 +74,7 @@ export function renderCards(container, tools) {
                     aria-pressed="${isFavorite}" data-tool-id="${toolId}">${isFavorite ? "\u2605" : "\u2606"}</button>
             </div>
             <div class="tool-badges-row">
-                <span class="health-badge" style="background:${color}20;color:${color}">${statusLabel(tool.status)}</span>
+                <span class="health-badge ${healthClass(tool.status)}">${statusLabel(tool.status)}</span>
                 <span class="badge">${tool.category}</span>
                 ${tool.country ? `<span class="badge">${tool.country}</span>` : ""}
             </div>
@@ -88,12 +88,12 @@ export function renderCards(container, tools) {
             </div>
             <div class="scores">
                 <div class="score">
-                    <label><span>Quality</span><strong>${tool.quality_score || 0}</strong></label>
-                    <div class="progress"><div style="width:${tool.quality_score || 0}%"></div></div>
+                    <div class="score-label"><span>Quality</span><strong>${quality}</strong></div>
+                    <progress class="score-progress" max="100" value="${quality}" aria-label="Quality score">${quality}</progress>
                 </div>
                 <div class="score">
-                    <label><span>OPSEC</span><strong>${tool.opsec_score || 0}</strong></label>
-                    <div class="progress"><div style="width:${tool.opsec_score || 0}%"></div></div>
+                    <div class="score-label"><span>OPSEC</span><strong>${opsec}</strong></div>
+                    <progress class="score-progress" max="100" value="${opsec}" aria-label="OPSEC score">${opsec}</progress>
                 </div>
             </div>
             <div class="tool-footer">${renderToolActions(tool)}</div>

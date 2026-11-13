@@ -7,3 +7,6 @@ model, operational security guidance, and development practices. Documentation
 should stay practical, version-aware, and aligned with Falcon's offline-first
 investigative model.
 
+Security and assurance records live in [`security/`](security/) and
+[`audits/`](audits/).
+
