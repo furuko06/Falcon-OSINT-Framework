@@ -7,7 +7,7 @@
    ========================================================== */
 
 export const DEFAULT_ENDPOINT = "http://localhost:11434";
-export const DEFAULT_MODEL = "llama3.2";
+export const DEFAULT_MODEL = "qwen3.5:9b";
 export const MAX_CONTEXT_DOCS = 6;
 export const MAX_DOC_CHARS = 600;
 export const MAX_QUESTION_CHARS = 1200;
@@ -206,7 +206,7 @@ export async function askOllama({
     if (!String(prompt ?? "").trim()) throw new Error("El prompt está vacío");
 
     const cleanModel = String(model ?? "").trim();
-    if (!cleanModel) throw new Error("Indicá el modelo local, por ejemplo llama3.2");
+    if (!cleanModel) throw new Error("Indicá el modelo local, por ejemplo qwen3.5:9b");
 
     const base = assertLocalEndpoint(endpoint);
     const controller = new AbortController();

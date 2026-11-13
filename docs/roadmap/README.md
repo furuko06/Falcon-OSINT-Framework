@@ -25,8 +25,9 @@ may shift as security, data quality, and usability findings emerge.
 
 ## M6 AI Assistant
 
-Status: delivered in `0.2.0-alpha` (E12). Next: streaming responses, evaluation
-harness and optional embedding-based retrieval.
+Status: delivered in `0.2.0-alpha` (E12) with local retrieval, note triage,
+optional loopback Ollama and eleven external provider launchers. Next: streaming
+responses, evaluation harness and optional embedding-based retrieval.
 
 - Add assistant workflows for summarization, triage, and investigative note
   support.
@@ -50,6 +51,10 @@ Next: synthetic case packs and instructor mode.
 - Support onboarding for analysts, students, and defenders.
 
 ## V1 Launch
+
+The gate plan, evidence requirements and deferred scope live in
+[`V1_READINESS.md`](V1_READINESS.md). Falcon stays alpha until every must gate
+passes; the version number is not a marketing milestone.
 
 - Stabilize core workflows and documentation.
 - Freeze public contracts for supported APIs and plugin interfaces.

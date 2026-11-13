@@ -7,7 +7,7 @@ Markdown
 >
 > Versión: UI/UX Spec v1.0
 >
-> Estado del proyecto: **v0.1 Alpha**
+> Estado del proyecto: **v0.2 Alpha** (ver `docs/roadmap/V1_READINESS.md`)
 
 ---
 
@@ -982,7 +982,11 @@ Academy. Estado: entregado en `0.2.0-alpha`.
 ## E12
 
 AI Assistant. Estado: entregado en `0.2.0-alpha` con recuperación local,
-respuestas offline, triage de notas y Ollama opcional en loopback.
+respuestas offline, triage de notas, Ollama opcional en loopback y once
+conectores externos con consentimiento explícito, ventana propia y copia del
+prompt. Incluye estados vacíos guiados, copia de respuesta y etiquetas de
+procedencia. Accesibilidad base: skip link, foco visible, objetivos táctiles y
+reduced motion.
 
 ---
 

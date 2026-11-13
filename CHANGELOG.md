@@ -8,6 +8,40 @@ alpha releases and will be called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- 25 live-verified tools across GEOINT, data, finance, archive, monitoring,
+  environment and SOCMINT packs, bringing the catalog to 165 entries.
+- Eleven external AI connectors (ChatGPT, Claude, Gemini, DeepSeek, Qwen, Z.ai,
+  Grok, Perplexity, Le Chat, Copilot and Kimi) that open the provider in its own
+  window and copy the prompt. Falcon never handles OAuth, credentials or Gmail.
+- Assistant empty-state examples, a copy-answer action, a model/local-source
+  badge and Ollama model suggestions with VRAM guidance.
+- Skip link, global focus-visible styling, coarse-pointer target sizes and
+  reduced-motion support.
+
+### Changed
+
+- The suggested local model is now `qwen3.5:9b`, with `gemma4` and `qwen3.8`
+  alternatives; the tag remains editable.
+- Favicon and web manifest moved to `public/` so production URLs stay relative
+  and valid under the Pages subpath.
+
+### Fixed
+
+- External windows are opened without the `noopener` feature and detached with
+  `opener = null`, because `window.open()` always returns `null` with noopener
+  and every launch looked like a popup blocker.
+- The web manifest icon no longer points at `assets/assets/favicon.svg` after
+  Vite relocates the manifest into `dist/assets/`.
+- The Pages workflow copies both `sql-wasm.wasm` and `sql-wasm-browser.wasm` so
+  SQLite initialization cannot fail on the deployed site.
+
+### Security
+
+- Connector consent is per launch and resets after use; no provider tokens or
+  Google account access are stored by Falcon.
+
 ## [0.2.0-alpha] - 2026-11-13
 
 ### Added

@@ -126,7 +126,7 @@ describe("assistant local-only model policy (E12)", () => {
         const [url, options] = fetchImpl.mock.calls[0];
         expect(url).toBe("http://127.0.0.1:11434/api/generate");
         const body = JSON.parse(options.body);
-        expect(body).toMatchObject({ model: "llama3.2", prompt: "pregunta", stream: false });
+        expect(body).toMatchObject({ model: assistant.DEFAULT_MODEL, prompt: "pregunta", stream: false });
     });
 
     it("refuses a remote endpoint even with consent and surfaces server errors", async () => {

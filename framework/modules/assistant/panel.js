@@ -4,6 +4,7 @@
 import { Database } from "../../database/database.js";
 import { LESSONS, LABS } from "../academy/academy.js";
 import { PLAYBOOKS } from "../playbooks/playbooks.js";
+import { getExternalProviders, openExternalProvider } from "./connectors.js";
 import {
     MAX_QUESTION_CHARS,
     MAX_NOTES_CHARS,
@@ -30,6 +31,7 @@ let session = {
     notes: "",
     includeNotes: settings.includeNotes,
     consent: false,
+    externalConsent: false,
     sources: [],
     offline: "",
     modelAnswer: "",
@@ -83,7 +85,7 @@ export async function renderAssistantPanel(container) {
     const answer = session.modelAnswer || session.offline;
 
     container.innerHTML = `
-        <section class="assistant-panel" aria-label="Asistente IA">
+        <section class="assistant-panel" aria-label="Asistente IA" aria-busy="${session.busy}">
             <header class="health-header">
                 <h2>Asistente IA</h2>
                 <p>Recuperación local sobre ${documents.length} entradas de catálogo, Academy y Playbooks. El modelo es opcional y sólo puede ser local.</p>
@@ -120,18 +122,55 @@ export async function renderAssistantPanel(container) {
                 <button class="btn-small" type="button" data-clear>Limpiar</button>
             </div>
 
-            ${session.status ? `<p class="assistant-status" role="status">${esc(session.status)}</p>` : ""}
+            ${session.status ? `<p class="assistant-status" role="status" aria-live="polite">${esc(session.status)}</p>` : ""}
             ${session.error ? `<p class="ioc-error" role="alert">${esc(session.error)}</p>` : ""}
             ${toolError ? `<p class="ioc-error" role="alert">No se pudo leer el catálogo SQLite: ${esc(toolError)}</p>` : ""}
 
+            ${!answer && !session.triage ? `
+                <div class="assistant-empty">
+                    <strong>Empezá por una pregunta o unas notas.</strong> La búsqueda cita el catálogo, la Academy y los playbooks;
+                    no necesita red ni modelo.
+                    <div class="assistant-examples">
+                        <button class="assistant-example" type="button" data-example="¿Cómo verifico la fecha de un video viral?">Verificar un video</button>
+                        <button class="assistant-example" type="button" data-example="¿Cómo geolocalizo una foto sin metadatos?">Geolocalizar una foto</button>
+                        <button class="assistant-example" type="button" data-example="¿Qué herramientas reviso para una empresa?">Revisar una empresa</button>
+                    </div>
+                </div>` : ""}
+
             ${answer ? `
                 <div class="assistant-output">
-                    <h3>${session.modelAnswer ? "Respuesta del modelo local" : "Respuesta local"}</h3>
+                    <div class="assistant-output-head">
+                        <h3>${session.modelAnswer ? "Respuesta del modelo local" : "Respuesta local"}</h3>
+                        <div class="assistant-output-tools">
+                            <span class="assistant-badge">${session.modelAnswer ? "Modelo local · verificá las citas" : "Recuperación local · sin modelo"}</span>
+                            <button class="btn-small" type="button" data-copy-answer>Copiar respuesta</button>
+                        </div>
+                    </div>
                     <pre class="assistant-answer">${esc(answer)}</pre>
                     ${renderSources(session.sources)}
                 </div>` : ""}
 
             ${renderTriage(session.triage)}
+
+            <details class="assistant-connectors">
+                <summary>Proveedores externos: ChatGPT, Claude, Gemini y más</summary>
+                <p class="assistant-warning">
+                    Falcon no inicia sesión, no gestiona OAuth ni accede a Gmail. Cada botón abre el sitio del
+                    proveedor en otra ventana y copia el prompt para que lo pegues allí. Si el proveedor ofrece
+                    conectar una cuenta de Google, lo hará en su propio dominio y bajo sus términos.
+                </p>
+                <label class="assistant-external-consent">
+                    <input type="checkbox" id="assistant-external-consent" ${session.externalConsent ? "checked" : ""}>
+                    Entiendo que el prompt sale de Falcon y queda sujeto a la política del proveedor elegido
+                </label>
+                <div class="assistant-provider-grid">
+                    ${getExternalProviders().map(provider => `
+                        <button class="assistant-provider" type="button" data-provider="${esc(provider.id)}">
+                            <span class="assistant-provider-initial" aria-hidden="true">${esc(provider.name.slice(0, 1))}</span>
+                            <span>${esc(provider.name)}<small>${esc(provider.note)}</small></span>
+                        </button>`).join("")}
+                </div>
+            </details>
 
             ${session.preview ? `
                 <details class="assistant-preview" open>
@@ -141,15 +180,24 @@ export async function renderAssistantPanel(container) {
 
             <details class="assistant-config">
                 <summary>Servidor local (Ollama)</summary>
-                <p>Falcon no incluye un modelo. Instalá Ollama, descargá uno (<code>ollama pull llama3.2</code>) y dejalo corriendo.
+                <p>Falcon no incluye un modelo. Instalá Ollama, descargá uno (<code>ollama pull qwen3.5:9b</code>) y dejalo corriendo.
                    Si el navegador bloquea la petición por CORS, reiniciá Ollama con el origen de Falcon, por ejemplo
                    <code>OLLAMA_ORIGINS=http://localhost:5173</code>.</p>
                 <div class="assistant-config-row">
                     <label>Endpoint <input id="assistant-endpoint" value="${esc(settings.endpoint)}" spellcheck="false"></label>
-                    <label>Modelo <input id="assistant-model" value="${esc(settings.model)}" spellcheck="false"></label>
+                    <label>Modelo
+                        <input id="assistant-model" value="${esc(settings.model)}" list="assistant-models" spellcheck="false">
+                        <datalist id="assistant-models">
+                            <option value="qwen3.5:9b">8–12 GB de VRAM · uso general</option>
+                            <option value="gemma4:12b">12–16 GB de VRAM · multimodal</option>
+                            <option value="qwen3.8:27b">24 GB de VRAM · razonamiento</option>
+                            <option value="gemma4:e4b">8 GB de VRAM · equipo modesto</option>
+                            <option value="llama3.2:3b">4–8 GB · alternativa ligera</option>
+                        </datalist>
+                    </label>
                     <button class="btn-small" type="button" data-save-config>Guardar</button>
                 </div>
-                <p class="collections-empty">No hay proveedores remotos ni claves de API. Un modelo local sigue siendo falible: revisá cada cita.</p>
+                <p class="collections-empty">Los tags de Ollama cambian: verificá el nombre en ollama.com. No hay proveedores remotos ni claves de API. Un modelo local sigue siendo falible: revisá cada cita.</p>
             </details>
         </section>`;
 
@@ -158,6 +206,7 @@ export async function renderAssistantPanel(container) {
         session.notes = container.querySelector("#assistant-notes").value.slice(0, MAX_NOTES_CHARS);
         session.includeNotes = container.querySelector("#assistant-include-notes").checked;
         session.consent = container.querySelector("#assistant-consent").checked;
+        session.externalConsent = container.querySelector("#assistant-external-consent").checked;
         settings = {
             endpoint: container.querySelector("#assistant-endpoint").value.trim(),
             model: container.querySelector("#assistant-model").value.trim(),
@@ -170,17 +219,22 @@ export async function renderAssistantPanel(container) {
     const questionInput = container.querySelector("#assistant-question");
     const notesInput = container.querySelector("#assistant-notes");
     const consentInput = container.querySelector("#assistant-consent");
+    const externalConsentInput = container.querySelector("#assistant-external-consent");
 
     const syncButtons = () => {
         container.querySelector("[data-ask]").disabled =
             session.busy || !consentInput.checked || !questionInput.value.trim();
         container.querySelector("[data-triage]").disabled = !notesInput.value.trim();
         container.querySelector("[data-preview]").disabled = !questionInput.value.trim();
+        container.querySelectorAll("[data-provider]").forEach(button => {
+            button.disabled = !externalConsentInput.checked || !questionInput.value.trim();
+        });
     };
 
     questionInput.addEventListener("input", syncButtons);
     notesInput.addEventListener("input", syncButtons);
     consentInput.addEventListener("change", syncButtons);
+    externalConsentInput.addEventListener("change", syncButtons);
     syncButtons();
 
     const prepare = () => {
@@ -193,6 +247,31 @@ export async function renderAssistantPanel(container) {
         session.error = "";
         return { found, context, sources };
     };
+
+    container.querySelectorAll("[data-example]").forEach(button => {
+        button.addEventListener("click", () => {
+            session.question = button.dataset.example;
+            session.notes = "";
+            session.triage = null;
+            session.consent = false;
+            session.error = "";
+            session.status = "";
+            prepare();
+            rerender();
+        });
+    });
+
+    const copyAnswerButton = container.querySelector("[data-copy-answer]");
+    copyAnswerButton?.addEventListener("click", async () => {
+        try {
+            await navigator.clipboard.writeText(answer);
+            session.status = "Respuesta copiada.";
+            session.error = "";
+        } catch {
+            session.error = "No se pudo copiar la respuesta. Seleccionala y copiala manualmente.";
+        }
+        rerender();
+    });
 
     container.querySelector("[data-search]").addEventListener("click", () => {
         readForms();
@@ -265,6 +344,35 @@ export async function renderAssistantPanel(container) {
         }
     });
 
+    container.querySelectorAll("[data-provider]").forEach(button => {
+        button.addEventListener("click", async () => {
+            readForms();
+            if (!session.externalConsent || !session.question.trim()) return;
+
+            const found = retrieve(documents, session.question);
+            const { context } = buildContext(found);
+            const prompt = buildPrompt({
+                question: session.question,
+                context,
+                notes: session.includeNotes ? session.notes : ""
+            });
+            session.preview = prompt;
+            session.externalConsent = false;
+            session.error = "";
+
+            try {
+                const { provider, copied } = await openExternalProvider({ id: button.dataset.provider, prompt });
+                session.status = copied
+                    ? `Prompt copiado. Pegalo en ${provider.name}; Falcon no inicia sesión ni accede a Gmail.`
+                    : `Abrí ${provider.name}, pero no se pudo copiar el prompt: copialo desde la previsualización.`;
+            } catch (error) {
+                session.error = error.message;
+                session.status = "";
+            }
+            rerender();
+        });
+    });
+
     container.querySelector("[data-save-config]").addEventListener("click", () => {
         readForms();
         try {
@@ -283,6 +391,7 @@ export async function renderAssistantPanel(container) {
             notes: "",
             includeNotes: settings.includeNotes,
             consent: false,
+            externalConsent: false,
             sources: [],
             offline: "",
             modelAnswer: "",
