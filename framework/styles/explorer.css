@@ -29,24 +29,33 @@ body{
   font-family:Inter,Segoe UI,Roboto,sans-serif;
 }
 
-#app{
+#app,
+.app-layout{
   display:grid;
-  grid-template-columns:220px 1fr;
+  grid-template-columns:260px minmax(0,1fr);
   min-height:100vh;
 }
 
-#sidebar{
+#sidebar,
+.sidebar{
   background:#0A1020;
   border-right:1px solid var(--border);
   padding:16px 12px;
   overflow-y:auto;
+  position:sticky;
+  top:0;
+  height:100vh;
+  box-sizing:border-box;
 }
 
-#main{
+#main,
+.content{
   display:flex;
   flex-direction:column;
   gap:22px;
   padding:18px;
+  min-width:0;
+  box-sizing:border-box;
 }
 
 /* ---------- Sidebar ---------- */
@@ -191,8 +200,10 @@ body{
 
 #cards{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
-  gap:18px;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:16px;
+  max-width:1400px;
+  width:100%;
 }
 
 /* ---------- Card ---------- */
@@ -347,13 +358,18 @@ body{
 
 @media (max-width:960px){
 
-  #app{
+  #app,
+  .app-layout{
     grid-template-columns:1fr;
   }
 
-  #sidebar{
+  #sidebar,
+  .sidebar{
     border-right:none;
     border-bottom:1px solid var(--border);
+    position:static;
+    height:auto;
+    max-height:45vh;
   }
 
   .toolbar{
@@ -368,8 +384,8 @@ body{
 /* ---------- Cards Container ---------- */
 #cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 16px;
 }
 
 #cards.cards-list {

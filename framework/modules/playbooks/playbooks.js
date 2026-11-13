@@ -5,9 +5,19 @@
 const STORAGE_KEY = "falcon:playbooks";
 export const PLAYBOOK_STATES = ["in_progress", "completed"];
 
+export const TACTICS = [
+    { id: "reconnaissance", title: "Reconocimiento" },
+    { id: "identity", title: "Identidad y personas" },
+    { id: "imagery", title: "Imágenes y medios" },
+    { id: "infrastructure", title: "Infraestructura" },
+    { id: "finance", title: "Flujos de dinero" },
+    { id: "verification", title: "Verificación y desinformación" }
+];
+
 export const PLAYBOOKS = [
     {
         id: "username",
+        tactic: "identity",
         title: "Username Investigation",
         objective: "Encontrar presencia pública de un nombre de usuario.",
         requirements: ["Nombre de usuario a investigar", "Entorno con VPN o perfil de navegador aislado"],
@@ -22,6 +32,7 @@ export const PLAYBOOKS = [
     },
     {
         id: "email",
+        tactic: "identity",
         title: "Email Investigation",
         objective: "Determinar a qué servicios y personas está asociado un correo.",
         requirements: ["Dirección de correo a investigar", "Permiso o base legal para la investigación"],
@@ -36,6 +47,7 @@ export const PLAYBOOKS = [
     },
     {
         id: "domain",
+        tactic: "infrastructure",
         title: "Domain Enumeration",
         objective: "Enumerar la superficie pública de un dominio.",
         requirements: ["Dominio objetivo", "Autorización si el dominio no es propio"],
@@ -50,6 +62,7 @@ export const PLAYBOOKS = [
     },
     {
         id: "telegram",
+        tactic: "reconnaissance",
         title: "Telegram Investigation",
         objective: "Analizar canales y grupos públicos de Telegram con fines de investigación.",
         requirements: ["Canal o grupo público a analizar", "Cuenta de análisis separada del personal"],
@@ -64,6 +77,7 @@ export const PLAYBOOKS = [
     },
     {
         id: "company",
+        tactic: "identity",
         title: "Company Investigation",
         objective: "Reunir información pública sobre una empresa y su estructura.",
         requirements: ["Nombre legal de la empresa", "País de registro"],
@@ -75,6 +89,126 @@ export const PLAYBOOKS = [
         ],
         checklist: ["Registro consultado", "Directivos identificados", "Dominios revisados", "Relaciones registradas"],
         resources: ["Country Packs: fuentes por país", "Knowledge Graph: entidad Empresa"]
+    },
+    {
+        id: "image-person",
+        tactic: "imagery",
+        title: "Búsqueda inversa de imagen de persona",
+        objective: "Averiguar si una foto de una persona es pública, está reutilizada o es un perfil falso.",
+        requirements: ["Imagen original en la mayor resolución posible", "Base legal y ética para la búsqueda"],
+        steps: [
+            "Guardar la imagen original y su URL de origen antes de cualquier búsqueda.",
+            "Buscar con varios motores de imágenes (Google Lens, Yandex, TinEye, Bing).",
+            "Ordenar por fecha más antigua para encontrar la primera aparición conocida.",
+            "Comparar fuentes y contextos; no identificar a personas privadas sin finalidad legítima."
+        ],
+        checklist: ["Original guardado", "Varios motores usados", "Primera aparición fechada", "Uso legítimo confirmado"],
+        resources: ["Explorer: categoría Image", "Collections: guardar capturas con fecha"]
+    },
+    {
+        id: "image-place",
+        tactic: "imagery",
+        title: "Geolocalización de lugar",
+        objective: "Determinar dónde se tomó una foto a partir de elementos visibles.",
+        requirements: ["Imagen original", "Acceso a mapas y vistas de calle"],
+        steps: [
+            "Extraer metadatos EXIF si existen (coordenadas, cámara, fecha).",
+            "Identificar elementos verificables: letreros, idioma, arquitectura, vegetación, vehículos, placas.",
+            "Comparar con vistas de calle y satélite en la zona candidata.",
+            "Cruzar la sombra con la hora solar para validar la fecha de la toma."
+        ],
+        checklist: ["EXIF revisado", "Elementos identificados", "Ubicación comparada", "Hora solar validada"],
+        resources: ["Country Packs: contexto por país", "Knowledge Graph: entidad Ubicación"]
+    },
+    {
+        id: "image-freshness",
+        tactic: "verification",
+        title: "Verificar si una imagen es reciente",
+        objective: "Comprobar cuándo se tomó realmente una imagen que circula como actual.",
+        requirements: ["Imagen o video con la afirmación de fecha", "Acceso a motores de búsqueda inversa"],
+        steps: [
+            "Buscar la imagen en TinEye y Google Lens ordenando por la fecha más antigua.",
+            "Revisar los metadatos y la fecha de publicación de la primera copia.",
+            "Contrastar el clima, la estacionalidad y los elementos visibles con registros de la fecha declarada.",
+            "Anotar la fecha probable y la evidencia que la respalda."
+        ],
+        checklist: ["Primera copia encontrada", "Metadatos revisados", "Clima y estación contrastados", "Fecha probable anotada"],
+        resources: ["Collections: guardar evidencia con fecha", "Explorer: categoría Image"]
+    },
+    {
+        id: "news-old-image",
+        tactic: "verification",
+        title: "Noticia con imagen antigua o fuera de contexto",
+        objective: "Detectar una noticia reciente que reutiliza una imagen de otro evento o de años atrás.",
+        requirements: ["Artículo o publicación original", "Fecha de publicación del artículo"],
+        steps: [
+            "Comparar la fecha del artículo con la primera aparición de la imagen.",
+            "Buscar el pie de foto original y los créditos del fotógrafo o agencia.",
+            "Verificar lugar y hechos con fuentes independientes del mismo día.",
+            "Registrar el contexto original y el contexto usado en la noticia."
+        ],
+        checklist: ["Fecha del artículo comparada", "Pie original encontrado", "Hechos contrastados", "Contexto original anotado"],
+        resources: ["Knowledge Graph: vincular medio y evento", "Collections: guardar comparativa"]
+    },
+    {
+        id: "disinfo-claim",
+        tactic: "verification",
+        title: "Verificación de afirmación viral",
+        objective: "Evaluar si una afirmación o publicación viral es verdadera, falsa o engañosa.",
+        requirements: ["Publicación original con enlace o captura", "Fecha de la afirmación"],
+        steps: [
+            "Localizar la primera publicación conocida de la afirmación.",
+            "Identificar quién la difunde y si hay cuentas coordinadas o recién creadas.",
+            "Buscar verificaciones previas en medios y organizaciones de fact-checking.",
+            "Clasificar la afirmación y documentar la evidencia de forma reproducible."
+        ],
+        checklist: ["Origen encontrado", "Difusores revisados", "Verificaciones previas buscadas", "Clasificación documentada"],
+        resources: ["Knowledge Graph: entidades y relaciones de difusión", "Collections: evidencia reproducible"]
+    },
+    {
+        id: "crypto-tracing",
+        tactic: "finance",
+        title: "Rastreo de fondos en cripto",
+        objective: "Seguir movimientos de fondos entre direcciones públicas en blockchain.",
+        requirements: ["Dirección o transacción de partida", "Explorador de bloques público"],
+        steps: [
+            "Registrar la dirección de origen y las transacciones con hash y fecha.",
+            "Seguir los saltos hacia adelante y hacia atrás, marcando cada paso.",
+            "Identificar puntos de salida: exchanges, puentes o servicios de mezcla.",
+            "Documentar la cadena completa; la identidad detrás de un exchange requiere a las autoridades."
+        ],
+        checklist: ["Origen registrado", "Saltos trazados", "Puntos de salida marcados", "Cadena documentada"],
+        resources: ["Knowledge Graph: entidad IOC (direcciones)", "Collections: exportar trazas"]
+    },
+    {
+        id: "money-corporate",
+        tactic: "finance",
+        title: "Flujo de dinero corporativo",
+        objective: "Identificar estructuras societarias y pagos entre empresas relacionadas.",
+        requirements: ["Nombre de la empresa o entidad de partida", "Acceso a registros mercantiles públicos"],
+        steps: [
+            "Consultar registros mercantiles y de propiedad efectiva del país de registro.",
+            "Mapear filiales, accionistas y directivos compartidos.",
+            "Revisar licitaciones públicas, contratos y comunicados financieros.",
+            "Relacionar entidades en el grafo con el nivel de confianza de cada vínculo."
+        ],
+        checklist: ["Registros consultados", "Estructura mapeada", "Contratos revisados", "Vínculos con confianza"],
+        resources: ["Country Packs: registros por país", "Knowledge Graph: relaciones con confianza"]
+    },
+    {
+        id: "scam-rug-pull",
+        tactic: "finance",
+        title: "Verificar proyecto cripto (rug pull)",
+        objective: "Comprobar si un proyecto cripto y su equipo son reales antes o después de un fraude.",
+        requirements: ["Nombre o contrato del proyecto", "Fotos y perfiles del equipo"],
+        steps: [
+            "Buscar las fotos del equipo por imagen para detectar stock o identidades ajenas.",
+            "Revisar el dominio, la web archivada y la fecha de creación.",
+            "Revisar la liquidez y los movimientos de los creadores en el contrato.",
+            "Documentar el fraude con fechas y direcciones para denuncias."
+        ],
+        checklist: ["Equipo verificado", "Dominio y archivo revisados", "Liquidez analizada", "Evidencia documentada"],
+        resources: ["Playbook: Búsqueda inversa de imagen de persona", "Playbook: Rastreo de fondos en cripto"]
     }
 ];
 

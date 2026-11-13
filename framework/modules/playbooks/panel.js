@@ -4,6 +4,7 @@
    ========================================================== */
 import {
     PLAYBOOKS,
+    TACTICS,
     getPlaybook,
     getProgress,
     setPlaybookState,
@@ -19,14 +20,22 @@ function esc(value) {
 
 const STATE_LABELS = { in_progress: "En progreso", completed: "Completado" };
 
+function renderItem(p, selectedId) {
+    const prog = getProgress(p.id);
+    return `
+        <button class="sidebar-item ${p.id === selectedId ? "active" : ""}" data-playbook="${esc(p.id)}">
+            <span>${prog.favorite ? "★ " : ""}${esc(p.title)}</span>
+            <span class="count">${prog.state ? esc(STATE_LABELS[prog.state]) : "—"}</span>
+        </button>`;
+}
+
 function renderList(selectedId) {
-    return PLAYBOOKS.map(p => {
-        const prog = getProgress(p.id);
+    return TACTICS.map(t => {
+        const items = PLAYBOOKS.filter(p => p.tactic === t.id);
+        if (items.length === 0) return "";
         return `
-            <button class="sidebar-item ${p.id === selectedId ? "active" : ""}" data-playbook="${esc(p.id)}">
-                <span>${prog.favorite ? "★ " : ""}${esc(p.title)}</span>
-                <span class="count">${prog.state ? esc(STATE_LABELS[prog.state]) : "—"}</span>
-            </button>`;
+            <h4 class="playbook-tactic">${esc(t.title)}</h4>
+            ${items.map(p => renderItem(p, selectedId)).join("")}`;
     }).join("");
 }
 

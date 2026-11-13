@@ -21,8 +21,18 @@ async function loadModules() {
 describe("playbooks (E8)", () => {
     beforeEach(loadModules);
 
-    it("ships the five investigation playbooks", () => {
-        expect(playbooks.PLAYBOOKS.map(p => p.id)).toEqual(["username", "email", "domain", "telegram", "company"]);
+    it("ships the investigation playbooks, each with a valid tactic", () => {
+        const tactics = playbooks.TACTICS.map(t => t.id);
+        expect(playbooks.PLAYBOOKS.map(p => p.id)).toEqual([
+            "username", "email", "domain", "telegram", "company",
+            "image-person", "image-place", "image-freshness", "news-old-image",
+            "disinfo-claim", "crypto-tracing", "money-corporate", "scam-rug-pull"
+        ]);
+        for (const p of playbooks.PLAYBOOKS) {
+            expect(tactics).toContain(p.tactic);
+            expect(p.steps.length).toBeGreaterThan(0);
+            expect(p.checklist.length).toBeGreaterThan(0);
+        }
     });
 
     it("stores state and favorite per playbook", () => {
