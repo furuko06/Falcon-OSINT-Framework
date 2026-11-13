@@ -1,0 +1,72 @@
+[
+  {
+    "name": "theHarvester",
+    "category": "HUMINT",
+    "subcategory": "Domain & Email Recon",
+    "description": "Collects emails, subdomains and hosts from search engines, certificate transparency logs and DNS data.",
+    "country": "GLOBAL",
+    "website": "https://github.com/laramies/theHarvester",
+    "github": "laramies/theHarvester",
+    "license": "GPL-2.0",
+    "offline": false,
+    "docker": true,
+    "quality_score": 92,
+    "opsec_score": 85
+  },
+  {
+    "name": "GHunt",
+    "category": "HUMINT",
+    "subcategory": "Google Account Investigation",
+    "description": "Investigates Google accounts from an email address using public Google services.",
+    "country": "GLOBAL",
+    "website": "https://github.com/mxrch/GHunt",
+    "github": "mxrch/GHunt",
+    "license": "AGPL-3.0",
+    "offline": false,
+    "docker": true,
+    "quality_score": 90,
+    "opsec_score": 80
+  },
+  {
+    "name": "h8mail",
+    "category": "HUMINT",
+    "subcategory": "Breach Lookup",
+    "description": "Searches email addresses in data breach collections and public leak sources.",
+    "country": "GLOBAL",
+    "website": "https://github.com/khast3x/h8mail",
+    "github": "khast3x/h8mail",
+    "license": "BSD-3-Clause",
+    "offline": false,
+    "docker": true,
+    "quality_score": 88,
+    "opsec_score": 82
+  },
+  {
+    "name": "Blackbird",
+    "category": "HUMINT",
+    "subcategory": "Username & Email Search",
+    "description": "Searches usernames and emails across hundreds of platforms using WhatsMyName data.",
+    "country": "GLOBAL",
+    "website": "https://github.com/p1ngul1n0/blackbird",
+    "github": "p1ngul1n0/blackbird",
+    "license": "MIT",
+    "offline": false,
+    "docker": true,
+    "quality_score": 87,
+    "opsec_score": 86
+  },
+  {
+    "name": "SpiderFoot",
+    "category": "SOCMINT",
+    "subcategory": "Automated OSINT Scanning",
+    "description": "Automates OSINT collection across domains, IPs, emails and usernames with correlation.",
+    "country": "GLOBAL",
+    "website": "https://github.com/smicallef/spiderfoot",
+    "github": "smicallef/spiderfoot",
+    "license": "MIT",
+    "offline": false,
+    "docker": true,
+    "quality_score": 93,
+    "opsec_score": 84
+  }
+]

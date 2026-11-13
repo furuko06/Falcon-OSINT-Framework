@@ -1,0 +1,33 @@
+[
+  {
+    "name":"Telepathy",
+    "category":"SOCMINT",
+    "subcategory":"Telegram",
+    "description":"Telegram OSINT toolkit.",
+    "country":"GLOBAL",
+    "offline":true,
+    "docker":true,
+    "quality_score":93,
+    "opsec_score":92
+  },
+  {
+    "name":"Twint",
+    "category":"SOCMINT",
+    "subcategory":"X / Twitter",
+    "description":"Twitter scraping without official API.",
+    "country":"GLOBAL",
+    "offline":true,
+    "quality_score":90,
+    "opsec_score":75
+  },
+  {
+    "name":"Social Analyzer",
+    "category":"SOCMINT",
+    "subcategory":"Username Enumeration",
+    "description":"Search usernames on 1000+ platforms.",
+    "country":"GLOBAL",
+    "offline":true,
+    "quality_score":95,
+    "opsec_score":90
+  }
+]

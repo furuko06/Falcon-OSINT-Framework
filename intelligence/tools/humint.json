@@ -1,0 +1,44 @@
+[
+  {
+    "name":"Holehe",
+    "category":"HUMINT",
+    "subcategory":"Email Enumeration",
+    "description":"Email account discovery across hundreds of services.",
+    "country":"GLOBAL",
+    "website":"https://github.com/megadose/holehe",
+    "github":"megadose/holehe",
+    "license":"GPL-3.0",
+    "offline":true,
+    "docker":true,
+    "tor_friendly":true,
+    "vpn_friendly":true,
+    "quality_score":95,
+    "opsec_score":90
+  },
+  {
+    "name":"Sherlock",
+    "category":"HUMINT",
+    "subcategory":"Username Enumeration",
+    "description":"Username enumeration across social platforms.",
+    "country":"GLOBAL",
+    "website":"https://github.com/sherlock-project/sherlock",
+    "github":"sherlock-project/sherlock",
+    "license":"MIT",
+    "offline":true,
+    "docker":true,
+    "quality_score":96,
+    "opsec_score":88
+  },
+  {
+    "name":"Maigret",
+    "category":"HUMINT",
+    "subcategory":"Username Enumeration",
+    "description":"Advanced username investigation tool.",
+    "country":"GLOBAL",
+    "website":"https://github.com/soxoj/maigret",
+    "github":"soxoj/maigret",
+    "offline":true,
+    "quality_score":94,
+    "opsec_score":91
+  }
+]
