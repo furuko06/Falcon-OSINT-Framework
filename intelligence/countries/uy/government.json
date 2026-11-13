@@ -1,0 +1,18 @@
+[
+  {
+    "id": "uy_gub",
+    "name": "Portal gub.uy",
+    "country": "UY",
+    "category": "Government",
+    "website": "https://www.gub.uy",
+    "status": "verified"
+  },
+  {
+    "id": "uy_agesic",
+    "name": "AGESIC (Agencia de Gobierno Electrónico)",
+    "country": "UY",
+    "category": "Government",
+    "website": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento",
+    "status": "verified"
+  }
+]

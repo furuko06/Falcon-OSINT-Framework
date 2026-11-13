@@ -1,0 +1,26 @@
+[
+  {
+    "id": "mx_gob_mx",
+    "name": "Portal gob.mx",
+    "country": "MX",
+    "category": "Government",
+    "website": "https://www.gob.mx",
+    "status": "verified"
+  },
+  {
+    "id": "mx_sat",
+    "name": "SAT (Servicio de Administración Tributaria)",
+    "country": "MX",
+    "category": "Companies",
+    "website": "https://www.gob.mx/sat",
+    "status": "verified"
+  },
+  {
+    "id": "mx_cnbv",
+    "name": "CNBV (Comisión Nacional Bancaria y de Valores)",
+    "country": "MX",
+    "category": "Companies",
+    "website": "https://www.gob.mx/cnbv",
+    "status": "verified"
+  }
+]

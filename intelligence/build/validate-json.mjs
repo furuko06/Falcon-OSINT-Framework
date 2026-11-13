@@ -33,7 +33,9 @@ function validateFolder(folder){
 }
 
 validateFolder("categories");
-validateFolder("countries/ar");
+for (const country of fs.existsSync(path.join(ROOT,"countries")) ? fs.readdirSync(path.join(ROOT,"countries")) : []) {
+    validateFolder(path.join("countries", country));
+}
 
 if(errors===0){
 

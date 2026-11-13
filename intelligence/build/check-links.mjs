@@ -3,7 +3,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve("intelligence");
-const TOOL_FOLDERS = ["tools"];
+const TOOL_FOLDERS = ["tools", ...countryFolders()];
+
+function countryFolders() {
+    const base = path.join(ROOT, "countries");
+    if (!fs.existsSync(base)) return [];
+    return fs.readdirSync(base).map(c => path.join("countries", c));
+}
 const TIMEOUT_MS = 10000;
 
 export function collectLinks(tools) {
