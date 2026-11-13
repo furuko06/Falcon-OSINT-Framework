@@ -18,7 +18,7 @@ function validateFolder(folder){
             try{
 
                 JSON.parse(
-                    fs.readFileSync(path.join(full,file),"utf8")
+                    fs.readFileSync(path.join(full,file),"utf8").replace(/^\uFEFF/,"")
                 );
 
             }catch(error){

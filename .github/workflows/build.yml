@@ -18,4 +18,6 @@ jobs:
           node-version: 22
 
       - run: npm install
+      - run: npm run db:validate
+      - run: npx vitest run
       - run: npm run build

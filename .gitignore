@@ -33,6 +33,7 @@ Thumbs.db
 
 # GitHub CLI local
 tools/
+!intelligence/tools/
 gh_*.zip
 
 # Logs
