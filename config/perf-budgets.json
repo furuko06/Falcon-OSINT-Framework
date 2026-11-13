@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "budgets": {
+    "catalogReadyMs": 2500,
+    "dbOpenMs": 1200,
+    "retrievalP95Ms": 100,
+    "jsGzipKb": 90,
+    "cssGzipKb": 10,
+    "totalDistKb": 2500,
+    "heap165Mb": 96,
+    "heap1000DocsMb": 32
+  }
+}

@@ -67,6 +67,8 @@ export const Database = {
 
     if (dbInstance) return dbInstance;
 
+    globalThis.performance?.mark?.("falcon:db-start");
+
     if (!SQL) {
       SQL = await initSqlJs({
         locateFile: (file) => new URL(`node_modules/sql.js/dist/${file}`, document.baseURI).href
@@ -100,13 +102,21 @@ export const Database = {
     }
 
     console.log(
-      "📦 Tablas:",
-      dbInstance.query(`
+      "📦 Tablas:", dbInstance.query(`
         SELECT name
         FROM sqlite_master
         WHERE type='table';
       `)
     );
+
+    if (globalThis.performance?.mark && globalThis.performance?.measure) {
+      performance.mark("falcon:db-ready");
+      try {
+        performance.measure("falcon:db-open", "falcon:db-start", "falcon:db-ready");
+      } catch {
+        // Metrics are diagnostic only.
+      }
+    }
 
     return dbInstance;
   },

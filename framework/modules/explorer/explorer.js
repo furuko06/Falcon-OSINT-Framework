@@ -102,11 +102,21 @@ export async function initializeExplorer() {
         renderCards(cards, ExplorerState.results);
     });
 
+    globalThis.performance?.mark?.("falcon:catalog-render-start");
     const tools = await loadTools();
     updateState({ initialized: true });
     populateFilterOptions(toolbar, tools);
     const chosen = localStorage.getItem("falcon:country");
     if (chosen && chosen !== "GLOBAL") applyFilters({ countries: [chosen] });
+
+    if (globalThis.performance?.mark && globalThis.performance?.measure) {
+        performance.mark("falcon:catalog-render-end");
+        try {
+            performance.measure("falcon:catalog-render", "falcon:catalog-render-start", "falcon:catalog-render-end");
+        } catch {
+            // Metrics are diagnostic only.
+        }
+    }
 
     if (hasAuthCallback()) {
         try {

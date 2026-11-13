@@ -56,3 +56,6 @@ gh_*.zip
 
 # Local agent metadata
 .freebuff/
+
+# Local evaluation runtime and models (never committed)
+.tools/

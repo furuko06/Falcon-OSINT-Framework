@@ -38,6 +38,22 @@ Tras la primera carga, el service worker precarga la app, SQLite y los WASM para
 **Ajustes y backup** exporta un JSON con catálogo, configuración y el entorno/contexto de cada
 consulta IA; **Políticas y privacidad** registra la aceptación y deja el uso bajo tu responsabilidad.
 
+## Gates de calidad
+
+`npm run gates` ejecuta las compuertas de release sobre el build real: tests,
+escaneo de secretos, auditoría de dependencias, validación de datos, build,
+presupuestos de rendimiento, accesibilidad y evaluación del asistente. Escribe
+`docs/audits/GATES_REPORT.md`.
+
+```bash
+npm run gates                      # navegador incluido
+npm run gates -- --skip-browser
+npm run gates -- --require-real    # exige un modelo real
+```
+
+La evaluación real usa Ollama en `127.0.0.1:11434` o `OPENROUTER_API_KEY`.
+Si usás una copia local de Ollama, `OLLAMA_MODELS` debe ser una ruta absoluta.
+
 ## Estado
 
-Version: 0.4.0-beta
+Version: 0.5.0-beta

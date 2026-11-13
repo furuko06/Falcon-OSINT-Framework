@@ -13,9 +13,40 @@ async function registerServiceWorker() {
     }
 }
 
+function mark(name) {
+    if (globalThis.performance?.mark) performance.mark(name);
+}
+
+function measure(name, start, end) {
+    if (!globalThis.performance?.measure) return;
+    try {
+        performance.measure(name, start, end);
+    } catch {
+        // A missing mark must never break application startup.
+    }
+}
+
+window.__falconPerf = () => Object.fromEntries(
+    performance.getEntriesByType("measure")
+        .filter(entry => entry.name.startsWith("falcon:"))
+        .map(entry => [entry.name, Math.round(entry.duration * 100) / 100])
+);
+
 window.addEventListener("DOMContentLoaded",()=>{
 
-    initializeExplorer();
+    mark("falcon:boot-start");
+    initializeExplorer()
+        .then(() => {
+            mark("falcon:explorer-ready");
+            requestAnimationFrame(() => {
+                mark("falcon:catalog-painted");
+                measure("falcon:catalog-ready", "falcon:boot-start", "falcon:catalog-painted");
+            });
+        })
+        .catch(error => {
+            mark("falcon:explorer-error");
+            console.error("No se pudo iniciar el Explorer:", error);
+        });
     registerServiceWorker();
 
 });

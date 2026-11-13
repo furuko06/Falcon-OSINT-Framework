@@ -8,6 +8,41 @@ alpha releases and will be called out explicitly.
 
 ## [Unreleased]
 
+## [0.5.0-beta] - 2026-11-13
+
+### Added
+
+- `npm run gates` release-gate aggregator: unit tests, security scan, dependency
+  audit, data validation, production build, performance budgets, accessibility
+  and assistant evaluation, with a reproducible `docs/audits/GATES_REPORT.md`.
+- Performance budgets in `config/perf-budgets.json` and `npm run perf`, which
+  measures the real production build in headless Chrome plus a deterministic
+  1,000-document retrieval corpus. Evidence in `docs/audits/PERF_REPORT.md`.
+- Assistant evaluation harness `npm run eval:model`, a reproducible 11-case
+  dataset in `evaluation/model-eval.json` and thresholds in
+  `evaluation/gates.json`, covering citations, refusal without context and
+  prompt injection. Evidence in `docs/audits/MODEL_EVAL.md`.
+- Startup performance marks (`falcon:*`) for database open, catalog query and
+  first paint, exposed through `window.__falconPerf` for the benchmark.
+- Release-gates GitHub Actions workflow.
+
+### Changed
+
+- The real-model evaluation no longer counts a refusal case with no sources as
+  a citation failure, matching the offline suite.
+- Generated performance and evaluation reports round measurements so the table
+  values are stable and readable.
+- Version `0.5.0-beta` across the app shell, settings, assistant, backup format
+  and documentation.
+
+### Fixed
+
+- The assistant evaluation no longer reports a provider that never answered as
+  a quality FAIL. A local server returning 5xx (for example while a model is
+  still downloading or with a relative `OLLAMA_MODELS` path), a rejected key or
+  a timeout is now `BLOCKED` with the provider error preserved, matching the
+  offline suite and the release-gate contract.
+
 ## [0.4.0-beta] - 2026-11-13
 
 ### Added

@@ -3,9 +3,18 @@ import { updateState } from "./state.js";
 import { applyCurrentFilters } from "./filters.js";
 
 export async function loadTools() {
+    globalThis.performance?.mark?.("falcon:tools-query-start");
     const tools = await Database.query(`
         SELECT * FROM tools ORDER BY quality_score DESC;
     `);
+    if (globalThis.performance?.mark && globalThis.performance?.measure) {
+        performance.mark("falcon:tools-query-end");
+        try {
+            performance.measure("falcon:tools-query", "falcon:tools-query-start", "falcon:tools-query-end");
+        } catch {
+            // Metrics are diagnostic only.
+        }
+    }
     window.__falconTools = tools;
 
     updateState({

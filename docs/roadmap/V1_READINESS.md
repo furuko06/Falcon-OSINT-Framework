@@ -25,7 +25,7 @@ Anything that cannot meet those promises stays behind a beta label.
 
 | Area | Current state | Evidence |
 | --- | --- | --- |
-| Version | `0.4.0-beta` | `package.json` |
+| Version | `0.5.0-beta` | `package.json` |
 | Catalog | 165 tools across 9 packs | `npm run db:import`, SQLite `tools` |
 | Schema | Version 2 with recorded migrations; legacy empty metadata repaired | `tests/migrations.test.js`, `database/falcon.db` |
 | Tests | 98 unit/integration tests | `npx vitest run` |
@@ -38,6 +38,8 @@ Anything that cannot meet those promises stays behind a beta label.
 | CSP | Strict policy, no inline script/style, loopback + OpenRouter allowlist | `index.html`, `public/_headers`, `tests/security.test.js` |
 | Accessibility | axe 0 violations across 8 views and 5/5 manual checks | `docs/audits/A11Y_AUDIT.md` |
 | Repository security | Secret/workflow scan, audit 0, pinned Actions, CodeQL and Dependabot | `docs/security/CIS_CONTROLS.md` |
+| Performance | Budgets measured on the production build and a 1,000-document corpus | `docs/audits/PERF_REPORT.md`, `npm run perf` |
+| AI evaluation | 11-case offline suite passes; real-model run reports `BLOCKED` with the provider error instead of a false quality failure | `docs/audits/MODEL_EVAL.md`, `npm run eval:model` |
 | API/plugin contracts | Present but not frozen or versioned as public contracts | Gap |
 | Formal audits | Accessibility and CIS alignment delivered; external security, performance and legal audits pending | Gap |
 
@@ -107,10 +109,12 @@ screen-reader pass is still required.
 
 - [ ] Measured budgets on a mid-range laptop: time to first catalog render,
       database open time, memory after 165 tools and 1,000 tools.
-- [ ] Bundle and database size tracked per release; regressions fail CI.
-- [ ] Assistant retrieval stays under 100 ms for a 1,000-document corpus.
+- [x] Bundle and database size tracked per release; regressions fail CI.
+- [x] Assistant retrieval stays under 100 ms for a 1,000-document corpus.
 
-**Current:** no measurements recorded. Do not claim speedups without numbers.
+**Current:** `npm run gates` measures catalog render, database open, bundle,
+CSS and `dist` size, heap with 165 tools and retrieval over 1,000 documents on
+every release. Heap with 1,000 tools is still unmeasured.
 
 ### G6. Stable contracts
 
@@ -124,7 +128,7 @@ declarative and partial.
 
 ### G7. AI assistant accountability
 
-- [ ] Reproducible evaluation set with expected citations and refusal cases.
+- [x] Reproducible evaluation set with expected citations and refusal cases.
 - [ ] Real Ollama run against at least two model tags, including one failure
       path (model missing, timeout, CORS).
 - [ ] Answers label model output, show sources and never present uncited model
@@ -133,9 +137,12 @@ declarative and partial.
 - [x] Clear boundary: OAuth only through OpenRouter, keys session-only, no Gmail access.
 
 **Current:** retrieval, citations, consent, prompt preview, PKCE and the
-OpenRouter test endpoint are covered. The browser exercised a real 401 from
-OpenRouter with a fake key; a billed model run, an Ollama run and an evaluation
-harness are still pending. No remote credentials are stored by Falcon.
+evaluation harness are covered. The browser exercised a real 401 from OpenRouter
+with a fake key. A real Ollama run against two small tags was attempted: the
+provider answered, but the models completed only part of the suite within the
+time budget and cited at 0.286, so the gate stays open. A billed model run and a
+full real-model pass are still pending. No remote credentials are stored by
+Falcon.
 
 ### G8. Release engineering and governance
 
