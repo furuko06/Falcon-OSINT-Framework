@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p dist/database dist/node_modules/sql.js/dist
           cp database/falcon.db dist/database/
-          cp node_modules/sql.js/dist/sql-wasm.wasm dist/node_modules/sql.js/dist/
+          cp node_modules/sql.js/dist/sql-wasm-browser.wasm dist/node_modules/sql.js/dist/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

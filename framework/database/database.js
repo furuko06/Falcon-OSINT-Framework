@@ -67,13 +67,13 @@ export const Database = {
 
     if (!SQL) {
       SQL = await initSqlJs({
-        locateFile: (file) => `/node_modules/sql.js/dist/${file}`
+        locateFile: (file) => new URL(`node_modules/sql.js/dist/${file}`, document.baseURI).href
       });
     }
 
     console.log("📦 Descargando falcon.db...");
 
-    const response = await fetch("/database/falcon.db");
+    const response = await fetch(new URL("database/falcon.db", document.baseURI));
 
     if (!response.ok) {
       throw new Error(`No se pudo descargar falcon.db (${response.status})`);
