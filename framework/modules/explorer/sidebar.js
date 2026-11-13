@@ -3,6 +3,7 @@
    ========================================================== */
 import { ExplorerState } from "./state.js";
 import { applyFilters } from "./filters.js";
+import { COUNTRY_PACKS, getCountry, setCountry, countryToolCount } from "../countries/packs.js";
 
 function countByCategory(tools) {
     const map = {};
@@ -16,6 +17,7 @@ export function renderSidebar(container, state = ExplorerState) {
     const counts = countByCategory(state.tools);
     const active = state.filters.categories || [];
     const favActive = !!state.filters.favorites;
+    const country = getCountry();
 
     container.innerHTML = `
         <div class="sidebar-section">
@@ -34,12 +36,29 @@ export function renderSidebar(container, state = ExplorerState) {
                     <span class="count">${counts[cat]}</span>
                 </button>`).join("")}
         </div>
+        <div class="sidebar-section country-section">
+            <h3>Country pack</h3>
+            <select id="country-select" aria-label="País">
+                ${COUNTRY_PACKS.map(p => `<option value="${p.code}" ${p.code === country ? "selected" : ""}>${p.flag ? p.flag + " " : ""}${p.name}</option>`).join("")}
+            </select>
+            <p class="collections-empty">${COUNTRY_PACKS.find(p => p.code === country).name}: ${countryToolCount(state.tools, country)} herramienta(s)</p>
+        </div>
         <div id="collections-host"></div>
+        <div id="marketplace-host"></div>
+        <div class="sidebar-section">
+            <h3>Salud</h3>
+            <button class="sidebar-item" data-action="health" aria-pressed="false"><span>Health Engine</span></button>
+        </div>
         <div class="sidebar-footer">
             <span>Falcon v0.1-alpha</span>
             <span>SQLite: ${state.initialized ? "Loaded ✓" : "Loading…"}</span>
         </div>
     `;
+
+    container.querySelector("#country-select").addEventListener("change", e => {
+        setCountry(e.target.value);
+        applyFilters({ countries: e.target.value === "GLOBAL" ? [] : [e.target.value] });
+    });
 
     container.querySelector('[data-action="favorites"]').addEventListener("click", () => {
         applyFilters({ favorites: !favActive });
