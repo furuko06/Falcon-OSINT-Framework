@@ -9,6 +9,7 @@ globalThis.localStorage = {
 
 let playbooks;
 let graph;
+let ioc;
 
 // Each test reloads the modules so the in-memory copy starts from empty storage.
 async function loadModules() {
@@ -16,6 +17,7 @@ async function loadModules() {
     store.clear();
     playbooks = await import("../framework/modules/playbooks/playbooks.js");
     graph = await import("../framework/modules/graph/graph.js");
+    ioc = await import("../framework/modules/ioc/ioc.js");
 }
 
 describe("playbooks (E8)", () => {
@@ -61,6 +63,37 @@ describe("playbooks (E8)", () => {
         expect(() => playbooks.setPlaybookState("nope", "completed")).toThrow();
         expect(() => playbooks.setPlaybookState("email-osint", "bogus")).toThrow();
         expect(() => playbooks.toggleChecklistItem("email-osint", "no such item")).toThrow();
+    });
+});
+
+describe("IOC workspace (E10)", () => {
+    beforeEach(loadModules);
+
+    it("creates indicators with defaults, filters them and updates their status", () => {
+        const item = ioc.addIndicator({ type: "IPv4", value: " 203.0.113.8 ", source: "feed:test" }, "2026-11-13T00:00:00.000Z");
+        expect(item).toMatchObject({ value: "203.0.113.8", status: "nuevo", confidence: "media", severity: "media" });
+        expect(ioc.filterIndicators({ query: "FEED" })).toHaveLength(1);
+        expect(ioc.filterIndicators({ status: "confirmado" })).toHaveLength(0);
+        ioc.updateIndicator(item.id, { status: "confirmado", severity: "alta" }, "2026-11-13T01:00:00.000Z");
+        expect(ioc.filterIndicators({ status: "confirmado", type: "IPv4" })[0]).toMatchObject({ severity: "alta", updatedAt: "2026-11-13T01:00:00.000Z" });
+    });
+
+    it("rejects invalid or duplicate indicators and removes known ones", () => {
+        const item = ioc.addIndicator({ type: "Dominio", value: "example.test" });
+        expect(() => ioc.addIndicator({ type: "Bad", value: "bad" })).toThrow();
+        expect(() => ioc.addIndicator({ type: "URL", value: "" })).toThrow();
+        expect(() => ioc.addIndicator({ type: "Dominio", value: "EXAMPLE.test" })).toThrow();
+        expect(() => ioc.updateIndicator(item.id, { status: "unknown" })).toThrow();
+        expect(() => ioc.updateIndicator(item.id, { confidence: "critica" })).toThrow();
+        expect(() => ioc.updateIndicator(item.id, { severity: "unknown" })).toThrow();
+        expect(ioc.removeIndicator(item.id)).toBe(true);
+        expect(ioc.removeIndicator(item.id)).toBe(false);
+        expect(ioc.getIndicators()).toHaveLength(0);
+    });
+
+    it("exports valid JSON with the stored indicators", () => {
+        ioc.addIndicator({ type: "SHA-256", value: "abc123", source: "case-1" });
+        expect(JSON.parse(ioc.exportIndicatorsJSON()).indicators).toMatchObject([{ type: "SHA-256", value: "abc123" }]);
     });
 });
 

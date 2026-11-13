@@ -15,6 +15,7 @@ import { getCountry } from "../countries/packs.js";
 import { renderHealthPanel } from "../health/panel.js";
 import { renderPlaybooksPanel } from "../playbooks/panel.js";
 import { renderGraphPanel } from "../graph/panel.js";
+import { renderIOCPanel } from "../ioc/panel.js";
 import { applyFilters } from "./filters.js";
 
 export async function initializeExplorer() {
@@ -30,7 +31,8 @@ export async function initializeExplorer() {
     const views = {
         health: renderHealthPanel,
         playbooks: renderPlaybooksPanel,
-        graph: renderGraphPanel
+        graph: renderGraphPanel,
+        ioc: renderIOCPanel
     };
 
     const dashboard = createDashboardSection();

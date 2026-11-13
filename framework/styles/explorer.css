@@ -718,3 +718,22 @@ body{
 .graph-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
 .graph-entity{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px;}
 .graph-entity ul{margin:8px 0;padding-left:18px;font-size:13px;color:var(--text-soft);}
+
+/* ==========================================================
+   E10 - IOC Workspace
+   ========================================================== */
+.ioc-panel{display:flex;flex-direction:column;gap:14px;}
+.ioc-form,.ioc-filters{display:flex;flex-wrap:wrap;align-items:end;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px;}
+.ioc-form label,.ioc-filters label,.ioc-item-actions label{display:flex;flex:1 1 150px;flex-direction:column;gap:5px;color:var(--text-soft);font-size:12px;}
+.ioc-form input,.ioc-form select,.ioc-form textarea,.ioc-filters input,.ioc-filters select,.ioc-item-actions select{box-sizing:border-box;width:100%;min-width:0;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px;font:inherit;}
+.ioc-form .ioc-notes{flex-basis:100%;}
+.ioc-list{display:grid;gap:10px;}
+.ioc-item{min-width:0;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;}
+.ioc-item-heading,.ioc-item-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;}
+.ioc-item-heading strong{overflow-wrap:anywhere;}
+.ioc-item-actions{justify-content:flex-start;margin-top:10px;}
+.ioc-item-actions label{flex:0 1 180px;}
+.ioc-meta{color:var(--text-soft);font-size:12px;overflow-wrap:anywhere;}
+.ioc-error{color:var(--danger);font-size:13px;min-height:16px;margin:0;}
+.ioc-severity-critica{color:#FCA5A5;background:rgba(239,68,68,.18);}
+.ioc-severity-alta{color:#FDBA74;background:rgba(249,115,22,.18);}

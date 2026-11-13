@@ -56,6 +56,7 @@ export function renderSidebar(container, state = ExplorerState) {
             <h3>Investigación</h3>
             <button class="sidebar-item ${state.panel === "playbooks" ? "active" : ""}" data-action="playbooks" aria-pressed="${state.panel === "playbooks"}"><span>Playbooks</span></button>
             <button class="sidebar-item ${state.panel === "graph" ? "active" : ""}" data-action="graph" aria-pressed="${state.panel === "graph"}"><span>Knowledge Graph</span></button>
+            <button class="sidebar-item ${state.panel === "ioc" ? "active" : ""}" data-action="ioc" aria-pressed="${state.panel === "ioc"}"><span>IOC Workspace</span></button>
         </div>
         <div class="sidebar-footer">
             <span>Falcon v0.1-alpha</span>
