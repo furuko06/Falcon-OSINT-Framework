@@ -54,6 +54,18 @@ export function renderIOCPanel(container, filters = {}) {
                 <h2>IOC Workspace</h2>
                 <p>Indicadores locales: <strong>${all.length}</strong> · La información se guarda en este navegador.</p>
             </header>
+            <details class="graph-example" ${all.length ? "" : "open"}>
+                <summary>¿Para qué se usa? Ejemplo</summary>
+                <p>Un <strong>IOC</strong> (indicador de compromiso) es un dato observable de una investigación: una IP, un dominio, una URL, un hash o un correo. El workspace sirve para no perder de vista de dónde salió cada indicador y qué falta confirmar antes de usarlo.</p>
+                <ol>
+                    <li>Registras el indicador con su tipo, fuente y una nota con la evidencia mínima.</li>
+                    <li>Al revisarlo cambias el estado: <em>en revisión</em>, <em>confirmado</em>, <em>falso positivo</em> o <em>cerrado</em>.</li>
+                    <li>Si es parte de una investigación, lo sumas al Knowledge Graph para relacionarlo con dominios, personas o empresas.</li>
+                    <li>Exportas el JSON para compartir el set con otro analista o adjuntarlo a un caso.</li>
+                </ol>
+                <p>El ejemplo carga tres indicadores sintéticos de un caso ficticio, sin datos reales.</p>
+                <button class="btn-small" type="button" data-load-example>Cargar ejemplo</button>
+            </details>
             <form class="ioc-form" data-ioc-form>
                 <label>Tipo
                     <select name="type" required>${IOC_TYPES.map(type => `<option value="${esc(type)}">${esc(type)}</option>`).join("")}</select>
@@ -87,6 +99,17 @@ export function renderIOCPanel(container, filters = {}) {
         </section>`;
 
     const showError = error => { container.querySelector(".ioc-error").textContent = error.message; };
+    container.querySelector("[data-load-example]").addEventListener("click", () => {
+        const sample = [
+            { type: "Dominio", value: "login-acme-secure.example", source: "Correo de phishing reportado", confidence: "alta", severity: "alta", notes: "Dominio del enlace recibido por un cliente del caso ficticio." },
+            { type: "IPv4", value: "203.0.113.42", source: "Resolución DNS del dominio", confidence: "media", severity: "media", notes: "Infraestructura que aloja el dominio del ejemplo." },
+            { type: "SHA-256", value: "9f2c1b7a4e5d6c8b0a1f3e2d4c5b6a79887766554433221100ffeeddccbbaa99", source: "Adjunto del correo", confidence: "alta", severity: "critica", notes: "Hash del archivo adjunto del ejemplo." }
+        ];
+        for (const indicator of sample) {
+            try { addIndicator(indicator); } catch { /* el ejemplo ya estaba cargado */ }
+        }
+        renderIOCPanel(container, filters);
+    });
     container.querySelector("[data-ioc-form]").addEventListener("submit", event => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);

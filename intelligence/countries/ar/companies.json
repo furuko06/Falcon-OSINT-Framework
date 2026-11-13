@@ -5,6 +5,8 @@
     "country": "AR",
     "category": "Companies",
     "website": "https://www.arca.gob.ar",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Registro Fiscal",
+    "description": "Verifica la constancia de inscripción y la titularidad de un CUIT."
   }
 ]

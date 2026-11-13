@@ -5,7 +5,9 @@
     "category": "Government",
     "country": "AR",
     "website": "https://www.boletinoficial.gob.ar",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Publicaciones Oficiales",
+    "description": "Publica leyes, decretos y sociedades por fecha."
   },
   {
     "id": "datos_argentina",
@@ -13,7 +15,9 @@
     "category": "Open Data",
     "country": "AR",
     "website": "https://datos.gob.ar",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Datos Abiertos",
+    "description": "Catálogo de datasets públicos argentinos por tema."
   },
   {
     "id": "renaper",
@@ -21,6 +25,8 @@
     "category": "Identity",
     "country": "AR",
     "website": "https://www.argentina.gob.ar/interior/renaper",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Identidad",
+    "description": "Trámites de documento e identidad; no expone datos personales."
   }
 ]

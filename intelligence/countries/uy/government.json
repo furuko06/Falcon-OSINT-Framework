@@ -5,7 +5,9 @@
     "country": "UY",
     "category": "Government",
     "website": "https://www.gub.uy",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Portal de Gobierno",
+    "description": "Portal central con trámites, organismos y datos públicos de Uruguay."
   },
   {
     "id": "uy_agesic",
@@ -13,6 +15,8 @@
     "country": "UY",
     "category": "Government",
     "website": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Gobierno Digital",
+    "description": "Agencia de gobierno electrónico: servicios digitales y datos abiertos."
   }
 ]

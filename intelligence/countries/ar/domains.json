@@ -5,6 +5,8 @@
     "country": "AR",
     "category": "Domains",
     "website": "https://nic.ar",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Registro de Dominios",
+    "description": "Consulta la titularidad de dominios .ar y el estado del registro."
   }
 ]

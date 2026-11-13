@@ -5,6 +5,8 @@
     "country": "AR",
     "category": "People",
     "website": "https://www.padron.gob.ar",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Registro Electoral",
+    "description": "Consulta el padrón electoral por documento, con base legal y uso restringido."
   }
 ]

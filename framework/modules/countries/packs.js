@@ -25,11 +25,11 @@ export function detectCountry(locale = "", packs = COUNTRY_PACKS) {
     return byLang ? byLang.code : "GLOBAL";
 }
 
+/** Global is the default pack: every tool stays visible until the analyst picks a country. */
 export function getCountry(packs = COUNTRY_PACKS) {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
     if (saved && packs.some(p => p.code === saved)) return saved;
-    const browser = typeof navigator !== "undefined" ? navigator.language : "";
-    return detectCountry(browser, packs);
+    return "GLOBAL";
 }
 
 export function setCountry(code) {

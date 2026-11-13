@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { COUNTRY_PACKS, detectCountry, countryToolCount } from "../framework/modules/countries/packs.js";
+import { COUNTRY_PACKS, detectCountry, getCountry, countryToolCount } from "../framework/modules/countries/packs.js";
 
 describe("country packs", () => {
     it("detects an exact locale match", () => {
@@ -26,5 +26,19 @@ describe("country packs", () => {
     it("covers the five countries of the spec plus Global", () => {
         const codes = COUNTRY_PACKS.map(p => p.code).sort();
         expect(codes).toEqual(["AR", "BR", "CL", "GLOBAL", "MX", "UY"]);
+    });
+
+    it("defaults to GLOBAL instead of guessing a pack from the browser locale", () => {
+        const saved = new Map();
+        globalThis.localStorage = {
+            getItem: k => (saved.has(k) ? saved.get(k) : null),
+            setItem: (k, v) => saved.set(k, String(v)),
+            removeItem: k => saved.delete(k)
+        };
+        expect(getCountry()).toBe("GLOBAL");
+        saved.set("falcon:country", "AR");
+        expect(getCountry()).toBe("AR");
+        saved.set("falcon:country", "ZZ");
+        expect(getCountry()).toBe("GLOBAL");
     });
 });

@@ -5,7 +5,9 @@
     "country": "MX",
     "category": "Government",
     "website": "https://www.gob.mx",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Portal de Gobierno",
+    "description": "Portal central con trámites, dependencias y publicaciones del gobierno mexicano."
   },
   {
     "id": "mx_sat",
@@ -13,7 +15,9 @@
     "country": "MX",
     "category": "Companies",
     "website": "https://www.gob.mx/sat",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Registro Fiscal",
+    "description": "Autoridad fiscal mexicana: RFC, obligaciones y situación fiscal."
   },
   {
     "id": "mx_cnbv",
@@ -21,6 +25,8 @@
     "country": "MX",
     "category": "Companies",
     "website": "https://www.gob.mx/cnbv",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Regulación Financiera",
+    "description": "Regula y supervisa entidades financieras; incluye registros y sanciones."
   }
 ]

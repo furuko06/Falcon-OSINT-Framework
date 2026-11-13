@@ -14,6 +14,7 @@ import {
     downloadText
 } from "./collections.js";
 import { ExplorerState } from "../explorer/state.js";
+import { collapsibleGroup, bindCollapsibles } from "../../ui/collapse.js";
 
 function esc(value) {
     return String(value ?? "").replace(/[&<>"']/g, c => ({
@@ -27,6 +28,12 @@ export function renderCollectionsPanel(container) {
     const cols = getCollections();
     const selected = cols.find(c => c.id === selectedId) || null;
 
+    const list = cols.map(c => `
+        <button class="sidebar-item ${c.id === selectedId ? "active" : ""}" data-col="${esc(c.id)}">
+            <span>${esc(c.name)}</span>
+            <span class="count">${c.toolIds.length}</span>
+        </button>`).join("") || `<p class="collections-empty">Aún no tienes colecciones.</p>`;
+
     container.innerHTML = `
         <div class="sidebar-section collections-section">
             <h3>Collections</h3>
@@ -34,11 +41,9 @@ export function renderCollectionsPanel(container) {
                 <input id="collection-name" type="text" placeholder="Nueva colección" aria-label="Nombre de la colección" maxlength="60" />
                 <button type="submit" class="btn-small">+ Crear</button>
             </form>
-            ${cols.map(c => `
-                <button class="sidebar-item ${c.id === selectedId ? "active" : ""}" data-col="${esc(c.id)}">
-                    <span>${esc(c.name)}</span>
-                    <span class="count">${c.toolIds.length}</span>
-                </button>`).join("") || `<p class="collections-empty">Aún no tienes colecciones.</p>`}
+            ${cols.length > 1
+                ? collapsibleGroup({ id: "collections-list", title: "Tus colecciones", count: cols.length, body: list })
+                : list}
         </div>
         ${selected ? renderDetail(selected) : ""}
     `;
@@ -61,6 +66,8 @@ export function renderCollectionsPanel(container) {
             renderCollectionsPanel(container);
         });
     });
+
+    bindCollapsibles(container);
 
     if (!selected) return;
 

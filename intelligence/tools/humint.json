@@ -3,7 +3,7 @@
     "name":"Holehe",
     "category":"HUMINT",
     "subcategory":"Email Enumeration",
-    "description":"Email account discovery across hundreds of services.",
+    "description":"Descubre cuentas asociadas a un correo en cientos de servicios.",
     "country":"GLOBAL",
     "website":"https://github.com/megadose/holehe",
     "github":"megadose/holehe",
@@ -19,7 +19,7 @@
     "name":"Sherlock",
     "category":"HUMINT",
     "subcategory":"Username Enumeration",
-    "description":"Username enumeration across social platforms.",
+    "description":"Enumeración de nombres de usuario en redes sociales.",
     "country":"GLOBAL",
     "website":"https://github.com/sherlock-project/sherlock",
     "github":"sherlock-project/sherlock",
@@ -33,12 +33,14 @@
     "name":"Maigret",
     "category":"HUMINT",
     "subcategory":"Username Enumeration",
-    "description":"Advanced username investigation tool.",
+    "description":"Investigación avanzada de nombres de usuario con reporte detallado.",
     "country":"GLOBAL",
     "website":"https://github.com/soxoj/maigret",
     "github":"soxoj/maigret",
     "offline":true,
     "quality_score":94,
     "opsec_score":91
-  }
+  },
+  {"name":"Emailrep","category":"Email","subcategory":"Reputation","description":"Reputación y presencia pública de una dirección de correo.","country":"GLOBAL","website":"https://emailrep.io","offline":false,"api":true,"docker":false,"quality_score":80,"opsec_score":85,"status":"verified"},
+  {"name":"Hunter.io","category":"Email","subcategory":"Email Discovery","description":"Descubre patrones de correo corporativo y verifica su formato.","country":"GLOBAL","website":"https://hunter.io","offline":false,"api":true,"docker":false,"quality_score":83,"opsec_score":70,"status":"verified"}
 ]

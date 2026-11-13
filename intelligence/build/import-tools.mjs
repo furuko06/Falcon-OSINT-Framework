@@ -17,29 +17,44 @@ const INTEGER_COLUMNS = new Set([
     "offline", "api", "docker", "vpn_friendly", "tor_friendly", "opsec_score", "quality_score"
 ]);
 
-export function readToolFiles(root = ROOT) {
-    const dir = path.join(root, "tools");
+function jsonFiles(dir) {
     if (!fs.existsSync(dir)) return [];
     return fs.readdirSync(dir)
         .filter(f => f.endsWith(".json"))
-        .flatMap(f => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8").replace(/^\uFEFF/, "")));
+        .map(f => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8").replace(/^\uFEFF/, "")));
+}
+
+/** Reads the global catalog plus every country pack, so the database stays reproducible from JSON. */
+export function readToolFiles(root = ROOT) {
+    const countries = path.join(root, "countries");
+    const packs = fs.existsSync(countries)
+        ? fs.readdirSync(countries, { withFileTypes: true })
+            .filter(entry => entry.isDirectory())
+            .flatMap(entry => jsonFiles(path.join(countries, entry.name)))
+        : [];
+    return [...jsonFiles(path.join(root, "tools")).flat(), ...packs.flat()];
 }
 
 export function importTools(db, tools) {
-    const existing = new Set(
-        (db.exec("SELECT name FROM tools")[0]?.values ?? []).map(r => String(r[0]).toLowerCase())
-    );
-    const stmt = db.prepare(
+    const existing = new Map();
+    const rows = db.exec(`SELECT id, ${COLUMNS.join(",")} FROM tools`)[0];
+    for (const row of rows?.values ?? []) {
+        const [id, ...values] = row;
+        existing.set(String(values[0]).toLowerCase(), { id, values });
+    }
+
+    const insert = db.prepare(
         `INSERT INTO tools (${COLUMNS.join(",")}) VALUES (${COLUMNS.map(() => "?").join(",")})`
     );
+    const update = db.prepare(
+        `UPDATE tools SET ${COLUMNS.map(c => `${c} = ?`).join(", ")} WHERE id = ?`
+    );
+
     let inserted = 0;
+    let updated = 0;
     let skipped = 0;
+
     for (const tool of tools) {
-        const key = String(tool.name).toLowerCase();
-        if (existing.has(key)) {
-            skipped++;
-            continue;
-        }
         const values = COLUMNS.map(c => {
             const v = tool[c];
             if (typeof v === "boolean") return v ? 1 : 0;
@@ -47,21 +62,47 @@ export function importTools(db, tools) {
             if (c === "status") return "verified";
             return INTEGER_COLUMNS.has(c) ? 0 : null;
         });
-        stmt.run(values);
-        existing.add(key);
-        inserted++;
+        const key = String(tool.name).toLowerCase();
+        const current = existing.get(key);
+
+        if (!current) {
+            insert.run(values);
+            existing.set(key, { values });
+            inserted++;
+            continue;
+        }
+
+        // Duplicate name inside the same JSON batch: the first entry wins.
+        if (current.id === undefined) {
+            skipped++;
+            continue;
+        }
+
+        const changed = COLUMNS.some((column, index) =>
+            String(current.values[index] ?? "") !== String(values[index] ?? "")
+        );
+        if (!changed) {
+            skipped++;
+            continue;
+        }
+
+        update.run([...values, current.id]);
+        current.values = values;
+        updated++;
     }
-    stmt.free();
-    return { inserted, skipped };
+
+    insert.free();
+    update.free();
+    return { inserted, updated, skipped };
 }
 
 async function main() {
     const SQL = await initSqlJs({ locateFile: f => path.resolve("node_modules/sql.js/dist", f) });
     const db = new SQL.Database(fs.readFileSync(DB_PATH));
-    const { inserted, skipped } = importTools(db, readToolFiles());
+    const { inserted, updated, skipped } = importTools(db, readToolFiles());
     fs.writeFileSync(DB_PATH, Buffer.from(db.export()));
     db.close();
-    console.log(`Imported tools: ${inserted} inserted, ${skipped} already present.`);
+    console.log(`Imported tools: ${inserted} inserted, ${updated} updated, ${skipped} unchanged.`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

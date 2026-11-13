@@ -5,6 +5,8 @@
     "country": "CL",
     "category": "Companies",
     "website": "https://www.sii.cl",
-    "status": "verified"
+    "status": "verified",
+    "subcategory": "Registro Fiscal",
+    "description": "Servicio de Impuestos Internos de Chile: situación tributaria de empresas y personas."
   }
 ]

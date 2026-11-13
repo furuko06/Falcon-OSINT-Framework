@@ -737,3 +737,38 @@ body{
 .ioc-error{color:var(--danger);font-size:13px;min-height:16px;margin:0;}
 .ioc-severity-critica{color:#FCA5A5;background:rgba(239,68,68,.18);}
 .ioc-severity-alta{color:#FDBA74;background:rgba(249,115,22,.18);}
+
+/* ==========================================================
+   UI - Grupos colapsables (menús con más de una opción)
+   ========================================================== */
+.collapse > summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;padding:2px 0 8px;font-size:12px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.08em;}
+.collapse > summary::-webkit-details-marker{display:none;}
+.collapse-title{flex:1;}
+.collapse-count{font-size:11px;color:#6EA8FE;}
+.collapse-chevron{font-size:10px;transition:transform .15s ease;}
+.collapse[open] > summary .collapse-chevron{transform:rotate(90deg);}
+.collapse > summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px;}
+.collapse-body{display:flex;flex-direction:column;}
+.collapse-body > .sidebar-item:last-child{margin-bottom:0;}
+
+/* ==========================================================
+   E11 - Academy
+   ========================================================== */
+.academy-panel{display:flex;flex-direction:column;gap:14px;}
+.academy-stats{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--text-soft);}
+.academy-lesson,.academy-lab{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+.academy-lesson > summary{cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-weight:600;}
+.academy-level{margin-left:auto;font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.06em;}
+.academy-lesson ul{padding-left:20px;font-size:13px;}
+.academy-lesson p{font-size:13px;}
+.academy-lab h3{margin:0 0 6px;font-size:14px;}
+.academy-lab > p{font-size:13px;color:var(--text-soft);}
+.academy-done{color:var(--success);font-size:12px;}
+.academy-steps{list-style:none;margin:10px 0;padding:0;display:grid;gap:6px;}
+.academy-steps label{display:flex;gap:8px;align-items:flex-start;font-size:13px;}
+.academy-quiz{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:14px;}
+.academy-question{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+.academy-question legend{font-weight:600;font-size:14px;margin-bottom:4px;}
+.academy-question label{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text-soft);}
+.academy-result{font-size:13px;}
+.academy-result ul{padding-left:20px;}

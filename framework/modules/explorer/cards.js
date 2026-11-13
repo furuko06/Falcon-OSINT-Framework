@@ -78,7 +78,7 @@ export function renderCards(container, tools) {
                 <span class="badge">${tool.category}</span>
                 ${tool.country ? `<span class="badge">${tool.country}</span>` : ""}
             </div>
-            <div class="tool-description">${tool.description || "No description available."}</div>
+            <div class="tool-description">${tool.description || "Sin descripción registrada."}</div>
             <div class="badges">
                 ${Number(tool.offline) ? '<span class="badge offline">Offline</span>' : ""}
                 ${Number(tool.docker) ? '<span class="badge docker">Docker</span>' : ""}

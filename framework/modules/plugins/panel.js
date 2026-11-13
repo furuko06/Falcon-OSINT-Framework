@@ -4,6 +4,7 @@
 import { listMarketplace } from "./marketplace.js";
 import { installPlugin, updatePlugin, removePlugin } from "./sdk.js";
 import { PLUGIN_CATALOG } from "./catalog.js";
+import { collapsibleGroup, bindCollapsibles } from "../../ui/collapse.js";
 
 function esc(value) {
     return String(value ?? "").replace(/[&<>"']/g, c => ({
@@ -32,12 +33,16 @@ function renderEntry(entry) {
 
 export function renderMarketplacePanel(container) {
     const { entries, rejected } = listMarketplace(PLUGIN_CATALOG);
+    const list = entries.map(renderEntry).join("");
     container.innerHTML = `
         <div class="sidebar-section plugins-section">
-            <h3>Marketplace</h3>
-            ${entries.map(renderEntry).join("")}
+            ${entries.length > 1
+                ? collapsibleGroup({ id: "marketplace", title: "Marketplace", count: entries.length, body: list })
+                : `<h3>Marketplace</h3>${list}`}
             ${rejected.length ? `<p class="collections-empty">${rejected.length} entrada(s) inválida(s) omitida(s).</p>` : ""}
         </div>`;
+
+    bindCollapsibles(container);
 
     container.querySelectorAll("[data-action]").forEach(btn => {
         btn.addEventListener("click", () => {
