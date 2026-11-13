@@ -32,8 +32,6 @@ jobs:
           cp database/falcon.db dist/database/
           cp node_modules/sql.js/dist/sql-wasm.wasm dist/node_modules/sql.js/dist/
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
