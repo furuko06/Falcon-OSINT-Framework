@@ -8,6 +8,28 @@ alpha releases and will be called out explicitly.
 
 ## [Unreleased]
 
+## [0.7.0-beta] - 2026-11-13
+
+### Added
+
+- 17 catalog entries so no category ships with fewer than five tools:
+  Identity (GLEIF LEI Search, OFAC Sanctions Search, EU Sanctions Map,
+  OpenOwnership), Open Data (UNdata, World Bank Open Data, Eurostat, Data.gov),
+  Username (Namechk, social-analyzer, Instant Username Search, UserSearch.org),
+  Video (yt-dlp, Watch Frame by Frame, MediaInfo) and Government (Federal
+  Register, EUR-Lex). Every new entry records `last_verified`.
+- `createLoader` unit coverage for the shared database open, including retry
+  after a failure and reset.
+- Release debug sprint log (`docs/audits/DEBUG_SPRINTS_0.7.md`) recording the
+  four sprints, including the duplicate-name rollback from sprint 1.
+
+### Changed
+
+- Version `0.7.0-beta` across the app shell, settings, assistant, backup format
+  and documentation.
+- Catalog grows from 165 to 182 tools; the performance report labels the heap
+  measurement by name instead of a hardcoded count.
+
 ## [0.6.0-beta] - 2026-11-13
 
 ### Added

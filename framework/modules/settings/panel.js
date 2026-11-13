@@ -15,7 +15,7 @@ import {
     restoreBackup
 } from "./backup.js";
 
-const APP_VERSION = "0.6.0-beta";
+const APP_VERSION = "0.7.0-beta";
 
 function esc(value) {
     return String(value ?? "").replace(/[&<>"']/g, c => ({

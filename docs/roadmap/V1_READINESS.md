@@ -25,11 +25,11 @@ Anything that cannot meet those promises stays behind a beta label.
 
 | Area | Current state | Evidence |
 | --- | --- | --- |
-| Version | `0.6.0-beta` | `package.json` |
-| Catalog | 165 tools across 9 packs | `npm run db:import`, SQLite `tools` |
+| Version | `0.7.0-beta` | `package.json` |
+| Catalog | 182 tools across 9 packs | `npm run db:import`, SQLite `tools` |
 | Schema | Version 2 with recorded migrations; legacy empty metadata repaired | `tests/migrations.test.js`, `database/falcon.db` |
-| Tests | 112 unit/integration tests | `npx vitest run` |
-| Production build | Vite build prepares DB, WASM and service worker | 165 cards, no 404s |
+| Tests | 117 unit/integration tests | `npx vitest run` |
+| Production build | Vite build prepares DB, WASM and service worker | 182 cards, no 404s |
 | Offline shell | Precache verified with the browser network disabled | `tests` + browser smoke |
 | Assistant | Local retrieval, Ollama option, OpenRouter OAuth PKCE and query test | `tests/openrouter.test.js`, browser smoke |
 | Query audit | Environment, exact context, sources and prompt kept in local history | `tests/context-backup.test.js` |
@@ -64,7 +64,9 @@ Every gate needs a reproducible artifact, not a verbal claim.
       for every entry.
 
 **Current:** migrations, legacy metadata repair and documented backup/restore
-are delivered. Invalid-row atomicity and catalog provenance remain open.
+are delivered. The 17 entries added in 0.7 carry `last_verified`; the older 165
+still have no verification date, so the health dashboard only counts the dated
+ones. Invalid-row atomicity and full catalog provenance remain open.
 
 ### G2. Offline and recovery
 
@@ -74,7 +76,7 @@ are delivered. Invalid-row atomicity and catalog provenance remain open.
 - [ ] Source-link health checks run on a schedule and never block offline use.
 - [x] Versioned cache invalidation so an upgrade does not serve stale assets.
 
-**Current:** the browser passed an offline reload with 165 tools and schema 2.
+**Current:** the browser passed an offline reload with 182 tools and schema 2.
 A failed download, corrupt file or failed migration now renders a recoverable
 panel (retry plus cache/service-worker reset that preserves `localStorage`) and
 is covered by `tests/database-recovery.test.js`. Scheduled link checks that never
@@ -114,12 +116,12 @@ screen-reader pass is still required.
 ### G5. Performance budgets
 
 - [ ] Measured budgets on a mid-range laptop: time to first catalog render,
-      database open time, memory after 165 tools and 1,000 tools.
+      database open time, memory after the full catalog and 1,000 tools.
 - [x] Bundle and database size tracked per release; regressions fail CI.
 - [x] Assistant retrieval stays under 100 ms for a 1,000-document corpus.
 
 **Current:** `npm run gates` measures catalog render, database open, bundle,
-CSS and `dist` size, heap with 165 tools and retrieval over 1,000 documents on
+CSS and `dist` size, heap with the full catalog and retrieval over 1,000 documents on
 every release. Heap with 1,000 tools is still unmeasured.
 
 ### G6. Stable contracts
@@ -180,6 +182,7 @@ Signed release artifacts and the upgrade/rollback guide are still missing.
 | `0.4.0-beta` | Contracts | G6 schemas and plugin permissions frozen as beta, G5 budgets measured |
 | `0.5.0-beta` | Trust | G3 threat model/CSP, G7 evaluation harness and real model run, G9 review started |
 | `0.6.0-beta` | Recovery and trust | G2 corrupt-database recovery and G3 threat model delivered; runtime plugin enforcement and data retention remain |
+| `0.7.0-beta` | Catalog balance | Every category has at least five verified tools (182 total); no category depends on a single source |
 | `0.9.0-rc` | Freeze | All must gates green, docs and upgrade/rollback guides complete, no open criticals |
 | `1.0.0` | Promise | Sign-off on every gate, tagged release, published compatibility statement |
 
@@ -192,7 +195,7 @@ it cannot be silently dropped. If a gate fails at `0.9.0-rc`, the release become
 | Risk | Impact | Mitigation |
 | --- | --- | --- |
 | Browser SQLite growth or corruption | Loss of workspace | Backup/export, integrity check, migration tests |
-| Link rot in 165+ sources | Stale investigations | Scheduled health checks, last-verified dates |
+| Link rot in 182+ sources | Stale investigations | Scheduled health checks, last-verified dates |
 | Plugin permissions are cosmetic | Local data exposure | Runtime enforcement, capability tests |
 | Local model hallucination | False confidence | Citations, refusal cases, model badges, evaluation set |
 | Scope creep before 1.0 | Delay and unstable contracts | Gate-based roadmap, freeze dates, no new packs without provenance |

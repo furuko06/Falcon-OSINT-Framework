@@ -1,7 +1,7 @@
 # Release gates
 
-- Fecha: 2026-11-13T21:35:22.464Z
-- Versión: 0.6.0-beta
+- Fecha: 2026-11-13T21:58:15.015Z
+- Versión: 0.7.0-beta
 - Estado global: **PASS_WITH_BLOCKED**
 - Gate real: informativo (BLOCKED no bloquea el build)
 

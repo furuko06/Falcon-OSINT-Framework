@@ -7,7 +7,7 @@ Markdown
 >
 > Versión: UI/UX Spec v1.0
 >
-> Estado del proyecto: **v0.6 Beta** (ver `docs/roadmap/V1_READINESS.md`)
+> Estado del proyecto: **v0.7 Beta** (ver `docs/roadmap/V1_READINESS.md`)
 
 ---
 

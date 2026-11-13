@@ -1,7 +1,7 @@
 # Evaluación del asistente
 
-- Fecha: 2026-11-13T21:35:22.119Z
-- Versión: 0.6.0-beta
+- Fecha: 2026-11-13T21:58:14.239Z
+- Versión: 0.7.0-beta
 - Dataset: `evaluation/model-eval.json` (11 casos)
 - Entorno: Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz, 8 cores, 7.7 GB RAM
 - Gate offline: **PASS**
@@ -43,7 +43,7 @@ Sin fallos offline.
 
 | Proveedor | Modelo | Citas | Rechazo | Inyección | Errores | Estado |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| ollama | `llama3.2:1b` | 0 | null | null | 0 | BLOCKED |
+| ollama | `llama3.2:1b` | 1 | null | null | 0 | BLOCKED |
 | ollama | `qwen2.5:0.5b` | null | null | null | 0 | BLOCKED |
 
 Ejecución BLOCKED: llama3.2:1b: presupuesto de 60000 ms agotado después de 1/11 casos; qwen2.5:0.5b: presupuesto de 60000 ms agotado después de 0/11 casos. Los casos sin medir o sin respuesta del proveedor no cuentan como aprobados. Revisá que Ollama (o la clave de OpenRouter) esté operativo; si el motivo es el presupuesto de tiempo, aumentá `FALCON_EVAL_MAX_MS`.

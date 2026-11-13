@@ -1,0 +1,6 @@
+[
+  {"name":"UNdata","category":"Open Data","subcategory":"Statistics","description":"Estadísticas oficiales de Naciones Unidas por país e indicador.","country":"GLOBAL","website":"https://data.un.org","offline":false,"api":true,"docker":false,"quality_score":87,"opsec_score":85,"status":"verified","last_verified":"2026-11-13"},
+  {"name":"World Bank Open Data","category":"Open Data","subcategory":"Statistics","description":"Series socioeconómicas y de desarrollo por país con histórico largo.","country":"GLOBAL","website":"https://data.worldbank.org","offline":false,"api":true,"docker":false,"quality_score":89,"opsec_score":85,"status":"verified","last_verified":"2026-11-13"},
+  {"name":"Eurostat","category":"Open Data","subcategory":"Statistics","description":"Estadísticas armonizadas de la Unión Europea y sus regiones.","country":"EU","website":"https://ec.europa.eu/eurostat","offline":false,"api":true,"docker":false,"quality_score":85,"opsec_score":85,"status":"verified","last_verified":"2026-11-13"},
+  {"name":"Data.gov","category":"Open Data","subcategory":"Portals","description":"Catálogo federal de datos abiertos de Estados Unidos.","country":"US","website":"https://data.gov","offline":false,"api":true,"docker":false,"quality_score":83,"opsec_score":85,"status":"verified","last_verified":"2026-11-13"}
+]

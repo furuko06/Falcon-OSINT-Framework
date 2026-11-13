@@ -1,0 +1,4 @@
+[
+  {"name":"Federal Register","category":"Government","subcategory":"Official Gazette","description":"Publicaciones oficiales diarias del gobierno de Estados Unidos.","country":"US","website":"https://www.federalregister.gov","offline":false,"api":true,"docker":false,"quality_score":88,"opsec_score":85,"status":"verified","last_verified":"2026-11-13"},
+  {"name":"EUR-Lex","category":"Government","subcategory":"Legislation","description":"Legislación y documentos oficiales de la Unión Europea con histórico.","country":"EU","website":"https://eur-lex.europa.eu","offline":false,"api":true,"docker":false,"quality_score":89,"opsec_score":85,"status":"verified","last_verified":"2026-11-13"}
+]

@@ -196,7 +196,7 @@ function evaluate(metrics) {
         { id: "jsGzipKb", label: "JavaScript gzip", measured: metrics.sizes.jsGzipKb, budget: BUDGETS.jsGzipKb, unit: "KB", rule: "max" },
         { id: "cssGzipKb", label: "CSS gzip", measured: metrics.sizes.cssGzipKb, budget: BUDGETS.cssGzipKb, unit: "KB", rule: "max" },
         { id: "totalDistKb", label: "Artefacto dist completo", measured: metrics.sizes.totalDistKb, budget: BUDGETS.totalDistKb, unit: "KB", rule: "max" },
-        { id: "heap165Mb", label: "Heap con 165 herramientas", measured: metrics.browser.heapBytes == null ? null : round(metrics.browser.heapBytes / (1024 * 1024)), budget: BUDGETS.heap165Mb, unit: "MB", rule: "max" },
+        { id: "heap165Mb", label: "Heap con el catálogo completo", measured: metrics.browser.heapBytes == null ? null : round(metrics.browser.heapBytes / (1024 * 1024)), budget: BUDGETS.heap165Mb, unit: "MB", rule: "max" },
         { id: "heap1000DocsMb", label: "Heap corpus de 1.000 documentos", measured: metrics.retrieval1000.deltaMb, budget: BUDGETS.heap1000DocsMb, unit: "MB", rule: "max" }
     ];
     for (const check of checks) {
