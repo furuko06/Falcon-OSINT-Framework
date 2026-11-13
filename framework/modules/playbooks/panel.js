@@ -57,6 +57,8 @@ function renderDetail(playbook) {
                         ${esc(item)}
                     </label></li>`).join("")}
             </ul>
+            <h4>Herramientas</h4>
+            <ul>${(playbook.tools || []).map(t => `<li><a href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.name)}</a></li>`).join("")}</ul>
             <h4>Recursos</h4>
             <ul>${playbook.resources.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
             <div class="playbook-actions">
@@ -83,7 +85,10 @@ export function renderPlaybooksPanel(container, selectedId = PLAYBOOKS[0].id) {
         </section>`;
 
     container.querySelectorAll("[data-playbook]").forEach(btn => {
-        btn.addEventListener("click", () => renderPlaybooksPanel(container, btn.dataset.playbook));
+        btn.addEventListener("click", () => {
+            renderPlaybooksPanel(container, btn.dataset.playbook);
+            container.querySelector(".playbook-detail")?.scrollIntoView({ block: "start", behavior: "smooth" });
+        });
     });
 
     container.querySelectorAll("[data-state]").forEach(btn => {

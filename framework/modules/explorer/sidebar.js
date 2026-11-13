@@ -22,6 +22,9 @@ export function renderSidebar(container, state = ExplorerState) {
     container.innerHTML = `
         <div class="sidebar-section">
             <h3>Workspace</h3>
+            <button class="sidebar-item ${!state.panel ? "active" : ""}" data-action="home" aria-pressed="${!state.panel}">
+                <span>⌂ Home</span>
+            </button>
             <button class="sidebar-item ${favActive ? "active" : ""}" data-action="favorites" aria-pressed="${favActive}">
                 <span>★ Favorites</span>
                 <span class="count">${state.favorites.size}</span>
@@ -47,12 +50,12 @@ export function renderSidebar(container, state = ExplorerState) {
         <div id="marketplace-host"></div>
         <div class="sidebar-section">
             <h3>Salud</h3>
-            <button class="sidebar-item" data-action="health" aria-pressed="false"><span>Health Engine</span></button>
+            <button class="sidebar-item ${state.panel === "health" ? "active" : ""}" data-action="health" aria-pressed="${state.panel === "health"}"><span>Health Engine</span></button>
         </div>
         <div class="sidebar-section">
             <h3>Investigación</h3>
-            <button class="sidebar-item" data-action="playbooks" aria-pressed="false"><span>Playbooks</span></button>
-            <button class="sidebar-item" data-action="graph" aria-pressed="false"><span>Knowledge Graph</span></button>
+            <button class="sidebar-item ${state.panel === "playbooks" ? "active" : ""}" data-action="playbooks" aria-pressed="${state.panel === "playbooks"}"><span>Playbooks</span></button>
+            <button class="sidebar-item ${state.panel === "graph" ? "active" : ""}" data-action="graph" aria-pressed="${state.panel === "graph"}"><span>Knowledge Graph</span></button>
         </div>
         <div class="sidebar-footer">
             <span>Falcon v0.1-alpha</span>

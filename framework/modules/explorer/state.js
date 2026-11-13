@@ -23,6 +23,7 @@ export const ExplorerState = {
     initialized: false,
     theme: "dark",
     view: localStorage.getItem("falcon-view") || "grid",
+    panel: null,
     sort: "name",
     query: "",
     filters: { ...DEFAULT_FILTERS },

@@ -32,21 +32,38 @@ export async function initializeExplorer() {
         playbooks: renderPlaybooksPanel,
         graph: renderGraphPanel
     };
-    const activeView = { name: null };
-
-    sidebar.addEventListener("click", e => {
-        const btn = e.target.closest("[data-action]");
-        if (!btn || !views[btn.dataset.action]) return;
-        const name = btn.dataset.action;
-        const open = activeView.name !== name;
-        activeView.name = open ? name : null;
-        healthView.style.display = open ? "" : "none";
-        cards.style.display = open ? "none" : "";
-        if (open) views[name](healthView);
-    });
 
     const dashboard = createDashboardSection();
     toolbar.before(dashboard);
+
+    const showPanel = name => {
+        if (name) views[name](healthView);
+        healthView.style.display = name ? "" : "none";
+        cards.style.display = name ? "none" : "";
+        dashboard.style.display = name ? "none" : "";
+        updateState({ panel: name || null });
+        if (name) {
+            healthView.scrollIntoView({ block: "start", behavior: "smooth" });
+        } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    };
+
+    sidebar.addEventListener("click", e => {
+        const btn = e.target.closest("[data-action]");
+        if (btn) {
+            const action = btn.dataset.action;
+            if (action === "home") return showPanel(null);
+            if (views[action]) return showPanel(ExplorerState.panel === action ? null : action);
+            if (action === "favorites") return showPanel(null);
+            return;
+        }
+        if (e.target.closest("[data-category]")) showPanel(null);
+    });
+
+    sidebar.addEventListener("change", e => {
+        if (e.target.closest("#country-select")) showPanel(null);
+    });
 
     renderToolbar(toolbar);
     await initializeDashboard(dashboard);

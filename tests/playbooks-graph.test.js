@@ -23,24 +23,30 @@ describe("playbooks (E8)", () => {
 
     it("ships the investigation playbooks, each with a valid tactic", () => {
         const tactics = playbooks.TACTICS.map(t => t.id);
-        expect(playbooks.PLAYBOOKS.map(p => p.id)).toEqual([
-            "username", "email", "domain", "telegram", "company",
-            "image-person", "image-place", "image-freshness", "news-old-image",
-            "disinfo-claim", "crypto-tracing", "money-corporate", "scam-rug-pull"
-        ]);
+        expect(playbooks.PLAYBOOKS).toHaveLength(48);
+        expect(new Set(playbooks.PLAYBOOKS.map(p => p.id)).size).toBe(48);
+        expect(playbooks.PLAYBOOKS.map(p => p.id)).toEqual(expect.arrayContaining([
+            "username", "email-osint", "domain", "telegram", "company",
+            "missing-person-photo", "image-person", "image-place", "image-freshness",
+            "news-old-image", "disinfo-claim", "crypto-tracing", "money-corporate",
+            "scam-rug-pull", "flight-tracking", "vessel-tracking", "social-monitoring"
+        ]));
         for (const p of playbooks.PLAYBOOKS) {
             expect(tactics).toContain(p.tactic);
             expect(p.steps.length).toBeGreaterThan(0);
             expect(p.checklist.length).toBeGreaterThan(0);
+            expect(p.tools.length).toBeGreaterThan(0);
+            for (const tool of p.tools) expect(tool.url).toMatch(/^https:\/\//);
         }
+        expect(tactics).toContain("dynamic");
     });
 
     it("stores state and favorite per playbook", () => {
-        playbooks.setPlaybookState("email", "in_progress");
-        playbooks.togglePlaybookFavorite("email");
-        expect(playbooks.getProgress("email")).toMatchObject({ state: "in_progress", favorite: true });
-        playbooks.setPlaybookState("email", null);
-        expect(playbooks.getProgress("email").state).toBeNull();
+        playbooks.setPlaybookState("email-osint", "in_progress");
+        playbooks.togglePlaybookFavorite("email-osint");
+        expect(playbooks.getProgress("email-osint")).toMatchObject({ state: "in_progress", favorite: true });
+        playbooks.setPlaybookState("email-osint", null);
+        expect(playbooks.getProgress("email-osint").state).toBeNull();
     });
 
     it("toggles checklist items", () => {
@@ -53,8 +59,8 @@ describe("playbooks (E8)", () => {
 
     it("rejects unknown playbooks, states and checklist items", () => {
         expect(() => playbooks.setPlaybookState("nope", "completed")).toThrow();
-        expect(() => playbooks.setPlaybookState("email", "bogus")).toThrow();
-        expect(() => playbooks.toggleChecklistItem("email", "no such item")).toThrow();
+        expect(() => playbooks.setPlaybookState("email-osint", "bogus")).toThrow();
+        expect(() => playbooks.toggleChecklistItem("email-osint", "no such item")).toThrow();
     });
 });
 
