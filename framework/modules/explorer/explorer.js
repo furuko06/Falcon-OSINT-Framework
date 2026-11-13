@@ -13,6 +13,8 @@ import { subscribeCollections } from "../collections/collections.js";
 import { renderMarketplacePanel } from "../plugins/panel.js";
 import { getCountry } from "../countries/packs.js";
 import { renderHealthPanel } from "../health/panel.js";
+import { renderPlaybooksPanel } from "../playbooks/panel.js";
+import { renderGraphPanel } from "../graph/panel.js";
 import { applyFilters } from "./filters.js";
 
 export async function initializeExplorer() {
@@ -25,13 +27,22 @@ export async function initializeExplorer() {
     healthView.style.display = "none";
     cards.before(healthView);
 
+    const views = {
+        health: renderHealthPanel,
+        playbooks: renderPlaybooksPanel,
+        graph: renderGraphPanel
+    };
+    const activeView = { name: null };
+
     sidebar.addEventListener("click", e => {
-        const btn = e.target.closest('[data-action="health"]');
-        if (!btn) return;
-        const open = healthView.style.display === "none";
+        const btn = e.target.closest("[data-action]");
+        if (!btn || !views[btn.dataset.action]) return;
+        const name = btn.dataset.action;
+        const open = activeView.name !== name;
+        activeView.name = open ? name : null;
         healthView.style.display = open ? "" : "none";
         cards.style.display = open ? "none" : "";
-        if (open) renderHealthPanel(healthView);
+        if (open) views[name](healthView);
     });
 
     const dashboard = createDashboardSection();

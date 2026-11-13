@@ -49,6 +49,11 @@ export function renderSidebar(container, state = ExplorerState) {
             <h3>Salud</h3>
             <button class="sidebar-item" data-action="health" aria-pressed="false"><span>Health Engine</span></button>
         </div>
+        <div class="sidebar-section">
+            <h3>Investigación</h3>
+            <button class="sidebar-item" data-action="playbooks" aria-pressed="false"><span>Playbooks</span></button>
+            <button class="sidebar-item" data-action="graph" aria-pressed="false"><span>Knowledge Graph</span></button>
+        </div>
         <div class="sidebar-footer">
             <span>Falcon v0.1-alpha</span>
             <span>SQLite: ${state.initialized ? "Loaded ✓" : "Loading…"}</span>
