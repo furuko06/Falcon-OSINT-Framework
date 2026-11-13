@@ -22,12 +22,25 @@ async function countDistinctToolColumn(column) {
     return firstValue(rows, "total", 0);
 }
 
+async function countToolFlag(column) {
+    const rows = await Database.query(`
+        SELECT COUNT(*) AS total
+        FROM tools
+        WHERE ${column} = 1;
+    `);
+
+    return firstValue(rows, "total", 0);
+}
+
 export async function loadDashboardStats() {
     const [
         totalTools,
         totalCategories,
         totalCountries,
-        schemaVersion
+        schemaVersion,
+        offline,
+        api,
+        docker
     ] = await Promise.all([
         countTable("tools"),
 
@@ -44,13 +57,20 @@ export async function loadDashboardStats() {
             FROM schema_version
             ORDER BY version DESC
             LIMIT 1;
-        `).catch(() => [])
+        `).catch(() => []),
+
+        countToolFlag("offline"),
+        countToolFlag("api"),
+        countToolFlag("docker")
     ]);
 
     return {
         totalTools,
         totalCategories,
         totalCountries,
+        offline,
+        api,
+        docker,
         databaseVersion: firstValue(schemaVersion, "version", "Unknown")
     };
 }
