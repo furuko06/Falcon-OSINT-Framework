@@ -8,6 +8,32 @@ alpha releases and will be called out explicitly.
 
 ## [Unreleased]
 
+## [0.6.0-beta] - 2026-11-13
+
+### Added
+
+- Recoverable database failure panel: a failed `falcon.db` download, a corrupt
+  file or a failed migration now explains what happened and offers a retry plus
+  a cache reset that unregisters the service worker without touching favorites,
+  notes, IOC, collections or settings. Classification lives in
+  `framework/database/recovery.js`, with tests in
+  `tests/database-recovery.test.js`.
+- Threat model for local data, imported backups, plugin manifests and model
+  endpoints (`docs/security/THREAT_MODEL.md`), marking every control as
+  delivered, partial or a gap instead of assuming it works.
+
+### Changed
+
+- Version `0.6.0-beta` across the app shell, settings, assistant, backup format
+  and documentation.
+
+### Fixed
+
+- `Database.initialize()` now shares one in-flight open between concurrent
+  callers, so startup downloads and migrates `falcon.db` once instead of once
+  per caller (seven redundant fetches were observed in the browser) and a
+  failed open can be retried instead of being cached.
+
 ## [0.5.0-beta] - 2026-11-13
 
 ### Added

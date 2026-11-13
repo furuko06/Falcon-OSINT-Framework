@@ -25,10 +25,10 @@ Anything that cannot meet those promises stays behind a beta label.
 
 | Area | Current state | Evidence |
 | --- | --- | --- |
-| Version | `0.5.0-beta` | `package.json` |
+| Version | `0.6.0-beta` | `package.json` |
 | Catalog | 165 tools across 9 packs | `npm run db:import`, SQLite `tools` |
 | Schema | Version 2 with recorded migrations; legacy empty metadata repaired | `tests/migrations.test.js`, `database/falcon.db` |
-| Tests | 98 unit/integration tests | `npx vitest run` |
+| Tests | 112 unit/integration tests | `npx vitest run` |
 | Production build | Vite build prepares DB, WASM and service worker | 165 cards, no 404s |
 | Offline shell | Precache verified with the browser network disabled | `tests` + browser smoke |
 | Assistant | Local retrieval, Ollama option, OpenRouter OAuth PKCE and query test | `tests/openrouter.test.js`, browser smoke |
@@ -40,6 +40,8 @@ Anything that cannot meet those promises stays behind a beta label.
 | Repository security | Secret/workflow scan, audit 0, pinned Actions, CodeQL and Dependabot | `docs/security/CIS_CONTROLS.md` |
 | Performance | Budgets measured on the production build and a 1,000-document corpus | `docs/audits/PERF_REPORT.md`, `npm run perf` |
 | AI evaluation | 11-case offline suite passes; real-model run reports `BLOCKED` with the provider error instead of a false quality failure | `docs/audits/MODEL_EVAL.md`, `npm run eval:model` |
+| Database recovery | A failed download, corrupt file or failed migration shows a recoverable panel with retry and cache reset that never deletes local data | `tests/database-recovery.test.js` |
+| Threat model | Assets, trust boundaries and threats for local data, imported files, plugins and model endpoints, with controls and accepted risks | `docs/security/THREAT_MODEL.md` |
 | API/plugin contracts | Present but not frozen or versioned as public contracts | Gap |
 | Formal audits | Accessibility and CIS alignment delivered; external security, performance and legal audits pending | Gap |
 
@@ -68,16 +70,19 @@ are delivered. Invalid-row atomicity and catalog provenance remain open.
 
 - [x] The app shell and SQLite WASM are precached; a second load works with the
       network disabled.
-- [ ] A corrupt or missing database shows a recoverable error with a reset path.
+- [x] A corrupt or missing database shows a recoverable error with a reset path.
 - [ ] Source-link health checks run on a schedule and never block offline use.
 - [x] Versioned cache invalidation so an upgrade does not serve stale assets.
 
 **Current:** the browser passed an offline reload with 165 tools and schema 2.
-Corrupt-database recovery and scheduled link checks are still missing.
+A failed download, corrupt file or failed migration now renders a recoverable
+panel (retry plus cache/service-worker reset that preserves `localStorage`) and
+is covered by `tests/database-recovery.test.js`. Scheduled link checks that never
+block offline use are still missing.
 
 ### G3. Security and privacy
 
-- [ ] Threat model covering local data, imported files, plugins and the model
+- [x] Threat model covering local data, imported files, plugins and the model
       endpoint.
 - [x] Content Security Policy compatible with SQLite WASM and the optional
       loopback model call.
@@ -88,8 +93,9 @@ Corrupt-database recovery and scheduled link checks are still missing.
 
 **Current:** CSP, secret scanning, dependency audit and credential exclusions
 are delivered; model calls require consent and OAuth keys stay in
-`sessionStorage`. Threat model, runtime plugin isolation and retention policy
-remain open.
+`sessionStorage`. The G3 threat model is documented in
+`docs/security/THREAT_MODEL.md` with each control marked partial, delivered or a
+gap. Runtime plugin isolation and the retention policy remain open.
 
 ### G4. Accessibility (WCAG 2.2 AA)
 
@@ -173,6 +179,7 @@ Signed release artifacts and the upgrade/rollback guide are still missing.
 | `0.4.0-beta` | Contracts and assurance | CSP, formal axe/keyboard audit, CIS repo controls and pinned CI delivered; G5 budgets and G6 frozen schemas remain |
 | `0.4.0-beta` | Contracts | G6 schemas and plugin permissions frozen as beta, G5 budgets measured |
 | `0.5.0-beta` | Trust | G3 threat model/CSP, G7 evaluation harness and real model run, G9 review started |
+| `0.6.0-beta` | Recovery and trust | G2 corrupt-database recovery and G3 threat model delivered; runtime plugin enforcement and data retention remain |
 | `0.9.0-rc` | Freeze | All must gates green, docs and upgrade/rollback guides complete, no open criticals |
 | `1.0.0` | Promise | Sign-off on every gate, tagged release, published compatibility statement |
 

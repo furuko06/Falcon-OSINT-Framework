@@ -61,9 +61,39 @@ class FalconDatabase {
   }
 }
 
-export const Database = {
+/** Shares one in-flight open across every concurrent caller and retries after a failure. */
+export function createLoader(open) {
+  let opening = null;
+  let ready = null;
 
-  async initialize() {
+  return {
+    async get() {
+      if (ready) return ready;
+
+      if (!opening) {
+        opening = Promise.resolve()
+          .then(open)
+          .then(value => {
+            ready = value;
+            return value;
+          })
+          .catch(error => {
+            opening = null;
+            throw error;
+          });
+      }
+
+      return opening;
+    },
+
+    reset() {
+      opening = null;
+      ready = null;
+    }
+  };
+}
+
+async function openDatabase() {
 
     if (dbInstance) return dbInstance;
 
@@ -119,6 +149,14 @@ export const Database = {
     }
 
     return dbInstance;
+}
+
+const loader = createLoader(openDatabase);
+
+export const Database = {
+
+  async initialize() {
+    return loader.get();
   },
 
   async query(sql, params = []) {

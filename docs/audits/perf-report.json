@@ -1,6 +1,6 @@
 {
-  "version": "0.5.0-beta",
-  "generated_at": "2026-11-13T18:54:04.629Z",
+  "version": "0.6.0-beta",
+  "generated_at": "2026-11-13T21:33:36.474Z",
   "environment": {
     "platform": "win32 10.0.19045",
     "cpu": "Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz",
@@ -23,35 +23,35 @@
     "url": "http://localhost:4173/",
     "browser": {
       "cards": 165,
-      "dbOpenMs": 382.8,
-      "toolsQueryMs": 42.4,
-      "catalogRenderMs": 163.7,
-      "catalogReadyMs": 573.6,
-      "fcpMs": 920,
-      "domContentLoadedMs": 150.5,
-      "heapBytes": 5528517,
+      "dbOpenMs": 400.1,
+      "toolsQueryMs": 16.7,
+      "catalogRenderMs": 83.4,
+      "catalogReadyMs": 498.3,
+      "fcpMs": 612,
+      "domContentLoadedMs": 225,
+      "heapBytes": 5595709,
       "cspErrors": 0
     },
     "sizes": {
-      "jsGzipKb": 64.98,
-      "cssGzipKb": 4.7,
-      "totalDistKb": 1626.12,
+      "jsGzipKb": 66.25,
+      "cssGzipKb": 4.93,
+      "totalDistKb": 1631.41,
       "jsFiles": 1,
       "cssFiles": 1,
       "databaseKb": 100
     },
     "retrieval": {
       "samples": 500,
-      "p50Ms": 0.854,
-      "p95Ms": 1.66,
-      "maxMs": 4.909
+      "p50Ms": 0.471,
+      "p95Ms": 0.806,
+      "maxMs": 1.428
     },
     "retrieval1000": {
       "documents": 1000,
-      "deltaMb": 0.2,
-      "p50Ms": 2.428,
-      "p95Ms": 3.689,
-      "maxMs": 6.777,
+      "deltaMb": 0.19,
+      "p50Ms": 1.304,
+      "p95Ms": 1.966,
+      "maxMs": 2.436,
       "samples": 500
     }
   },
@@ -59,7 +59,7 @@
     {
       "id": "catalogReadyMs",
       "label": "Primer render del catálogo",
-      "measured": 573.6,
+      "measured": 498.3,
       "budget": 2500,
       "unit": "ms",
       "rule": "max",
@@ -68,7 +68,7 @@
     {
       "id": "dbOpenMs",
       "label": "Apertura de SQLite",
-      "measured": 382.8,
+      "measured": 400.1,
       "budget": 1200,
       "unit": "ms",
       "rule": "max",
@@ -77,7 +77,7 @@
     {
       "id": "retrievalP95Ms",
       "label": "Retrieval p95 (1.000 docs)",
-      "measured": 1.66,
+      "measured": 0.806,
       "budget": 100,
       "unit": "ms",
       "rule": "max",
@@ -86,7 +86,7 @@
     {
       "id": "jsGzipKb",
       "label": "JavaScript gzip",
-      "measured": 64.98,
+      "measured": 66.25,
       "budget": 90,
       "unit": "KB",
       "rule": "max",
@@ -95,7 +95,7 @@
     {
       "id": "cssGzipKb",
       "label": "CSS gzip",
-      "measured": 4.7,
+      "measured": 4.93,
       "budget": 10,
       "unit": "KB",
       "rule": "max",
@@ -104,7 +104,7 @@
     {
       "id": "totalDistKb",
       "label": "Artefacto dist completo",
-      "measured": 1626.12,
+      "measured": 1631.41,
       "budget": 2500,
       "unit": "KB",
       "rule": "max",
@@ -113,7 +113,7 @@
     {
       "id": "heap165Mb",
       "label": "Heap con 165 herramientas",
-      "measured": 5.27,
+      "measured": 5.34,
       "budget": 96,
       "unit": "MB",
       "rule": "max",
@@ -122,7 +122,7 @@
     {
       "id": "heap1000DocsMb",
       "label": "Heap corpus de 1.000 documentos",
-      "measured": 0.2,
+      "measured": 0.19,
       "budget": 32,
       "unit": "MB",
       "rule": "max",

@@ -12,7 +12,7 @@ versioned so a future importer can migrate old files.
   "created_at": "2026-11-13T12:00:00.000Z",
   "app": {
     "name": "Falcon OSINT Framework",
-    "version": "0.5.0-beta",
+    "version": "0.6.0-beta",
     "schema_version": 2
   },
   "environment": {},

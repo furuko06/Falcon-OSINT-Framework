@@ -56,4 +56,4 @@ Si usás una copia local de Ollama, `OLLAMA_MODELS` debe ser una ruta absoluta.
 
 ## Estado
 
-Version: 0.5.0-beta
+Version: 0.6.0-beta

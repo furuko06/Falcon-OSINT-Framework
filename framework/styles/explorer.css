@@ -896,3 +896,20 @@ input[type="file"]{max-width:100%;color:var(--text-soft);font-size:12px;}
 .academy-question{gap:10px;}
 .academy-question label{align-items:flex-start;gap:10px;padding:2px 0;min-height:28px;}
 .academy-question input[type="radio"]{width:24px;height:24px;min-width:24px;margin:2px 0 0;accent-color:var(--accent);}
+
+
+/* ---------- Database recovery (G2) ---------- */
+.database-error{background:var(--surface);border:1px solid #7F1D1D;border-left:4px solid var(--danger,#EF4444);border-radius:12px;padding:20px;margin:16px 0;max-width:760px;}
+.database-error h2{margin:0 0 8px;font-size:18px;color:var(--text,#E5E7EB);}
+.database-error p{font-size:13px;line-height:1.6;color:var(--text-soft);margin:0 0 8px;}
+.database-error-hint{color:var(--text,#E5E7EB) !important;}
+.database-error-actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 10px;}
+.database-error-actions button{min-height:36px;padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text,#E5E7EB);font-size:13px;cursor:pointer;}
+.database-error-actions button:hover{border-color:var(--accent);}
+.database-error-actions button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.database-error-primary{background:var(--accent) !important;color:#0B1220 !important;border-color:var(--accent) !important;font-weight:600;}
+.database-error-actions button[disabled]{opacity:.6;cursor:progress;}
+.database-error-note{font-size:12px !important;}
+.database-error-detail{margin-top:12px;font-size:12px;color:var(--text-soft);}
+.database-error-detail summary{cursor:pointer;min-height:24px;}
+.database-error-detail pre{white-space:pre-wrap;word-break:break-word;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0 0;font-size:12px;}

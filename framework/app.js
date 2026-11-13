@@ -1,4 +1,5 @@
 import { initializeExplorer } from "./modules/explorer/explorer.js";
+import { renderDatabaseFailure } from "./database/recovery.js";
 
 async function registerServiceWorker() {
     if (!import.meta.env.PROD || !("serviceWorker" in navigator)) return;
@@ -46,6 +47,7 @@ window.addEventListener("DOMContentLoaded",()=>{
         .catch(error => {
             mark("falcon:explorer-error");
             console.error("No se pudo iniciar el Explorer:", error);
+            renderDatabaseFailure(document.getElementById("main-content"), error);
         });
     registerServiceWorker();
 

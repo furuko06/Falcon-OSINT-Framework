@@ -40,7 +40,7 @@ function esc(value) {
     })[c]);
 }
 
-const APP_VERSION = "0.5.0-beta";
+const APP_VERSION = "0.6.0-beta";
 
 let settings = loadAssistantSettings();
 let session = {

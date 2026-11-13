@@ -88,7 +88,7 @@ export function renderSidebar(container, state = ExplorerState) {
             <button class="sidebar-item ${state.panel === "privacy" ? "active" : ""}" data-action="privacy" aria-pressed="${state.panel === "privacy"}"><span>Políticas y privacidad</span></button>
         </div>
         <div class="sidebar-footer">
-            <span>Falcon v0.5-beta</span>
+            <span>Falcon v0.6-beta</span>
             <span>SQLite: ${state.initialized ? "Loaded ✓" : "Loading…"}</span>
         </div>
     `;

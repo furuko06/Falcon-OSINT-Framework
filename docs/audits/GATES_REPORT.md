@@ -1,7 +1,7 @@
 # Release gates
 
-- Fecha: 2026-11-13T18:56:58.846Z
-- Versión: 0.5.0-beta
+- Fecha: 2026-11-13T21:35:22.464Z
+- Versión: 0.6.0-beta
 - Estado global: **PASS_WITH_BLOCKED**
 - Gate real: informativo (BLOCKED no bloquea el build)
 
@@ -15,7 +15,7 @@
 | Presupuestos de rendimiento | PASS | PASS |
 | Auditoría de accesibilidad | PASS |  |
 | Evaluación offline del asistente | PASS | PASS |
-| Evaluación de modelo real | BLOCKED | BLOCKED: llama3.2:1b: presupuesto de 60000 ms agotado después de 2/11 casos; qwen2.5:0.5b: presupuesto de 60000 ms agotado después de 0/11 casos |
+| Evaluación de modelo real | BLOCKED | BLOCKED: llama3.2:1b: presupuesto de 60000 ms agotado después de 1/11 casos; qwen2.5:0.5b: presupuesto de 60000 ms agotado después de 0/11 casos |
 
 ## Artefactos
 
