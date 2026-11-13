@@ -1,6 +1,5 @@
 /**
- * Falcon Explorer State Store
- * E1 - Explorer Pro
+ * Falcon Explorer State Store - E1 Explorer Pro
  */
 import { loadFavorites } from "./favorites.js";
 
@@ -11,24 +10,22 @@ const DEFAULT_FILTERS = {
     categories: [],
     countries: [],
     licenses: [],
+    health: [],
     offline: false,
     docker: false,
     api: false,
     vpn: false,
     tor: false,
-    favorites: false,
-    health: []
+    favorites: false
 };
 
 export const ExplorerState = {
     initialized: false,
     theme: "dark",
-    view: "grid", // grid | list
-    sort: "name", // name | quality | opsec | country
+    view: localStorage.getItem("falcon-view") || "grid",
+    sort: "name",
     query: "",
-    filters: {
-        ...DEFAULT_FILTERS
-    },
+    filters: { ...DEFAULT_FILTERS },
     categories: [],
     countries: [],
     tools: [],
@@ -38,15 +35,14 @@ export const ExplorerState = {
         tools: 0,
         categories: 0,
         countries: 0,
+        offline: 0,
         favorites: initialFavorites.length
     }
 };
 
 export function subscribe(callback) {
     listeners.add(callback);
-    return () => {
-        listeners.delete(callback);
-    };
+    return () => listeners.delete(callback);
 }
 
 export function notify() {
@@ -66,17 +62,12 @@ export function updateState(patch) {
 }
 
 export function updateFilters(patch) {
-    ExplorerState.filters = {
-        ...ExplorerState.filters,
-        ...patch
-    };
+    ExplorerState.filters = { ...ExplorerState.filters, ...patch };
     notify();
 }
 
 export function resetFilters() {
-    ExplorerState.filters = {
-        ...DEFAULT_FILTERS
-    };
+    ExplorerState.filters = { ...DEFAULT_FILTERS };
     ExplorerState.results = [...ExplorerState.tools];
     notify();
 }
@@ -98,9 +89,7 @@ export function setSort(sort) {
 }
 
 export function setFavorites(favorites) {
-    ExplorerState.favorites = new Set(
-        [...favorites].map(id => String(id))
-    );
+    ExplorerState.favorites = new Set([...favorites].map(id => String(id)));
     ExplorerState.stats = {
         ...ExplorerState.stats,
         favorites: ExplorerState.favorites.size

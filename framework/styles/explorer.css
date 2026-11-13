@@ -637,3 +637,26 @@ body{
         flex-wrap: wrap;
     }
 }
+/* ==========================================================
+   E3 - Collections
+   ========================================================== */
+.collection-form{display:flex;gap:6px;margin-bottom:10px;}
+.collection-form input,
+.collection-field input,
+.collection-field textarea,
+.collection-add select{
+  width:100%;box-sizing:border-box;background:var(--surface);color:var(--text);
+  border:1px solid var(--border);border-radius:8px;padding:7px 9px;font-size:13px;
+}
+.collection-field{display:block;font-size:12px;color:var(--text-soft);margin-bottom:8px;}
+.collection-field textarea{resize:vertical;font-family:inherit;}
+.btn-small{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;}
+.btn-small:hover{border-color:var(--accent);}
+.btn-danger:hover{color:var(--danger);border-color:var(--danger);}
+.collection-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.collection-meta,.collections-empty{font-size:12px;color:var(--text-soft);}
+.collection-tools{margin:6px 0 0;padding-left:18px;font-size:13px;}
+.collection-menu{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text-soft);}
+.collection-add{display:flex;align-items:center;gap:6px;}
+.collection-add select{font-size:12px;padding:5px 8px;}
+.collection-chips{display:flex;flex-wrap:wrap;gap:6px;}
