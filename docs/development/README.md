@@ -6,3 +6,6 @@ Use it for setup notes, validation commands, coding conventions, release steps,
 testing strategy, design decisions, and contributor guidance that is too detailed
 for the root contributing guide.
 
+- [Backup format](BACKUP_FORMAT.md): JSON envelope, exclusions, restore rules
+  and compatibility policy.
+

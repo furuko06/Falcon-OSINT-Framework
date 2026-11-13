@@ -4,7 +4,22 @@
 import { Database } from "../../database/database.js";
 import { LESSONS, LABS } from "../academy/academy.js";
 import { PLAYBOOKS } from "../playbooks/playbooks.js";
-import { getExternalProviders, openExternalProvider } from "./connectors.js";
+import { buildEnvironment, buildQueryEnvelope, recordQuery } from "./context.js";
+import {
+    DEFAULT_MODEL,
+    askOpenRouter,
+    beginAuth,
+    cachedModels,
+    clearModelsCache,
+    disconnect,
+    fetchModels,
+    loadConnection,
+    loadPending,
+    maskKey,
+    takeAuthError,
+    testConnection,
+    updateConnectionModel
+} from "./openrouter.js";
 import {
     MAX_QUESTION_CHARS,
     MAX_NOTES_CHARS,
@@ -25,16 +40,21 @@ function esc(value) {
     })[c]);
 }
 
+const APP_VERSION = "0.3.0-alpha";
+
 let settings = loadAssistantSettings();
 let session = {
     question: "",
     notes: "",
     includeNotes: settings.includeNotes,
     consent: false,
-    externalConsent: false,
+    aiConsent: false,
     sources: [],
     offline: "",
     modelAnswer: "",
+    answerProvider: "local",
+    answerModel: "",
+    schemaVersion: null,
     triage: null,
     preview: "",
     error: "",
@@ -81,20 +101,46 @@ export async function renderAssistantPanel(container) {
         toolError = error.message;
     }
 
+    try {
+        const info = await Database.getSchemaInfo();
+        session.schemaVersion = info.version;
+    } catch {
+        session.schemaVersion = null;
+    }
+
     const documents = buildDocuments({ tools, lessons: LESSONS, labs: LABS, playbooks: PLAYBOOKS });
+    const connection = loadConnection();
+    const pending = loadPending();
+    const models = cachedModels() || [];
+    const authError = takeAuthError();
+    if (authError) session.error = authError;
+    if (connection) session.schemaVersion = session.schemaVersion ?? null;
     const answer = session.modelAnswer || session.offline;
+    const answerLabel = session.answerProvider === "openrouter"
+        ? `OpenRouter · ${session.answerModel || connection?.model || DEFAULT_MODEL}`
+        : session.modelAnswer
+            ? "Modelo local · verificá las citas"
+            : "Recuperación local · sin modelo";
+
+    const modelList = models.length
+        ? models
+        : [{ id: connection?.model || DEFAULT_MODEL, name: connection?.model || DEFAULT_MODEL }];
+    if (connection && !modelList.some(model => model.id === connection.model)) {
+        modelList.unshift({ id: connection.model, name: `${connection.model} (actual)` });
+    }
 
     container.innerHTML = `
         <section class="assistant-panel" aria-label="Asistente IA" aria-busy="${session.busy}">
             <header class="health-header">
                 <h2>Asistente IA</h2>
-                <p>Recuperación local sobre ${documents.length} entradas de catálogo, Academy y Playbooks. El modelo es opcional y sólo puede ser local.</p>
+                <p>Recuperación local sobre ${documents.length} entradas de catálogo, Academy y Playbooks. Conectá OpenRouter para consultar modelos reales con tu propia cuenta; el modelo local en Ollama sigue disponible.</p>
             </header>
 
             <div class="assistant-privacy">
-                <strong>Qué sale de este navegador:</strong> nada hasta que pulses “Preguntar al modelo local”.
-                La búsqueda y el triage funcionan sin red. Sólo se envía la pregunta, hasta 6 fragmentos locales citados
-                y —si lo marcás— las notas del caso. El endpoint debe ser <code>localhost</code>, <code>127.0.0.1</code> o <code>::1</code>.
+                <strong>Qué sale de este navegador:</strong> nada hasta que consultes un modelo. La búsqueda y el triage
+                funcionan sin red. Si consultás OpenRouter u Ollama se envía la pregunta, hasta 6 fragmentos locales
+                citados y —si lo marcás— las notas del caso. El entorno y el contexto exacto quedan en el historial
+                local y se incluyen en el backup.
             </div>
 
             <label class="assistant-field">Pregunta
@@ -117,6 +163,7 @@ export async function renderAssistantPanel(container) {
             <div class="assistant-actions">
                 <button class="btn-small" type="button" data-search ${session.busy ? "disabled" : ""}>Buscar en Falcon</button>
                 <button class="btn-small" type="button" data-ask>Preguntar al modelo local</button>
+                <button class="btn-small" type="button" data-ask-openrouter ${connection ? "" : "disabled"}>Preguntar a la IA conectada</button>
                 <button class="btn-small" type="button" data-triage>Analizar notas</button>
                 <button class="btn-small" type="button" data-preview>Previsualizar contexto</button>
                 <button class="btn-small" type="button" data-clear>Limpiar</button>
@@ -140,9 +187,9 @@ export async function renderAssistantPanel(container) {
             ${answer ? `
                 <div class="assistant-output">
                     <div class="assistant-output-head">
-                        <h3>${session.modelAnswer ? "Respuesta del modelo local" : "Respuesta local"}</h3>
+                        <h3>${session.answerProvider === "openrouter" ? "Respuesta de OpenRouter" : session.modelAnswer ? "Respuesta del modelo local" : "Respuesta local"}</h3>
                         <div class="assistant-output-tools">
-                            <span class="assistant-badge">${session.modelAnswer ? "Modelo local · verificá las citas" : "Recuperación local · sin modelo"}</span>
+                            <span class="assistant-badge">${esc(answerLabel)}</span>
                             <button class="btn-small" type="button" data-copy-answer>Copiar respuesta</button>
                         </div>
                     </div>
@@ -152,24 +199,44 @@ export async function renderAssistantPanel(container) {
 
             ${renderTriage(session.triage)}
 
-            <details class="assistant-connectors">
-                <summary>Proveedores externos: ChatGPT, Claude, Gemini y más</summary>
+            <details class="assistant-connectors" ${connection ? "open" : ""}>
+                <summary>Conectar IA (OpenRouter OAuth)</summary>
                 <p class="assistant-warning">
-                    Falcon no inicia sesión, no gestiona OAuth ni accede a Gmail. Cada botón abre el sitio del
-                    proveedor en otra ventana y copia el prompt para que lo pegues allí. Si el proveedor ofrece
-                    conectar una cuenta de Google, lo hará en su propio dominio y bajo sus términos.
+                    OpenRouter reúne modelos de OpenAI, Anthropic, Google, DeepSeek, Qwen, xAI, Mistral y más.
+                    Autorizás en openrouter.ai y volvés a Falcon: la contraseña nunca pasa por esta aplicación.
+                    Falcon no accede a Gmail ni guarda la clave en disco; vive sólo en esta pestaña.
                 </p>
-                <label class="assistant-external-consent">
-                    <input type="checkbox" id="assistant-external-consent" ${session.externalConsent ? "checked" : ""}>
-                    Entiendo que el prompt sale de Falcon y queda sujeto a la política del proveedor elegido
-                </label>
-                <div class="assistant-provider-grid">
-                    ${getExternalProviders().map(provider => `
-                        <button class="assistant-provider" type="button" data-provider="${esc(provider.id)}">
-                            <span class="assistant-provider-initial" aria-hidden="true">${esc(provider.name.slice(0, 1))}</span>
-                            <span>${esc(provider.name)}<small>${esc(provider.note)}</small></span>
-                        </button>`).join("")}
-                </div>
+                ${connection ? `
+                    <div class="assistant-connection">
+                        <span class="assistant-badge">Conectado</span>
+                        <code>${esc(maskKey(connection.key))}</code>
+                        <span class="collections-empty">${esc(connection.label)} · ${esc(connection.connected_at || "sesión actual")}</span>
+                    </div>
+                    <div class="assistant-actions">
+                        <button class="btn-small" type="button" data-test-openrouter>Probar conexión</button>
+                        <button class="btn-small" type="button" data-disconnect>Desconectar</button>
+                    </div>
+                    <div class="assistant-config-row">
+                        <label>Modelo
+                            <select id="assistant-or-model">
+                                ${modelList.map(model => `<option value="${esc(model.id)}" ${model.id === connection.model ? "selected" : ""}>${esc(model.name)}${model.context ? ` · ${Math.round(model.context / 1000)}k` : ""}${model.free ? " · gratis" : ""}</option>`).join("")}
+                            </select>
+                        </label>
+                        <button class="btn-small" type="button" data-load-models>Actualizar modelos</button>
+                    </div>
+                    <p class="collections-empty">
+                        La clave se guarda en <code>sessionStorage</code>: se borra al cerrar la pestaña y nunca entra en el backup.
+                        El modelo paga con tus créditos de OpenRouter según sus términos.
+                    </p>
+                    <label class="assistant-external-consent">
+                        <input type="checkbox" id="assistant-ai-consent" ${session.aiConsent ? "checked" : ""}>
+                        Autorizo enviar esta consulta y su contexto a OpenRouter para esta ejecución
+                    </label>
+                ` : `
+                    <p>Conectá una cuenta para probar la IA dentro de Falcon, sin copiar y pegar prompts.</p>
+                    <button class="btn-small" type="button" data-connect-openrouter>Conectar con OpenRouter</button>
+                    ${pending ? `<p class="assistant-status" role="status">Hay una autorización pendiente. Completala en OpenRouter o volvé a empezar.</p>` : ""}
+                `}
             </details>
 
             ${session.preview ? `
@@ -206,7 +273,7 @@ export async function renderAssistantPanel(container) {
         session.notes = container.querySelector("#assistant-notes").value.slice(0, MAX_NOTES_CHARS);
         session.includeNotes = container.querySelector("#assistant-include-notes").checked;
         session.consent = container.querySelector("#assistant-consent").checked;
-        session.externalConsent = container.querySelector("#assistant-external-consent").checked;
+        session.aiConsent = container.querySelector("#assistant-ai-consent")?.checked ?? false;
         settings = {
             endpoint: container.querySelector("#assistant-endpoint").value.trim(),
             model: container.querySelector("#assistant-model").value.trim(),
@@ -219,22 +286,22 @@ export async function renderAssistantPanel(container) {
     const questionInput = container.querySelector("#assistant-question");
     const notesInput = container.querySelector("#assistant-notes");
     const consentInput = container.querySelector("#assistant-consent");
-    const externalConsentInput = container.querySelector("#assistant-external-consent");
+    const aiConsentInput = container.querySelector("#assistant-ai-consent");
+    const activeConnection = loadConnection();
 
     const syncButtons = () => {
         container.querySelector("[data-ask]").disabled =
             session.busy || !consentInput.checked || !questionInput.value.trim();
+        container.querySelector("[data-ask-openrouter]").disabled =
+            session.busy || !activeConnection || !aiConsentInput?.checked || !questionInput.value.trim();
         container.querySelector("[data-triage]").disabled = !notesInput.value.trim();
         container.querySelector("[data-preview]").disabled = !questionInput.value.trim();
-        container.querySelectorAll("[data-provider]").forEach(button => {
-            button.disabled = !externalConsentInput.checked || !questionInput.value.trim();
-        });
     };
 
     questionInput.addEventListener("input", syncButtons);
     notesInput.addEventListener("input", syncButtons);
     consentInput.addEventListener("change", syncButtons);
-    externalConsentInput.addEventListener("change", syncButtons);
+    aiConsentInput?.addEventListener("change", syncButtons);
     syncButtons();
 
     const prepare = () => {
@@ -243,6 +310,8 @@ export async function renderAssistantPanel(container) {
         session.sources = sources;
         session.offline = offlineAnswer(session.question || session.notes, found);
         session.modelAnswer = "";
+        session.answerProvider = "local";
+        session.answerModel = "";
         session.preview = "";
         session.error = "";
         return { found, context, sources };
@@ -331,7 +400,23 @@ export async function renderAssistantPanel(container) {
                 allowNetwork: true
             });
             session.modelAnswer = result.text;
-            session.status = `Respuesta generada por ${result.model}. Verificá cada cita.`;
+            session.answerProvider = "local";
+            session.answerModel = result.model;
+            const envelope = buildQueryEnvelope({
+                question: session.question,
+                notes: session.notes,
+                includeNotes: session.includeNotes,
+                sources: session.sources,
+                context,
+                prompt,
+                provider: "ollama",
+                model: result.model,
+                appVersion: APP_VERSION,
+                schemaVersion: session.schemaVersion,
+                environment: buildEnvironment()
+            });
+            recordQuery(envelope, { answer: result.text });
+            session.status = `Respuesta generada por ${result.model}. Verificá cada cita. Se guardó el contexto en el historial local.`;
         } catch (error) {
             session.error = error.message;
             session.status = "";
@@ -344,33 +429,130 @@ export async function renderAssistantPanel(container) {
         }
     });
 
-    container.querySelectorAll("[data-provider]").forEach(button => {
-        button.addEventListener("click", async () => {
-            readForms();
-            if (!session.externalConsent || !session.question.trim()) return;
-
-            const found = retrieve(documents, session.question);
-            const { context } = buildContext(found);
-            const prompt = buildPrompt({
-                question: session.question,
-                context,
-                notes: session.includeNotes ? session.notes : ""
-            });
-            session.preview = prompt;
-            session.externalConsent = false;
-            session.error = "";
-
-            try {
-                const { provider, copied } = await openExternalProvider({ id: button.dataset.provider, prompt });
-                session.status = copied
-                    ? `Prompt copiado. Pegalo en ${provider.name}; Falcon no inicia sesión ni accede a Gmail.`
-                    : `Abrí ${provider.name}, pero no se pudo copiar el prompt: copialo desde la previsualización.`;
-            } catch (error) {
-                session.error = error.message;
-                session.status = "";
-            }
+    container.querySelector("[data-connect-openrouter]")?.addEventListener("click", async () => {
+        readForms();
+        saveAssistantSettings(settings);
+        session.error = "";
+        session.status = "Redirigiendo a OpenRouter para autorizar…";
+        try {
+            await beginAuth();
+        } catch (error) {
+            session.error = error.message;
+            session.status = "";
             rerender();
+        }
+    });
+
+    container.querySelector("[data-test-openrouter]")?.addEventListener("click", async () => {
+        const connection = loadConnection();
+        if (!connection) return;
+        session.busy = true;
+        session.error = "";
+        session.status = "Probando la conexión con OpenRouter…";
+        await rerender();
+        try {
+            const info = await testConnection({ apiKey: connection.key });
+            const limit = info.limit === null ? "sin límite declarado" : `límite ${info.limit}`;
+            session.status = `Conexión OK: ${info.label}. Uso acumulado ${info.usage}; ${limit}${info.freeTier ? " · cuenta gratuita" : ""}.`;
+        } catch (error) {
+            session.error = error.message;
+            session.status = "";
+        } finally {
+            session.busy = false;
+            await rerender();
+        }
+    });
+
+    container.querySelector("[data-disconnect]")?.addEventListener("click", () => {
+        disconnect();
+        clearModelsCache();
+        session.aiConsent = false;
+        session.error = "";
+        session.status = "OpenRouter desconectado. La clave se borró de esta pestaña.";
+        rerender();
+    });
+
+    container.querySelector("[data-load-models]")?.addEventListener("click", async () => {
+        const connection = loadConnection();
+        if (!connection) return;
+        session.busy = true;
+        session.error = "";
+        session.status = "Cargando modelos disponibles…";
+        await rerender();
+        try {
+            const models = await fetchModels({ apiKey: connection.key, useCache: false });
+            session.status = `${models.length} modelos disponibles. El modelo actual es ${connection.model}.`;
+        } catch (error) {
+            session.error = error.message;
+            session.status = "";
+        } finally {
+            session.busy = false;
+            await rerender();
+        }
+    });
+
+    container.querySelector("#assistant-or-model")?.addEventListener("change", event => {
+        try {
+            updateConnectionModel(event.target.value);
+            session.status = `Modelo de OpenRouter actualizado a ${event.target.value}.`;
+            session.error = "";
+        } catch (error) {
+            session.error = error.message;
+        }
+        rerender();
+    });
+
+    container.querySelector("[data-ask-openrouter]").addEventListener("click", async () => {
+        readForms();
+        saveAssistantSettings(settings);
+        const connection = loadConnection();
+        if (!connection || !session.aiConsent || !session.question.trim()) return;
+
+        const { context } = prepare();
+        const prompt = buildPrompt({
+            question: session.question,
+            context,
+            notes: session.includeNotes ? session.notes : ""
         });
+        session.preview = prompt;
+        session.busy = true;
+        session.status = `Consultando ${connection.model} en OpenRouter…`;
+        await rerender();
+
+        try {
+            const result = await askOpenRouter({
+                apiKey: connection.key,
+                model: connection.model,
+                prompt,
+                allowNetwork: true
+            });
+            session.modelAnswer = result.text;
+            session.answerProvider = "openrouter";
+            session.answerModel = result.model;
+            const envelope = buildQueryEnvelope({
+                question: session.question,
+                notes: session.notes,
+                includeNotes: session.includeNotes,
+                sources: session.sources,
+                context,
+                prompt,
+                provider: "openrouter",
+                model: result.model,
+                appVersion: APP_VERSION,
+                schemaVersion: session.schemaVersion,
+                environment: buildEnvironment()
+            });
+            recordQuery(envelope, { answer: result.text });
+            session.status = `Respuesta de ${result.model}. Contexto y entorno guardados en el historial local.`;
+        } catch (error) {
+            session.error = error.message;
+            session.status = "";
+            session.modelAnswer = "";
+        } finally {
+            session.busy = false;
+            session.aiConsent = false;
+            await rerender();
+        }
     });
 
     container.querySelector("[data-save-config]").addEventListener("click", () => {
@@ -391,10 +573,12 @@ export async function renderAssistantPanel(container) {
             notes: "",
             includeNotes: settings.includeNotes,
             consent: false,
-            externalConsent: false,
+            aiConsent: false,
             sources: [],
             offline: "",
             modelAnswer: "",
+            answerProvider: "local",
+            answerModel: "",
             triage: null,
             preview: "",
             error: "",

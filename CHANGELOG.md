@@ -8,39 +8,49 @@ alpha releases and will be called out explicitly.
 
 ## [Unreleased]
 
+## [0.3.0-alpha] - 2026-11-13
+
 ### Added
 
 - 25 live-verified tools across GEOINT, data, finance, archive, monitoring,
   environment and SOCMINT packs, bringing the catalog to 165 entries.
-- Eleven external AI connectors (ChatGPT, Claude, Gemini, DeepSeek, Qwen, Z.ai,
-  Grok, Perplexity, Le Chat, Copilot and Kimi) that open the provider in its own
-  window and copy the prompt. Falcon never handles OAuth, credentials or Gmail.
-- Assistant empty-state examples, a copy-answer action, a model/local-source
-  badge and Ollama model suggestions with VRAM guidance.
-- Skip link, global focus-visible styling, coarse-pointer target sizes and
-  reduced-motion support.
+- OpenRouter connection through OAuth PKCE: the user authorizes on OpenRouter,
+  returns to Falcon and can test and query models from OpenAI, Anthropic, Google,
+  DeepSeek, Qwen, xAI, Mistral and others without copying prompts.
+- Query audit trail with environment, exact context, sources and prompt for each
+  AI call, included in local backups.
+- JSON backup with SQLite snapshot, checksum, local settings and query history;
+  restore merges local data and never includes API keys.
+- Settings panel with schema migrations, storage inventory and backup/restore,
+  plus a Policies and Privacy tab with a recorded acknowledgment.
+- Versioned service worker that precaches the app shell, database and both
+  sql.js WASM builds, with an offline navigation fallback.
 
 ### Changed
 
+- Replaced the copy-prompt provider launchers with a real connected-AI flow.
+  Session credentials stay in `sessionStorage` and are removed on disconnect.
 - The suggested local model is now `qwen3.5:9b`, with `gemma4` and `qwen3.8`
   alternatives; the tag remains editable.
-- Favicon and web manifest moved to `public/` so production URLs stay relative
-  and valid under the Pages subpath.
+- `npm run build` now copies the database and WASM files and generates the
+  service worker, so `dist/` is directly deployable.
+- The SQLite schema is now version 2 with recorded migrations and an `app_meta`
+  table.
 
 ### Fixed
 
-- External windows are opened without the `noopener` feature and detached with
-  `opener = null`, because `window.open()` always returns `null` with noopener
-  and every launch looked like a popup blocker.
+- The dashboard no longer shows `Database Version: Unknown`: legacy databases
+  with an empty `schema_version` are repaired and upgraded on open.
 - The web manifest icon no longer points at `assets/assets/favicon.svg` after
   Vite relocates the manifest into `dist/assets/`.
-- The Pages workflow copies both `sql-wasm.wasm` and `sql-wasm-browser.wasm` so
-  SQLite initialization cannot fail on the deployed site.
+- The Pages workflow no longer needs a separate asset-copy step.
 
 ### Security
 
-- Connector consent is per launch and resets after use; no provider tokens or
-  Google account access are stored by Falcon.
+- PKCE with S256 and a CSRF `state` parameter; the verifier is single-use and
+  API keys live only in the current tab.
+- Backups exclude OpenRouter sessions and any credential-like local key.
+- OpenRouter requests opt out of provider data collection where supported.
 
 ## [0.2.0-alpha] - 2026-11-13
 

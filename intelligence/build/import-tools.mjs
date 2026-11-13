@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import initSqlJs from "sql.js";
+import { runMigrations } from "../../framework/database/migrations.js";
 
 const ROOT = path.resolve("intelligence");
 const DB_PATH = path.resolve("database/falcon.db");
@@ -100,7 +101,9 @@ async function main() {
     const SQL = await initSqlJs({ locateFile: f => path.resolve("node_modules/sql.js/dist", f) });
     const db = new SQL.Database(fs.readFileSync(DB_PATH));
     const { inserted, updated, skipped } = importTools(db, readToolFiles());
+    const migration = runMigrations(db);
     fs.writeFileSync(DB_PATH, Buffer.from(db.export()));
+    console.log(`Schema: ${migration.from} → ${migration.to}`);
     db.close();
     console.log(`Imported tools: ${inserted} inserted, ${updated} updated, ${skipped} unchanged.`);
 }

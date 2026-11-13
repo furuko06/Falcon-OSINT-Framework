@@ -1,11 +1,11 @@
 {
   "name": "falcon-osint-framework",
-  "version": "0.2.0-alpha",
+  "version": "0.3.0-alpha",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prepare-dist.mjs",
     "preview": "vite preview",
     "test": "vitest",
     "db:compile": "node intelligence/build/compile-db.mjs",

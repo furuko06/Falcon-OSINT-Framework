@@ -25,9 +25,10 @@ may shift as security, data quality, and usability findings emerge.
 
 ## M6 AI Assistant
 
-Status: delivered in `0.2.0-alpha` (E12) with local retrieval, note triage,
-optional loopback Ollama and eleven external provider launchers. Next: streaming
-responses, evaluation harness and optional embedding-based retrieval.
+Status: delivered in `0.2.0-alpha` (E12) with local retrieval, note triage and
+optional loopback Ollama. `0.3.0-alpha` adds an OpenRouter OAuth PKCE connection,
+connection testing and a local audit trail of query environment/context. Next:
+streaming responses, evaluation harness and optional embedding-based retrieval.
 
 - Add assistant workflows for summarization, triage, and investigative note
   support.

@@ -82,8 +82,13 @@ export function renderSidebar(container, state = ExplorerState) {
             <h3>Formación</h3>
             <button class="sidebar-item ${state.panel === "academy" ? "active" : ""}" data-action="academy" aria-pressed="${state.panel === "academy"}"><span>Academy</span></button>
         </div>
+        <div class="sidebar-section">
+            <h3>Sistema</h3>
+            <button class="sidebar-item ${state.panel === "settings" ? "active" : ""}" data-action="settings" aria-pressed="${state.panel === "settings"}"><span>Ajustes y backup</span></button>
+            <button class="sidebar-item ${state.panel === "privacy" ? "active" : ""}" data-action="privacy" aria-pressed="${state.panel === "privacy"}"><span>Políticas y privacidad</span></button>
+        </div>
         <div class="sidebar-footer">
-            <span>Falcon v0.2-alpha</span>
+            <span>Falcon v0.3-alpha</span>
             <span>SQLite: ${state.initialized ? "Loaded ✓" : "Loading…"}</span>
         </div>
     `;

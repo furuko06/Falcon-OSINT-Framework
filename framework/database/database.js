@@ -4,9 +4,11 @@
  */
 
 import initSqlJs from "sql.js";
+import { getSchemaInfo, runMigrations } from "./migrations.js";
 
 let SQL = null;
 let dbInstance = null;
+let schemaUpgrade = null;
 
 class FalconDatabase {
   constructor(SQL, bytes = null) {
@@ -85,6 +87,18 @@ export const Database = {
 
     dbInstance = new FalconDatabase(SQL, bytes);
 
+    try {
+      schemaUpgrade = runMigrations(dbInstance);
+      console.info(
+        `Esquema SQLite ${schemaUpgrade.from} → ${schemaUpgrade.to}` +
+        (schemaUpgrade.applied.length ? ` (${schemaUpgrade.applied.map(m => m.name).join(", ")})` : "")
+      );
+    } catch (error) {
+      dbInstance.close();
+      dbInstance = null;
+      throw new Error(`No se pudo migrar falcon.db: ${error.message}`);
+    }
+
     console.log(
       "📦 Tablas:",
       dbInstance.query(`
@@ -115,6 +129,19 @@ export const Database = {
   async count(table) {
     const db = await this.initialize();
     return db.count(table);
+  },
+
+  async getSchemaInfo() {
+    const db = await this.initialize();
+    return {
+      ...getSchemaInfo(db),
+      upgrade: schemaUpgrade
+    };
+  },
+
+  async exportBytes() {
+    const db = await this.initialize();
+    return db.export();
   }
 
 };

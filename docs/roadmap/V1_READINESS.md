@@ -25,15 +25,18 @@ Anything that cannot meet those promises stays behind a beta label.
 
 | Area | Current state | Evidence |
 | --- | --- | --- |
-| Version | `0.2.0-alpha`, tag `v0.2.0-alpha` | `package.json`, git tag |
+| Version | `0.3.0-alpha` (unreleased commit) | `package.json` |
 | Catalog | 165 tools across 9 packs | `npm run db:import`, SQLite `tools` |
-| Tests | 77 unit/integration tests | `npx vitest run` |
-| Production build | Vite build + Pages-style preview verified | 165 cards, no 404s |
-| Assistant | Local retrieval, offline briefing, note triage, optional loopback Ollama | E12 tests and browser smoke |
-| External connectors | 11 providers, explicit consent, new window + prompt copy | E12 connector tests |
+| Schema | Version 2 with recorded migrations; legacy empty metadata repaired | `tests/migrations.test.js`, `database/falcon.db` |
+| Tests | 94 unit/integration tests | `npx vitest run` |
+| Production build | Vite build prepares DB, WASM and service worker | 165 cards, no 404s |
+| Offline shell | Precache verified with the browser network disabled | `tests` + browser smoke |
+| Assistant | Local retrieval, Ollama option, OpenRouter OAuth PKCE and query test | `tests/openrouter.test.js`, browser smoke |
+| Query audit | Environment, exact context, sources and prompt kept in local history | `tests/context-backup.test.js` |
+| Backup | JSON with SQLite checksum and query context; credentials excluded | `docs/development/BACKUP_FORMAT.md` |
+| Policies | Privacy panel and recorded acknowledgment | Browser smoke |
 | Accessibility | Skip link, focus-visible, 44 px coarse targets, reduced motion | Manual browser checks |
-| Secrets | Manual grep audit found no live credentials | Repository audit |
-| Offline shell | Data is local, but there is no precache service worker | Gap |
+| Secrets | Manual audit plus credential exclusions in backup | Repository audit |
 | API/plugin contracts | Present but not frozen or versioned as public contracts | Gap |
 | Formal audits | None (security, accessibility, performance, legal) | Gap |
 
@@ -46,28 +49,28 @@ Every gate needs a reproducible artifact, not a verbal claim.
 
 ### G1. Data integrity and upgrades
 
-- [ ] Schema version table plus forward-only migrations tested on a copy of a
+- [x] Schema version table plus forward-only migrations tested on a copy of a
       real database.
 - [ ] `db:validate`, `db:import` and `db:compile` are idempotent and covered by
       tests, including duplicate names and removed tools.
-- [ ] Documented backup, restore and export format (JSON + SQLite copy).
+- [x] Documented backup, restore and export format (JSON + SQLite copy).
 - [ ] Import refuses invalid rows without partially writing the database.
 - [ ] Catalog metadata policy: provenance, last verification date and status
       for every entry.
 
-**Current:** idempotent import and JSON validation pass; migrations, backup and
-export formats are missing.
+**Current:** migrations, legacy metadata repair and documented backup/restore
+are delivered. Invalid-row atomicity and catalog provenance remain open.
 
 ### G2. Offline and recovery
 
-- [ ] The app shell and SQLite WASM are precached; a second load works with the
+- [x] The app shell and SQLite WASM are precached; a second load works with the
       network disabled.
 - [ ] A corrupt or missing database shows a recoverable error with a reset path.
 - [ ] Source-link health checks run on a schedule and never block offline use.
-- [ ] Versioned cache invalidation so an upgrade does not serve stale assets.
+- [x] Versioned cache invalidation so an upgrade does not serve stale assets.
 
-**Current:** data is local after load, but there is no precache and no tested
-cache upgrade path. This is the largest gap in the offline-first claim.
+**Current:** the browser passed an offline reload with 165 tools and schema 2.
+Corrupt-database recovery and scheduled link checks are still missing.
 
 ### G3. Security and privacy
 
@@ -80,9 +83,9 @@ cache upgrade path. This is the largest gap in the offline-first claim.
 - [ ] Plugin permissions enforced at runtime, not only displayed.
 - [ ] Documented data retention and case deletion behavior.
 
-**Current:** manual secret audit is clean, model calls require per-query consent
-and are loopback-only, connectors never handle credentials. Runtime plugin
-isolation, CSP and automated scanning are pending.
+**Current:** manual secret audit is clean, model calls require per-query consent,
+OAuth keys stay in `sessionStorage` and backups exclude credentials. Runtime
+plugin isolation, CSP and automated scanning are pending.
 
 ### G4. Accessibility (WCAG 2.2 AA)
 
@@ -124,10 +127,12 @@ declarative and partial.
 - [ ] Answers label model output, show sources and never present uncited model
       text as verified fact.
 - [ ] Prompt-injection tests for retrieved documents and notes.
-- [ ] Clear boundary: no remote provider credentials, no Gmail/OAuth access.
+- [x] Clear boundary: OAuth only through OpenRouter, keys session-only, no Gmail access.
 
-**Current:** retrieval, citations, consent and prompt preview are tested with a
-simulated model; no evaluation harness and no real model run in CI.
+**Current:** retrieval, citations, consent, prompt preview, PKCE and the
+OpenRouter test endpoint are covered. The browser exercised a real 401 from
+OpenRouter with a fake key; a billed model run, an Ollama run and an evaluation
+harness are still pending. No remote credentials are stored by Falcon.
 
 ### G8. Release engineering and governance
 
@@ -154,7 +159,7 @@ signed upgrade/rollback docs are incomplete.
 
 | Milestone | Focus | Exit criteria |
 | --- | --- | --- |
-| `0.3.0-alpha` | Hardening | G1 migrations/backup, G2 precache, G4 axe + keyboard, CI secret/dependency checks |
+| `0.3.0-alpha` | Hardening | Delivered G1 migrations/backup and G2 precache; G4 axe + keyboard and CI secret/dependency checks remain |
 | `0.4.0-beta` | Contracts | G6 schemas and plugin permissions frozen as beta, G5 budgets measured |
 | `0.5.0-beta` | Trust | G3 threat model/CSP, G7 evaluation harness and real model run, G9 review started |
 | `0.9.0-rc` | Freeze | All must gates green, docs and upgrade/rollback guides complete, no open criticals |

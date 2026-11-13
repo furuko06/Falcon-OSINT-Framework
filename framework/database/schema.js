@@ -3,7 +3,7 @@
  * Database Schema Definition
  */
 
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 export const TABLES = [
   "tools",
@@ -15,6 +15,7 @@ export const TABLES = [
   "relationships",
   "collections",
   "bookmarks",
+  "app_meta",
   "schema_version",
   "migration_history"
 ];

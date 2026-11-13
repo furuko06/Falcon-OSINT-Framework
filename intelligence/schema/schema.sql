@@ -61,13 +61,18 @@ CREATE TABLE bookmarks(
 );
 
 CREATE TABLE schema_version(
-    version INTEGER
+    version INTEGER PRIMARY KEY
 );
 
 CREATE TABLE migration_history(
-    version INTEGER,
+    version INTEGER PRIMARY KEY,
     name TEXT,
     applied_at TEXT
+);
+
+CREATE TABLE app_meta(
+    key TEXT PRIMARY KEY,
+    value TEXT NOT NULL
 );
 
 CREATE VIRTUAL TABLE tools_fts
@@ -80,3 +85,5 @@ USING fts5(
     content='tools',
     content_rowid='id'
 );
+
+INSERT OR REPLACE INTO schema_version(version) VALUES(2);

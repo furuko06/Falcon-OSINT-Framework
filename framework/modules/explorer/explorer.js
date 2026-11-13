@@ -18,6 +18,9 @@ import { renderGraphPanel } from "../graph/panel.js";
 import { renderIOCPanel } from "../ioc/panel.js";
 import { renderAcademyPanel } from "../academy/panel.js";
 import { renderAssistantPanel } from "../assistant/panel.js";
+import { completeAuth, hasAuthCallback } from "../assistant/openrouter.js";
+import { renderSettingsPanel } from "../settings/panel.js";
+import { renderPrivacyPanel } from "../privacy/panel.js";
 import { applyFilters } from "./filters.js";
 
 export async function initializeExplorer() {
@@ -36,7 +39,9 @@ export async function initializeExplorer() {
         graph: renderGraphPanel,
         ioc: renderIOCPanel,
         academy: renderAcademyPanel,
-        assistant: renderAssistantPanel
+        assistant: renderAssistantPanel,
+        settings: renderSettingsPanel,
+        privacy: renderPrivacyPanel
     };
 
     const dashboard = createDashboardSection();
@@ -102,4 +107,14 @@ export async function initializeExplorer() {
     populateFilterOptions(toolbar, tools);
     const chosen = localStorage.getItem("falcon:country");
     if (chosen && chosen !== "GLOBAL") applyFilters({ countries: [chosen] });
+
+    if (hasAuthCallback()) {
+        try {
+            await completeAuth();
+        } catch {
+            // completeAuth stores a one-shot message that the assistant shows.
+        }
+        history.replaceState({}, "", `${location.pathname}${location.hash}`);
+        showPanel("assistant");
+    }
 }
