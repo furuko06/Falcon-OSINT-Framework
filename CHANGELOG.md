@@ -6,7 +6,76 @@ This project follows the spirit of Keep a Changelog and uses semantic versioning
 once stable releases begin. Until v1.0, breaking changes may occur between minor
 alpha releases and will be called out explicitly.
 
-## [Unreleased]
+## [1.0.0] - 2026-11-13
+
+### Added
+
+- `tests/assistant-context.test.js` pins the retrieved-context contract: it
+  checks `MAX_CONTEXT_DOCS` against the six documents the evaluation was
+  measured with and re-runs retrieval over the real evaluation questions, so a
+  smaller context fails in a second instead of lowering the offline hit rate
+  quietly.
+- `tests/db-build-scripts.test.js` runs `db:validate` and `db:compile` twice and
+  fails if they stop being deterministic or start writing the database.
+- Legal gate G9 artifacts in `docs/legal/`: source terms review, privacy impact
+  assessment for case notes and assistant prompts, lawful-use guidance and the
+  catalog takedown path, plus the `catalog_correction` issue template.
+- `npm run gates -- --skip-ai` renders the release report without the assistant
+  evaluation, marking those rows `OMITIDO` and the overall state
+  `PASS_WITH_OMITTED` instead of a misleading `PASS`.
+
+### Changed
+
+- Assistant prompt: analyst notes are delimited and placed before the retrieved
+  context, the refusal rule covers only "Falcon context has no relevant fact",
+  and the copyable format example is gone because both evaluated models returned
+  the example line as their answer. Answers are capped at 160 tokens, since 260
+  took about 50 s per case on a laptop CPU.
+- Model evaluation gives each model its own time budget instead of one shared
+  deadline that left the second model with 0 of 11 cases and reported BLOCKED for
+  a model that never ran. The release gate raises the default to 8 minutes per
+  model (`GATES_EVAL_MAX_MS`).
+- Version `1.0.0` across `package.json`, the lockfile, the app shell, settings,
+  the assistant, the backup format and the README.
+- The assistant and real-model evaluation are deferred to `1.1`; the 1.0 gate
+  report records them as omitted, with the offline suite unchanged.
+- Model evaluation no longer auto-detects the first two installed Ollama models:
+  it measures the reference model `llama3.2:3b`, the smallest model the interface
+  offers, unless `FALCON_EVAL_MODELS` or `--model` names another one. Two measured
+  runs showed that auto-detection is not a gate: `qwen2.5:0.5b` refused questions
+  whose context held the answer (citations 0.5, injection 0) and `llama3.2:1b`
+  refused the same questions and flipped its injection result between runs, so a
+  model below the 3B floor turned the release gate red for a configuration the
+  product does not support. A missing reference model reports BLOCKED with the
+  `ollama pull` command instead of a false quality failure.
+
+### Fixed
+
+- `npm run db:compile` crashed on the UTF-8 BOM of the catalog JSON and never
+  finished; it now parses the same files as `db:validate` and `db:import`.
+- `npm run db:import` deletes catalog entries that were removed from the JSON
+  (`removed` in the summary), refuses an empty catalog instead of wiping the
+  table, and stays byte-identical when nothing changed.
+
+### Upgrade notes
+
+- From `0.7.0-beta`: no manual migration. The schema stays at version 2, the
+  browser data under `falcon:*` keys is compatible and the shipped
+  `database/falcon.db` is rebuilt from the JSON catalog on the next build.
+- `db:import` now removes entries that are no longer in the JSON. If a local
+  database was extended by hand, move those entries into a pack JSON file first.
+- To roll back, check out the previous tag, run `npm install`, `npm run build`
+  and reload with the service worker reset offered by the recovery panel.
+- The AI evaluation (`npm run eval:model`) is not part of the 1.0 gate; run it
+  with `llama3.2:3b` installed when 1.1 is prepared.
+
+### Known limitations
+
+- No counsel review of the G9 documents yet; the 1.0 release carries it as an
+  accepted risk recorded in `docs/roadmap/V1_READINESS.md`.
+- The 1.0 gate report is `PASS_WITH_OMITTED` because the assistant evaluation is
+  deferred, and the scheduled source-health workflow and the screen-reader pass
+  are still open items from G2 and G4.
 
 ## [0.7.0-beta] - 2026-11-13
 

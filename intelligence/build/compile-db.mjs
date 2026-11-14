@@ -14,7 +14,8 @@ function readJSON(directory){
 
     return files.flatMap(file=>{
         const full = path.join(dir,file);
-        return JSON.parse(fs.readFileSync(full,"utf8"));
+        // The catalog files are saved with a UTF-8 BOM; JSON.parse rejects it.
+        return JSON.parse(fs.readFileSync(full,"utf8").replace(/^\uFEFF/,""));
     });
 
 }

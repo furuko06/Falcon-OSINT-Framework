@@ -11,6 +11,7 @@ const ROOT = process.cwd();
 const args = process.argv.slice(2);
 const SKIP_BROWSER = args.includes("--skip-browser");
 const REQUIRE_REAL = args.includes("--require-real");
+const SKIP_AI = args.includes("--skip-ai");
 const REPORT = path.join(ROOT, "docs/audits/GATES_REPORT.md");
 
 function run(command, commandArgs = [], env = {}) {
@@ -69,30 +70,43 @@ async function main() {
             results.push(["Auditoría de accesibilidad", false, "omitido con --skip-browser"]);
         }
 
-        const evalFlags = ["--max-real-ms", String(process.env.GATES_EVAL_MAX_MS || 240000)];
-        if (REQUIRE_REAL) evalFlags.push("--require-real");
-        const evalArgs = ["run", "eval:model", "--", ...evalFlags];
-        const evalOk = run("npm", evalArgs);
-        evalReport = readJson("docs/audits/model-eval-report.json");
-        results.push([
-            "Evaluación offline del asistente",
-            evalOk && evalReport?.offline?.status === "PASS",
-            evalReport?.offline?.status || "sin informe"
-        ]);
-        const realStatus = evalReport?.real?.status || "sin informe";
-        const realOk = realStatus === "PASS" || (!REQUIRE_REAL && realStatus === "BLOCKED");
-        results.push([
-            "Evaluación de modelo real",
-            realOk,
-            realStatus === "BLOCKED" ? `BLOCKED: ${evalReport.real.reason}` : realStatus
-        ]);
+        // The assistant and real-model gates are deferred to v1.1. Skipping them
+        // is explicit and shows up as OMITIDO in the report, never as PASS.
+        if (SKIP_AI) {
+            results.push(["Evaluación offline del asistente", "OMITIDO", "omitido con --skip-ai (diferido a v1.1)"]);
+            results.push(["Evaluación de modelo real", "OMITIDO", "omitido con --skip-ai (diferido a v1.1)"]);
+        } else {
+            // Per model: two small local models need about 7 minutes each to answer
+            // all 11 cases on a laptop CPU. A shorter budget shows up as BLOCKED.
+            const evalFlags = ["--max-real-ms", String(process.env.GATES_EVAL_MAX_MS || 480000)];
+            if (REQUIRE_REAL) evalFlags.push("--require-real");
+            const evalArgs = ["run", "eval:model", "--", ...evalFlags];
+            const evalOk = run("npm", evalArgs);
+            evalReport = readJson("docs/audits/model-eval-report.json");
+            results.push([
+                "Evaluación offline del asistente",
+                evalOk && evalReport?.offline?.status === "PASS",
+                evalReport?.offline?.status || "sin informe"
+            ]);
+            const realStatus = evalReport?.real?.status || "sin informe";
+            const realOk = realStatus === "PASS" || (!REQUIRE_REAL && realStatus === "BLOCKED");
+            results.push([
+                "Evaluación de modelo real",
+                realOk,
+                realStatus === "BLOCKED" ? `BLOCKED: ${evalReport.real.reason}` : realStatus
+            ]);
+        }
     } finally {
         server?.stop();
     }
 
-    const failed = results.filter(([, ok]) => !ok);
-    const blockedReal = evalReport?.real?.status === "BLOCKED";
-    const overall = failed.length ? "FAIL" : blockedReal ? "PASS_WITH_BLOCKED" : "PASS";
+    const failed = results.filter(([, ok]) => ok === false);
+    const blockedReal = !SKIP_AI && evalReport?.real?.status === "BLOCKED";
+    const overall = failed.length
+        ? "FAIL"
+        : SKIP_AI
+            ? "PASS_WITH_OMITTED"
+            : blockedReal ? "PASS_WITH_BLOCKED" : "PASS";
     const rows = results.map(([label, ok, detail]) => {
         const blocked = ok && String(detail || "").startsWith("BLOCKED");
         return statusLine(label, blocked ? "BLOCKED" : ok, detail || "");
@@ -102,7 +116,7 @@ async function main() {
 - Fecha: ${new Date().toISOString()}
 - Versión: ${readJson("package.json")?.version || "desconocida"}
 - Estado global: **${overall}**
-- Gate real: ${REQUIRE_REAL ? "obligatorio" : "informativo (BLOCKED no bloquea el build)"}
+- Gate real: ${SKIP_AI ? "omitido (evaluación de IA diferida a v1.1)" : REQUIRE_REAL ? "obligatorio" : "informativo (BLOCKED no bloquea el build)"}
 
 | Gate | Estado | Evidencia |
 | --- | --- | --- |
@@ -120,10 +134,13 @@ ${rows}
 
 \`\`\`bash
 npm run gates
+npm run gates -- --skip-ai
 npm run gates -- --require-real
 \`\`\`
 
 Un gate real bloqueado se muestra como BLOCKED y no se presenta como aprobado.
+Un gate omitido se muestra como OMITIDO y deja el estado global en
+\`PASS_WITH_OMITTED\`, nunca en \`PASS\`.
 Para exigirlo en una release, usar \`--require-real\` con Ollama o
 \`OPENROUTER_API_KEY\` configurados.
 `;

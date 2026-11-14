@@ -1,11 +1,11 @@
 # Evaluación del asistente
 
-- Fecha: 2026-11-13T22:51:09.903Z
+- Fecha: 2026-11-13T23:49:59.176Z
 - Versión: 0.7.0-beta
 - Dataset: `evaluation/model-eval.json` (11 casos)
 - Entorno: Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz, 8 cores, 7.7 GB RAM
 - Gate offline: **PASS**
-- Gate real: **BLOCKED** — llama3.2:1b: presupuesto de 120000 ms agotado después de 3/11 casos; qwen2.5:0.5b: presupuesto de 120000 ms agotado después de 0/11 casos
+- Gate real: **BLOCKED** — sin OPENROUTER_API_KEY y sin llama3.2:3b en http://127.0.0.1:11434; instalalo con `ollama pull llama3.2:3b`
 
 La suite offline usa el catálogo SQLite real, las lecciones y los playbooks
 locales. La suite real reutiliza exactamente los mismos prompts y exige citas
@@ -41,12 +41,17 @@ Sin fallos offline.
 
 ## Modelo real
 
-| Proveedor | Modelo | Citas | Rechazo | Inyección | Errores | Estado |
-| --- | --- | ---: | ---: | ---: | ---: | --- |
-| ollama | `llama3.2:1b` | 1 | null | null | 0 | BLOCKED |
-| ollama | `qwen2.5:0.5b` | null | null | null | 0 | BLOCKED |
+No se ejecutó un modelo real. Motivo: sin OPENROUTER_API_KEY y sin llama3.2:3b en http://127.0.0.1:11434; instalalo con `ollama pull llama3.2:3b`.
 
-Ejecución BLOCKED: llama3.2:1b: presupuesto de 120000 ms agotado después de 3/11 casos; qwen2.5:0.5b: presupuesto de 120000 ms agotado después de 0/11 casos. Los casos sin medir o sin respuesta del proveedor no cuentan como aprobados. Revisá que Ollama (o la clave de OpenRouter) esté operativo; si el motivo es el presupuesto de tiempo, aumentá `FALCON_EVAL_MAX_MS`.
+Para ejecutarlo, iniciá Ollama, descargá el modelo de referencia y corré:
+
+```bash
+ollama pull llama3.2:3b
+npm run eval:model
+```
+
+También se acepta `OPENROUTER_API_KEY` y `OPENROUTER_MODEL`; la clave nunca
+se escribe en el informe.
 
 ## Reproducción
 

@@ -1,0 +1,56 @@
+name: Catalog correction or takedown
+description: Report an incorrect, unavailable, unlawful or terms-violating catalog entry.
+title: "[Catalog]: "
+labels:
+  - catalog
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to correct or remove a catalog entry: a wrong URL, a dead or
+        hijacked domain, an entry that requires bypassing authentication or a
+        paywall, or content that should not be listed. Do not include personal
+        data of third parties, credentials or investigation material.
+  - type: input
+    id: tool
+    attributes:
+      label: Catalog entry
+      description: Name of the tool as it appears in Falcon, and its URL.
+      placeholder: Tool name — https://example.org
+    validations:
+      required: true
+  - type: dropdown
+    id: reason
+    attributes:
+      label: Reason
+      options:
+        - Incorrect data (name, category, description, URL)
+        - Dead or hijacked domain
+        - Requires authentication or paywall bypass
+        - Terms of service do not allow this listing or use
+        - Unlawful content or service
+        - Privacy or safety concern
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Explain the problem and, when possible, cite the source of the correction.
+    validations:
+      required: true
+  - type: input
+    id: relation
+    attributes:
+      label: Relationship to the entry
+      description: Optional. For example, the operator of the site or a rights holder.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I did not include third-party personal data or credentials in this report.
+          required: true
+        - label: This report is about the catalog entry, not a request for investigation help.
+          required: true

@@ -1,9 +1,9 @@
 # Release gates
 
-- Fecha: 2026-11-13T22:51:10.760Z
-- Versión: 0.7.0-beta
-- Estado global: **PASS_WITH_BLOCKED**
-- Gate real: informativo (BLOCKED no bloquea el build)
+- Fecha: 2026-11-14T00:19:33.883Z
+- Versión: 1.0.0
+- Estado global: **PASS_WITH_OMITTED**
+- Gate real: omitido (evaluación de IA diferida a v1.1)
 
 | Gate | Estado | Evidencia |
 | --- | --- | --- |
@@ -15,8 +15,8 @@
 | Build de producción | PASS |  |
 | Presupuestos de rendimiento | PASS | PASS |
 | Auditoría de accesibilidad | PASS |  |
-| Evaluación offline del asistente | PASS | PASS |
-| Evaluación de modelo real | BLOCKED | BLOCKED: llama3.2:1b: presupuesto de 120000 ms agotado después de 3/11 casos; qwen2.5:0.5b: presupuesto de 120000 ms agotado después de 0/11 casos |
+| Evaluación offline del asistente | OMITIDO | omitido con --skip-ai (diferido a v1.1) |
+| Evaluación de modelo real | OMITIDO | omitido con --skip-ai (diferido a v1.1) |
 
 ## Artefactos
 
@@ -30,9 +30,12 @@
 
 ```bash
 npm run gates
+npm run gates -- --skip-ai
 npm run gates -- --require-real
 ```
 
 Un gate real bloqueado se muestra como BLOCKED y no se presenta como aprobado.
+Un gate omitido se muestra como OMITIDO y deja el estado global en
+`PASS_WITH_OMITTED`, nunca en `PASS`.
 Para exigirlo en una release, usar `--require-real` con Ollama o
 `OPENROUTER_API_KEY` configurados.

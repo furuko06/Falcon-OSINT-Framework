@@ -9,12 +9,16 @@
  * Usage:
  *   npm run eval:model                 # auto-detect provider; offline always
  *   npm run eval:model -- --offline    # no network
- *   FALCON_EVAL_PROVIDER=ollama FALCON_EVAL_MODELS=llama3.2:1b npm run eval:model
+ *   FALCON_EVAL_PROVIDER=ollama FALCON_EVAL_MODELS=llama3.2:3b npm run eval:model
  *   npm run eval:model -- --max-real-ms 240000   # acota la corrida real
  *
- * La corrida real tiene un presupuesto de tiempo global (FALCON_EVAL_MAX_MS,
- * 10 minutos por defecto). Si se agota, los casos restantes quedan sin medir y
- * el resultado se informa como BLOCKED en vez de colgar el gate de release.
+ * Sin FALCON_EVAL_MODELS ni --model, la corrida real usa el modelo de referencia
+ * (`llama3.2:3b`, el más chico que ofrece la interfaz) si está instalado; los
+ * modelos instalados que no se piden por nombre no se evalúan.
+ *
+ * Cada modelo tiene un presupuesto de tiempo propio (FALCON_EVAL_MAX_MS, 10
+ * minutos por defecto). Si se agota, los casos restantes de ese modelo quedan sin
+ * medir y el resultado se informa como BLOCKED en vez de colgar el gate de release.
  */
 import fs from "node:fs";
 import os from "node:os";
@@ -45,6 +49,15 @@ const REQUIRE_REAL = args.includes("--require-real");
 const MAX_REAL_MS = Number(valueAfter("--max-real-ms") || process.env.FALCON_EVAL_MAX_MS || 600000);
 const PROVIDER_ARG = valueAfter("--provider");
 const MODEL_ARG = valueAfter("--model");
+
+// Having a model installed is not an evaluation policy, and small models are not
+// a cheaper version of the gate. Auto-detecting "the first two models Ollama
+// has" evaluated qwen2.5:0.5b and llama3.2:1b, both below the smallest model the
+// UI offers (llama3.2:3b): they refused questions whose context held the answer,
+// so the gate went red over a configuration Falcon does not support. The
+// reference model is the product floor, named here; any other model has to be
+// requested with FALCON_EVAL_MODELS or --model.
+const DEFAULT_EVAL_MODELS = ["llama3.2:3b"];
 
 function valueAfter(flag) {
     const index = args.indexOf(flag);
@@ -163,6 +176,12 @@ async function ollamaModels(endpoint) {
     }
 }
 
+async function ollamaSelection(requested, endpoint) {
+    if (requested.length) return requested;
+    const installed = await ollamaModels(endpoint);
+    return DEFAULT_EVAL_MODELS.filter(model => installed.includes(model));
+}
+
 async function resolveRealProvider() {
     if (OFFLINE_ONLY) return { provider: "", models: [], reason: "ejecución solicitada en modo offline" };
     const forced = PROVIDER_ARG || process.env.FALCON_EVAL_PROVIDER || "";
@@ -175,10 +194,10 @@ async function resolveRealProvider() {
     if (forced === "ollama") {
         const endpoint = process.env.FALCON_OLLAMA_ENDPOINT || process.env.OLLAMA_HOST || "http://127.0.0.1:11434";
         const requested = (process.env.FALCON_EVAL_MODELS || MODEL_ARG || "").split(",").map(value => value.trim()).filter(Boolean);
-        const models = requested.length ? requested : (await ollamaModels(endpoint)).slice(0, 2);
+        const models = await ollamaSelection(requested, endpoint);
         return models.length
             ? { provider: "ollama", endpoint, models }
-            : { provider: "", models: [], reason: `Ollama no respondió o no tiene modelos en ${endpoint}` };
+            : { provider: "", models: [], reason: `Ollama no respondió o no tiene ${DEFAULT_EVAL_MODELS.join(", ")} en ${endpoint}; instalalo con \`ollama pull ${DEFAULT_EVAL_MODELS[0]}\`` };
     }
 
     if (process.env.OPENROUTER_API_KEY) {
@@ -191,15 +210,18 @@ async function resolveRealProvider() {
 
     const endpoint = process.env.FALCON_OLLAMA_ENDPOINT || process.env.OLLAMA_HOST || "http://127.0.0.1:11434";
     const requested = (process.env.FALCON_EVAL_MODELS || "").split(",").map(value => value.trim()).filter(Boolean);
-    const models = requested.length ? requested : (await ollamaModels(endpoint)).slice(0, 2);
+    const models = await ollamaSelection(requested, endpoint);
     if (models.length) return { provider: "ollama", endpoint, models };
-    return { provider: "", models: [], reason: `sin OPENROUTER_API_KEY y sin modelos Ollama en ${endpoint}` };
+    return { provider: "", models: [], reason: `sin OPENROUTER_API_KEY y sin ${DEFAULT_EVAL_MODELS.join(", ")} en ${endpoint}; instalalo con \`ollama pull ${DEFAULT_EVAL_MODELS[0]}\`` };
 }
 
 async function evaluateReal(provider, documents) {
     const results = [];
-    const deadline = Date.now() + MAX_REAL_MS;
     for (const model of provider.models) {
+        // Each model gets the full budget. A single shared deadline let the first
+        // model spend all of it and left the second with 0 of 11 cases, which is
+        // reported as BLOCKED even though that model was never allowed to run.
+        const deadline = Date.now() + MAX_REAL_MS;
         const cases = [];
         for (const evalCase of DATASET.cases) {
             if (Date.now() >= deadline) break;
@@ -353,10 +375,11 @@ ${realRows}${real.reason ? `
 Ejecución BLOCKED: ${real.reason}. Los casos sin medir o sin respuesta del proveedor no cuentan como aprobados. Revisá que Ollama (o la clave de OpenRouter) esté operativo; si el motivo es el presupuesto de tiempo, aumentá \`FALCON_EVAL_MAX_MS\`.` : ""}`
     : `No se ejecutó un modelo real. Motivo: ${real.reason || "proveedor no configurado"}.
 
-Para ejecutarlo, iniciá Ollama con al menos un modelo y corré:
+Para ejecutarlo, iniciá Ollama, descargá el modelo de referencia y corré:
 
 \`\`\`bash
-FALCON_EVAL_PROVIDER=ollama FALCON_EVAL_MODELS=llama3.2:1b npm run eval:model
+ollama pull llama3.2:3b
+npm run eval:model
 \`\`\`
 
 También se acepta \`OPENROUTER_API_KEY\` y \`OPENROUTER_MODEL\`; la clave nunca

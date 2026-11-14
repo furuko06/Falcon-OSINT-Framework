@@ -25,10 +25,10 @@ Anything that cannot meet those promises stays behind a beta label.
 
 | Area | Current state | Evidence |
 | --- | --- | --- |
-| Version | `0.7.0-beta` | `package.json` |
+| Version | `1.0.0` (with the exceptions in section 8) | `package.json` |
 | Catalog | 182 tools across 9 packs | `npm run db:import`, SQLite `tools` |
 | Schema | Version 2 with recorded migrations; legacy empty metadata repaired | `tests/migrations.test.js`, `database/falcon.db` |
-| Tests | 117 unit/integration tests | `npx vitest run` |
+| Tests | 154 unit/integration tests | `npx vitest run` |
 | Production build | Vite build prepares DB, WASM and service worker | 182 cards, no 404s |
 | Offline shell | Precache verified with the browser network disabled | `tests` + browser smoke |
 | Assistant | Local retrieval, Ollama option, OpenRouter OAuth PKCE and query test | `tests/openrouter.test.js`, browser smoke |
@@ -39,11 +39,12 @@ Anything that cannot meet those promises stays behind a beta label.
 | Accessibility | axe 0 violations across 8 views and 5/5 manual checks | `docs/audits/A11Y_AUDIT.md` |
 | Repository security | Secret/workflow scan, audit 0, pinned Actions, CodeQL and Dependabot | `docs/security/CIS_CONTROLS.md` |
 | Performance | Budgets measured on the production build and a 1,000-document corpus | `docs/audits/PERF_REPORT.md`, `npm run perf` |
-| AI evaluation | 11-case offline suite passes; real-model run reports `BLOCKED` with the provider error instead of a false quality failure | `docs/audits/MODEL_EVAL.md`, `npm run eval:model` |
+| AI evaluation | Deferred to 1.1 by decision; the 1.0 gate report marks it `OMITIDO`. The 11-case offline suite still runs in the unit suite, the reference model is `llama3.2:3b` and models below 3B were measured and fail, so 3B stays the declared floor | `docs/audits/MODEL_EVAL.md`, `npm run gates -- --skip-ai` |
 | Database recovery | A failed download, corrupt file or failed migration shows a recoverable panel with retry and cache reset that never deletes local data | `tests/database-recovery.test.js` |
 | Threat model | Assets, trust boundaries and threats for local data, imported files, plugins and model endpoints, with controls and accepted risks | `docs/security/THREAT_MODEL.md` |
 | API/plugin contracts | Present but not frozen or versioned as public contracts | Gap |
 | Formal audits | Accessibility and CIS alignment delivered; external security, performance and legal audits pending | Gap |
+| Legal and ethical review | G9 artifacts delivered: source terms review, privacy impact assessment, lawful-use guidance and takedown path; counsel review pending | `docs/legal/` |
 
 The baseline is enough for an alpha. It is not enough for a compatibility
 promise.
@@ -56,17 +57,21 @@ Every gate needs a reproducible artifact, not a verbal claim.
 
 - [x] Schema version table plus forward-only migrations tested on a copy of a
       real database.
-- [ ] `db:validate`, `db:import` and `db:compile` are idempotent and covered by
+- [x] `db:validate`, `db:import` and `db:compile` are idempotent and covered by
       tests, including duplicate names and removed tools.
 - [x] Documented backup, restore and export format (JSON + SQLite copy).
-- [ ] Import refuses invalid rows without partially writing the database.
-- [ ] Catalog metadata policy: provenance, last verification date and status
+- [x] Import refuses invalid rows without partially writing the database.
+- [x] Catalog metadata policy: provenance, last verification date and status
       for every entry.
 
 **Current:** migrations, legacy metadata repair and documented backup/restore
-are delivered. The 17 entries added in 0.7 carry `last_verified`; the older 165
-still have no verification date, so the health dashboard only counts the dated
-ones. Invalid-row atomicity and full catalog provenance remain open.
+are delivered. All 182 entries carry `status` and `last_verified`, and
+`db:provenance` fails the release otherwise. The importer validates the whole
+batch before writing, refuses an empty catalog instead of wiping the table,
+deletes entries removed from JSON (`removed` in the summary) and returns
+byte-identical output on a second run; `db:compile` no longer crashes on the
+catalog BOM. `tests/import-tools.test.js` and `tests/db-build-scripts.test.js`
+cover idempotency, duplicate names and removed tools.
 
 ### G2. Offline and recovery
 
@@ -165,13 +170,20 @@ Signed release artifacts and the upgrade/rollback guide are still missing.
 
 ### G9. Legal and ethical review
 
-- [ ] Source terms review for scraped or login-gated providers; no bypassing
-      authentication or paywalls.
-- [ ] Privacy impact assessment for case notes and assistant prompts.
-- [ ] Jurisdiction and lawful-use guidance reviewed by counsel.
-- [ ] Takedown and correction path for catalog entries.
+- [x] Source terms review for scraped or login-gated providers; no bypassing
+      authentication or paywalls. `docs/legal/SOURCE_TERMS_REVIEW.md`
+- [x] Privacy impact assessment for case notes and assistant prompts.
+      `docs/legal/PRIVACY_IMPACT_ASSESSMENT.md`
+- [ ] Jurisdiction and lawful-use guidance reviewed by counsel. The guidance is
+      written in `docs/legal/LAWFUL_USE.md`; the review is pending.
+- [x] Takedown and correction path for catalog entries. `docs/legal/TAKEDOWN.md`
+      and `.github/ISSUE_TEMPLATE/catalog_correction.yml`
 
-**Current:** OPSEC guidance exists; no formal legal review.
+**Current:** the four G9 artifacts are delivered and the catalog exposes a
+public correction form. The source review covers 182 entries at the behavior
+level: Falcon is link-only, never bypasses authentication or a paywall, and the
+18 hosts that refuse automated clients stay as manual links. Counsel has not
+reviewed the documents; 1.0 records that as an accepted risk in section 8.
 
 ## 4. Sequence to 1.0
 
@@ -184,7 +196,7 @@ Signed release artifacts and the upgrade/rollback guide are still missing.
 | `0.6.0-beta` | Recovery and trust | G2 corrupt-database recovery and G3 threat model delivered; runtime plugin enforcement and data retention remain |
 | `0.7.0-beta` | Catalog balance | Every category has at least five verified tools (182 total); no category depends on a single source |
 | `0.9.0-rc` | Freeze | All must gates green, docs and upgrade/rollback guides complete, no open criticals |
-| `1.0.0` | Promise | Sign-off on every gate, tagged release, published compatibility statement |
+| `1.0.0` | Promise | Sign-off on every gate, tagged release, published compatibility statement. Shipped with the exceptions in section 8 |
 
 Each milestone keeps the previous contracts working; a gate can move later, but
 it cannot be silently dropped. If a gate fails at `0.9.0-rc`, the release becomes
@@ -213,14 +225,35 @@ Deferred does not mean rejected; it means not part of the 1.0 promise.
 
 ## 7. 1.0 release checklist
 
-- [ ] All must gates green with linked evidence.
-- [ ] `CHANGELOG.md` has a dated `1.0.0` section and upgrade notes.
-- [ ] Version bumped in `package.json`, `package-lock.json`, app shell and docs.
+- [ ] All must gates green with linked evidence. Shipped as `PASS_WITH_OMITTED`
+      with the exceptions in section 8.
+- [x] `CHANGELOG.md` has a dated `1.0.0` section and upgrade notes.
+- [x] Version bumped in `package.json`, `package-lock.json`, app shell and docs.
 - [ ] Fresh-clone build, test, import and browser smoke pass.
 - [ ] Pages deployment verified with network disabled after first load.
 - [ ] Backup from `0.9.x` restored on `1.0.0` without data loss.
-- [ ] Security, accessibility and legal sign-offs recorded.
-- [ ] Tag `v1.0.0` and publish release notes.
+- [ ] Security, accessibility and legal sign-offs recorded. Legal review is
+      explicitly pending (section 8).
+- [ ] Tag `v1.0.0` and publish release notes. Notes are written in
+      `docs/releases/1.0.0.md`; the tag is created with the release commit.
 
-Until then, Falcon remains an alpha: useful for local investigation work, not a
-guaranteed long-term storage or compatibility platform.
+The release shipped as `1.0.0` with the exceptions in section 8: the
+compatibility promise covers the catalog, the schema, the backup format and the
+offline workflow, while the open gates stay tracked instead of being dropped.
+
+## 8. Accepted exceptions for 1.0
+
+The release ships as `1.0.0` with these exceptions written down instead of
+silently dropped:
+
+| Gate | Exception | Follow-up |
+| --- | --- | --- |
+| G7 | Assistant and real-model evaluation deferred | Run `npm run eval:model` with `llama3.2:3b` and publish the evidence in 1.1 |
+| G2 | Scheduled source-health workflow not shipped | Add a scheduled CI job that runs `npm run db:links` without blocking offline use |
+| G4 | Real screen-reader pass not performed | NVDA or VoiceOver pass over the catalog, assistant, connectors, Academy and dialogs |
+| G6 | API and plugin contracts not frozen | Publish versioned schemas and a deprecation policy |
+| G9 | No counsel review of the legal artifacts | Legal review before the next major release |
+| G8 | Release artifacts not signed | Signed tag and release notes for the next release |
+
+`docs/releases/1.0.0.md` repeats the list for users. The release gate report is
+`PASS_WITH_OMITTED` for that reason, never `PASS`.

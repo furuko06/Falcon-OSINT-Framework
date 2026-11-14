@@ -37,11 +37,51 @@ export function loadTools(root = ROOT) {
     return tools;
 }
 
+/**
+ * Catalog JSON is data, not a list of trusted targets: a `website` field could
+ * name localhost or a private range and turn the link checker into an SSRF probe
+ * against the machine that runs the build. Only public http(s) hosts are fetched.
+ */
+export function isPublicHttpUrl(value) {
+    let url;
+    try {
+        url = new URL(String(value));
+    } catch {
+        return false;
+    }
+    if (url.protocol !== "https:" && url.protocol !== "http:") return false;
+    if (url.username || url.password) return false;
+
+    const host = url.hostname.replace(/^\[|\]$/g, "").toLowerCase();
+    if (!host) return false;
+    if (host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) {
+        return false;
+    }
+
+    const ipv4 = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+    if (ipv4) {
+        const first = Number(ipv4[1]);
+        const second = Number(ipv4[2]);
+        if (first === 0 || first === 10 || first === 127) return false;
+        if (first === 192 && second === 168) return false;
+        if (first === 172 && second >= 16 && second <= 31) return false;
+        if (first === 169 && second === 254) return false;
+        if (first === 100 && second >= 64 && second <= 127) return false;
+    }
+
+    if (host.includes(":")) {
+        if (host === "::1" || host === "::" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe80")) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 export async function checkUrl(url, fetchImpl = fetch) {
     try {
-        const parsed = new URL(url);
-        if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
-            return { ok: false, status: null, error: "unsupported protocol" };
+        if (!isPublicHttpUrl(url)) {
+            return { ok: false, status: null, error: "unsupported or non-public URL" };
         }
         const res = await fetchImpl(url, {
             method: "HEAD",
