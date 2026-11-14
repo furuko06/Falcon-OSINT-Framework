@@ -119,8 +119,13 @@ gap. Runtime plugin isolation and the retention policy remain open.
 - [x] Automated axe scan with no serious or critical findings.
 
 **Current:** axe reports 0 violations across 8 views and the manual suite passes
-5/5 (skip link, focus transfer, reduced motion, mobile targets). A real
-screen-reader pass is still required.
+5/5 (skip link, focus transfer, reduced motion, mobile targets). The automated
+screen-reader tree pass (`npm run screenreader`, Chrome accessibility tree)
+reports 0 problems across the same 8 views: 1,583 interactive elements, none
+unnamed, one `h1` and one `main` per view, a labelled `navigation` landmark and
+the document title following the open view. It found and fixed a missing `h1`, a
+missing navigation landmark and `lang="en"` on a Spanish UI. A human NVDA or
+VoiceOver session is still required to close the checkbox above.
 
 ### G5. Performance budgets
 
@@ -135,13 +140,21 @@ every release. Heap with 1,000 tools is still unmeasured.
 
 ### G6. Stable contracts
 
-- [ ] Versioned JSON schema for tool records, playbooks, IOCs and cases.
-- [ ] Plugin manifest and permission contract frozen for one minor cycle.
-- [ ] Local API (if shipped) with documented auth and error model.
-- [ ] Deprecation policy and changelog entries for contract changes.
+- [x] Versioned JSON schema for tool records, playbooks, IOCs and cases.
+      `contracts/*.schema.json`
+- [x] Plugin manifest and permission contract frozen for one minor cycle.
+      `contracts/plugin-manifest.schema.json`, frozen until 2.0.0
+- [x] Local API (if shipped) with documented auth and error model. No local API
+      ships in 1.0; the in-browser modules are the only interface.
+- [x] Deprecation policy and changelog entries for contract changes.
+      `contracts/README.md`
 
-**Current:** internal shapes exist but are not frozen; the plugin engine is
-declarative and partial.
+**Current:** six schemas are frozen at contract version 1.0.0 until 2.0.0,
+with a SHA-256 lock (`contracts/contract-lock.json`) so a shape change without a
+freeze fails `npm run contracts:check`. The check validates all 182 catalog
+entries, the 48 playbooks, the plugin catalog, and real case and IOC records
+created by the app modules. The plugin engine remains declarative and does not
+execute plugin code.
 
 ### G7. AI assistant accountability
 
@@ -165,12 +178,22 @@ Falcon.
 
 - [x] CI runs tests, build, JSON validation, secret scan and dependency audit.
 - [x] Reproducible Pages deployment from a clean checkout.
-- [ ] Signed release notes, upgrade guide and rollback procedure.
+- [x] Release notes, upgrade guide and rollback procedure.
+      `docs/releases/1.0.0.md`, `docs/releases/RELEASE_PROCESS.md`
+- [x] Versioned release artifacts with a SHA-256 manifest.
+      `npm run release:manifest` → `docs/releases/*-SHA256SUMS` + `*-manifest.json`
+- [ ] Cryptographic signature by a maintainer key. The script signs and verifies
+      when a key is present (`FALCON_GPG_KEY`, `--sign`); no maintainer key exists
+      yet, so 1.0.0 publishes checksums without a `.asc`.
 - [x] License metadata consistent with `LICENSE` (AGPL-3.0).
 - [x] Security disclosure, contribution and code-of-conduct paths verified.
 
-**Current:** CI, Pages, license metadata and disclosure paths are in place.
-Signed release artifacts and the upgrade/rollback guide are still missing.
+**Current:** CI, Pages, license metadata and disclosure paths are in place. The
+release artifact is a `git archive` of the annotated tag plus a SHA-256 manifest
+and a verification command (`--verify`), documented end to end in
+`docs/releases/RELEASE_PROCESS.md`. The only open item is the GPG signature:
+the tooling is ready, but a real maintainer key is required — inventing one would
+produce a signature nobody can trust.
 
 ### G9. Legal and ethical review
 
@@ -179,7 +202,8 @@ Signed release artifacts and the upgrade/rollback guide are still missing.
 - [x] Privacy impact assessment for case notes and assistant prompts.
       `docs/legal/PRIVACY_IMPACT_ASSESSMENT.md`
 - [ ] Jurisdiction and lawful-use guidance reviewed by counsel. The guidance is
-      written in `docs/legal/LAWFUL_USE.md`; the review is pending.
+      written in `docs/legal/LAWFUL_USE.md` and the 11-region matrix in
+      `docs/legal/JURISDICTIONS.md`; the review is pending.
 - [x] Takedown and correction path for catalog entries. `docs/legal/TAKEDOWN.md`
       and `.github/ISSUE_TEMPLATE/catalog_correction.yml`
 

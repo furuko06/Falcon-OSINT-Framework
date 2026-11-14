@@ -3,6 +3,7 @@
    Los grupos con más de una opción se pliegan con un botón.
    ========================================================== */
 import { ExplorerState } from "./state.js";
+import { state as appState } from "../../core/state.js";
 import { applyFilters } from "./filters.js";
 import { COUNTRY_PACKS, getCountry, setCountry, countryToolCount } from "../countries/packs.js";
 import { collapsibleGroup, bindCollapsibles } from "../../ui/collapse.js";
@@ -88,7 +89,7 @@ export function renderSidebar(container, state = ExplorerState) {
             <button class="sidebar-item ${state.panel === "privacy" ? "active" : ""}" data-action="privacy" aria-pressed="${state.panel === "privacy"}"><span>Políticas y privacidad</span></button>
         </div>
         <div class="sidebar-footer">
-            <span>Falcon v0.7-beta</span>
+            <span>Falcon v${appState.version}</span>
             <span>SQLite: ${state.initialized ? "Loaded ✓" : "Loading…"}</span>
         </div>
     `;

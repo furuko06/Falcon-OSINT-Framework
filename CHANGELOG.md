@@ -10,6 +10,22 @@ alpha releases and will be called out explicitly.
 
 ### Added
 
+- Frozen API contracts (G6): six versioned JSON schemas in `contracts/` for tool
+  records, playbooks, playbook progress, IOCs, cases and plugin manifests, with a
+  SHA-256 lock, a deprecation policy and `npm run contracts:check` wired into the
+  release gates. The plugin engine now reports framework version 1.0.0 instead of
+  the stale 0.1.0.
+- Automated screen-reader tree audit (G4): `npm run screenreader` reads the Chrome
+  accessibility tree on eight views and checks accessible names, headings,
+  landmarks, dialogs and live regions. It runs inside `npm run gates`.
+- Jurisdiction matrix (G9): `docs/legal/JURISDICTIONS.md` covers Argentina, Brazil,
+  Mexico, Chile, Colombia, Peru, the EU/EEA, the United Kingdom, the United
+  States, Canada and Australia, states that gray areas are the user's
+  responsibility, and keeps the project's no-bypass limits non-negotiable.
+- Release engineering (G8): `npm run release:manifest` produces a reproducible
+  `git archive` of the tag, SHA-256 checksums, a manifest and an optional
+  detached GPG signature, with `--verify` for re-checking. Process, upgrade and
+  rollback steps live in `docs/releases/RELEASE_PROCESS.md`.
 - Scheduled source-health workflow (`.github/workflows/source-health.yml`): a
   weekly `npm run db:verify -- --dry-run` over all 182 sources with a run
   summary rendered by `scripts/source-health-summary.mjs`. It does not run on
@@ -22,6 +38,10 @@ alpha releases and will be called out explicitly.
 
 ### Fixed
 
+- Accessibility: the app had no `h1`, the sidebar was an unlabelled `aside`
+  instead of a `navigation` landmark, and a Spanish UI declared `lang="en"`. The
+  shell now ships a skip-visible `h1`, a labelled navigation landmark, the right
+  language and a document title that follows the open view.
 - `npm run db:links` reported every 403/429 as broken and exited 1, contradicting
   the catalog policy where a refused automated client is `restricted`. It now
   shares that classification, prints `ok/restricted/broken`, and only fails on

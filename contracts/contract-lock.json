@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "frozenOn": "2026-11-13",
+  "schemas": {
+    "case.schema.json": "c0f10ab0377df4189df24b8ee72bf7a69a5fd723e929d86655bec672c5db3a57",
+    "ioc.schema.json": "c8b9460a973025fc0e57738ae9cbf200a941983e0a72fa3784788a21114bb990",
+    "playbook-state.schema.json": "8c9e020a58dce8ed45d4fe5f3e1d21cefa36972a2a2a2ffdfe11ed0952a9d96e",
+    "playbook.schema.json": "35be453b2bb832856bfa01cba09e3974f0d4a6f7a06982ff52c80a2a204097f9",
+    "plugin-manifest.schema.json": "f79ec5969b9b94e6458ddc15dfa58df84bb38c7c6dd890c978c33be924ad24e9",
+    "tool.schema.json": "65e8eac122041de1373f99426870c028fe4a330dff7344afe5f85276301c3dfd"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Falcon OSINT Framework",
+  "version": "1.0.0",
+  "tag": "v1.0.0",
+  "commit": "1609e6185a252afbfe482596ee832e2c3de9b19a",
+  "tagType": "tag",
+  "generatedAt": "2026-11-14T01:38:57.930Z",
+  "node": "v22.23.3",
+  "platform": "win32 10.0.19045",
+  "dirty": true,
+  "files": [
+    {
+      "path": "docs/releases/falcon-osint-framework-1.0.0.tar.gz",
+      "bytes": 256403,
+      "sha256": "324d9e9d9f50cf1403ac0b1a56b28a898c7859344b8f7e30849ff04ceaa71c96"
+    },
+    {
+      "path": "database/falcon.db",
+      "bytes": 106496,
+      "sha256": "4110d8c8de17245c884291c906afe59e5a5a2845bb4b37cb2123dc1129094669"
+    }
+  ],
+  "signature": null
+}

@@ -59,3 +59,6 @@ gh_*.zip
 
 # Local evaluation runtime and models (never committed)
 .tools/
+
+# Release artifacts uploaded to GitHub Releases, not committed
+docs/releases/*.tar.gz

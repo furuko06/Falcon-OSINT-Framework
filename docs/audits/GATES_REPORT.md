@@ -1,6 +1,6 @@
 # Release gates
 
-- Fecha: 2026-11-14T00:32:08.383Z
+- Fecha: 2026-11-14T01:43:33.696Z
 - Versión: 1.0.0
 - Estado global: **PASS_WITH_OMITTED**
 - Gate real: omitido (evaluación de IA diferida a v1.1)
@@ -12,9 +12,11 @@
 | Auditoría de dependencias | PASS |  |
 | Validación de datos | PASS |  |
 | Provenance del catálogo | PASS |  |
+| Contratos congelados (G6) | PASS |  |
 | Build de producción | PASS |  |
 | Presupuestos de rendimiento | PASS | PASS |
 | Auditoría de accesibilidad | PASS |  |
+| Árbol de accesibilidad (lector de pantalla) | PASS |  |
 | Evaluación offline del asistente | OMITIDO | omitido con --skip-ai (diferido a v1.1) |
 | Evaluación de modelo real | OMITIDO | omitido con --skip-ai (diferido a v1.1) |
 

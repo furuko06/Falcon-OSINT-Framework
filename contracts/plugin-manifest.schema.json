@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://falcon-osint.local/contracts/plugin-manifest.schema.json",
+  "title": "Falcon plugin manifest",
+  "description": "Declarative plugin descriptor validated by framework/modules/plugins/sdk.js.",
+  "contractVersion": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "version", "author", "license", "minFramework", "permissions"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "author": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "license": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "minFramework": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "description": { "type": "string", "maxLength": 600 },
+    "homepage": { "type": "string", "pattern": "^https?://" },
+    "permissions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["filesystem", "network", "sqlite", "docker", "shell"] }
+    }
+  }
+}

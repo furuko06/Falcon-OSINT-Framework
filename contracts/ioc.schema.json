@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://falcon-osint.local/contracts/ioc.schema.json",
+  "title": "Falcon IOC indicator",
+  "description": "One indicator stored under falcon:iocs.",
+  "contractVersion": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "type", "value", "source", "confidence", "severity", "status", "notes", "createdAt", "updatedAt"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^ioc_[a-z0-9]+_[a-z0-9]+$" },
+    "type": { "enum": ["IPv4", "IPv6", "Dominio", "URL", "Email", "SHA-256", "Usuario", "Otro"] },
+    "value": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "source": { "type": "string", "maxLength": 2048 },
+    "confidence": { "enum": ["baja", "media", "alta"] },
+    "severity": { "enum": ["baja", "media", "alta", "critica"] },
+    "status": { "enum": ["nuevo", "en_revision", "confirmado", "falso_positivo", "cerrado"] },
+    "notes": { "type": "string", "maxLength": 4000 },
+    "createdAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" },
+    "updatedAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" }
+  }
+}

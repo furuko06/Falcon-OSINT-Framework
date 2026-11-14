@@ -16,13 +16,16 @@ and correction path.
 | --- | --- | --- |
 | Source terms review, no auth or paywall bypass | Delivered, counsel review pending | [`SOURCE_TERMS_REVIEW.md`](SOURCE_TERMS_REVIEW.md), `intelligence/build/check-links.mjs` |
 | Privacy impact assessment for notes and prompts | Delivered, counsel review pending | [`PRIVACY_IMPACT_ASSESSMENT.md`](PRIVACY_IMPACT_ASSESSMENT.md), `framework/modules/privacy/panel.js` |
-| Jurisdiction and lawful-use guidance | Delivered, counsel review pending | [`LAWFUL_USE.md`](LAWFUL_USE.md) |
+| Jurisdiction and lawful-use guidance | Delivered, counsel review pending | [`LAWFUL_USE.md`](LAWFUL_USE.md), [`JURISDICTIONS.md`](JURISDICTIONS.md) |
 | Takedown and correction path | Delivered and operational | [`TAKEDOWN.md`](TAKEDOWN.md), `.github/ISSUE_TEMPLATE/catalog_correction.yml` |
 
 ## What is still open
 
 - A lawyer has not reviewed these documents. The 1.0 release carries this as an
   accepted risk, recorded in `docs/roadmap/V1_READINESS.md`.
+- The jurisdiction matrix covers 11 regimes at the level of "which law applies
+  and what it requires in principle". It is not a per-case opinion and it records
+  that gray areas are the user's responsibility, not a sanctioned exception.
 - The source terms review covers Falcon's behavior (link-only catalog, no
   automated collection) and the hosts that reject automated clients. It does not
   include a clause-by-clause reading of 182 third-party terms of service.

@@ -61,14 +61,23 @@ If any answer is missing, stop and escalate before collecting more.
 ## 5. Jurisdiction
 
 Falcon is distributed from Argentina and used across jurisdictions. Nothing here
-states that a given collection is lawful in a given country. As examples of the
-kind of rules that apply — not as a complete list — Argentina's data protection
-law (Ley 25.326) and the GDPR for people in the EU impose purpose limitation,
-minimization, retention limits and rights for data subjects. Publishing personal
-data can add defamation, privacy and publication rules on top.
+states that a given collection is lawful in a given country. The per-region
+rules — data protection, unauthorized-access offenses and publication rules for
+Argentina, Brazil, Mexico, Chile, Colombia, Peru, the EU/EEA, the United Kingdom,
+the United States, Canada and Australia — are summarized in
+[`JURISDICTIONS.md`](JURISDICTIONS.md), together with the cross-border rules and
+the minimum record to keep per case.
 
 When the jurisdiction is unclear, or the investigation crosses borders, ask
 counsel before collecting. Record the advice and the decision with the case.
+
+Gray areas exist — deleted-but-indexed posts, public records that mix
+professional and private data, trivially re-identifiable pseudonyms, archival
+copies, bystanders. Falcon does not decide them for the analyst and does not
+block them: **the user assumes responsibility for what they collect, store,
+publish or act on, including in gray areas and where local law or a source's
+terms are stricter than this document.** The limits in section 2 are the
+project's own and are not negotiable.
 
 ## 6. Enforcement and accountability
 
@@ -82,6 +91,6 @@ counsel before collecting. Record the advice and the decision with the case.
 
 ## 7. Open work
 
-Counsel review of this guidance, of the jurisdiction matrix and of the catalog
-sources is pending. Until it happens, `V1_READINESS.md` records G9 as delivered
-with an accepted risk instead of as legally signed off.
+Counsel review of this guidance, of [`JURISDICTIONS.md`](JURISDICTIONS.md) and of
+the catalog sources is pending. Until it happens, `V1_READINESS.md` records G9 as
+delivered with an accepted risk instead of as legally signed off.

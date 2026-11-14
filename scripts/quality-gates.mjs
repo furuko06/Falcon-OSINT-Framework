@@ -52,6 +52,7 @@ async function main() {
         results.push(["Auditoría de dependencias", run("npm", ["audit", "--audit-level=high"])]);
         results.push(["Validación de datos", run("npm", ["run", "db:validate"])]);
         results.push(["Provenance del catálogo", run("npm", ["run", "db:provenance"])]);
+        results.push(["Contratos congelados (G6)", run("npm", ["run", "contracts:check"])]);
 
         buildOk = run("npm", ["run", "build"]);
         results.push(["Build de producción", buildOk]);
@@ -65,12 +66,17 @@ async function main() {
 
             a11yOk = run("npm", ["run", "a11y"], env);
             results.push(["Auditoría de accesibilidad", a11yOk]);
+
+            // G4: the accessibility tree a screen reader consumes. The human
+            // NVDA/VoiceOver session stays a manual step.
+            results.push(["Árbol de accesibilidad (lector de pantalla)", run("npm", ["run", "screenreader"], env)]);
         } else if (SKIP_BROWSER) {
             // An explicit skip is reported as omitted, not as a failure: the row
             // used to say "omitido" while the global state said FAIL, which made
             // `--skip-browser` look like a red gate.
             results.push(["Presupuestos de rendimiento", "OMITIDO", "omitido con --skip-browser"]);
             results.push(["Auditoría de accesibilidad", "OMITIDO", "omitido con --skip-browser"]);
+            results.push(["Árbol de accesibilidad (lector de pantalla)", "OMITIDO", "omitido con --skip-browser"]);
         }
 
         // The assistant and real-model gates are deferred to v1.1. Skipping them

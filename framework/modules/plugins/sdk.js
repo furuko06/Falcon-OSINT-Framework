@@ -4,7 +4,9 @@
    Plugins are declarative: their code is never executed here.
    ========================================================== */
 
-export const FRAMEWORK_VERSION = "0.1.0";
+// Must match package.json: a stale value rejects valid manifests that require
+// the current release. tests/contracts.test.js keeps both in sync.
+export const FRAMEWORK_VERSION = "1.0.0";
 export const PERMISSIONS = ["filesystem", "network", "sqlite", "docker", "shell"];
 
 const STORAGE_KEY = "falcon:plugins";

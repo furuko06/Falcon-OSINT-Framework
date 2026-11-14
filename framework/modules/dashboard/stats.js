@@ -44,13 +44,15 @@ export async function loadDashboardStats() {
     ] = await Promise.all([
         countTable("tools"),
 
-        countTable("categories").catch(() =>
-            countDistinctToolColumn("category")
-        ),
+        // The reference tables can exist but be empty in the compiled database;
+        // a zero count used to win over the real values derived from tools.
+        countTable("categories")
+            .catch(() => 0)
+            .then(total => total || countDistinctToolColumn("category")),
 
-        countTable("countries").catch(() =>
-            countDistinctToolColumn("country")
-        ),
+        countTable("countries")
+            .catch(() => 0)
+            .then(total => total || countDistinctToolColumn("country")),
 
         Database.query(`
             SELECT version

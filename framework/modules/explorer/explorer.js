@@ -47,7 +47,24 @@ export async function initializeExplorer() {
     const dashboard = createDashboardSection();
     toolbar.before(dashboard);
 
+    // Screen readers announce the document title on navigation; keeping it in
+    // sync also names each tab for the view that is actually open.
+    const titles = {
+        health: "Health Engine",
+        playbooks: "Playbooks",
+        graph: "Knowledge Graph",
+        ioc: "IOC Workspace",
+        academy: "Academy",
+        assistant: "Asistente IA",
+        settings: "Ajustes y backup",
+        privacy: "Políticas y privacidad"
+    };
+    const setTitle = name => {
+        document.title = name ? `${titles[name]} · Falcon OSINT Framework` : "Falcon OSINT Framework";
+    };
+
     const showPanel = name => {
+        setTitle(name);
         if (name) views[name](healthView);
         healthView.hidden = !name;
         cards.hidden = Boolean(name);
