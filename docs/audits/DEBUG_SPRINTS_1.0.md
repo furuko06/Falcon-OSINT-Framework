@@ -72,3 +72,25 @@ permissions.
 `PASS_WITH_OMITTED` with 6 PASS and 4 OMITIDO rows; `npm audit` reports 0
 vulnerabilities; 0 broken relative links in the documentation; version `1.0.0` in
 every declared location; tag `v1.0.0` points at `1609e61`.
+
+## Follow-up fixes found while producing the release assets
+
+The G4, G6 and README work surfaced four more defects that the earlier sprints
+could not see because nothing rendered the views at 1400 px or read the
+accessibility tree:
+
+- The overview showed **0 categories and 0 countries** while the filters showed
+  20 and 10: the `categories` and `countries` tables exist but are empty in the
+  compiled database, and a zero count won over the fallback derived from
+  `tools`. `dashboard/stats.js` now falls back when the count is zero.
+- The sidebar footer still advertised **v0.7-beta**. It now reads the version
+  from `framework/core/state.js`, so a bump reaches the UI.
+- The app had **no `h1`**, the sidebar was an unlabelled `aside` and a Spanish UI
+  declared `lang="en"`. Fixed in `index.html` and `shell.css`; the document title
+  now follows the open view.
+- `FRAMEWORK_VERSION` in the plugin SDK was still **0.1.0**, so a manifest
+  requiring 1.0.0 was rejected. Fixed and covered by `tests/contracts.test.js`.
+
+**Evidence:** the live build reports `Total Categories 20`, `Total Countries 10`
+and `Falcon v1.0.0 SQLite: Loaded`; the screen-reader audit passes 8/8 views with
+1,583 interactive elements and 0 unnamed; 161 tests pass.
