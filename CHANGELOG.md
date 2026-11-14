@@ -6,6 +6,31 @@ This project follows the spirit of Keep a Changelog and uses semantic versioning
 once stable releases begin. Until v1.0, breaking changes may occur between minor
 alpha releases and will be called out explicitly.
 
+## [Unreleased]
+
+### Added
+
+- Scheduled source-health workflow (`.github/workflows/source-health.yml`): a
+  weekly `npm run db:verify -- --dry-run` over all 182 sources with a run
+  summary rendered by `scripts/source-health-summary.mjs`. It does not run on
+  push or pull request, commits nothing and is not a release gate, so a dead
+  provider cannot block a build, a deployment or offline use.
+- `tests/settings-browser.mjs` checks the Settings flow against the production
+  build: the history card shows the stored count, **Borrar historial** removes
+  `falcon:query-history`, the count returns to zero and the service worker is
+  built for the running version.
+
+### Fixed
+
+- `npm run db:links` reported every 403/429 as broken and exited 1, contradicting
+  the catalog policy where a refused automated client is `restricted`. It now
+  shares that classification, prints `ok/restricted/broken`, and only fails on
+  real link rot.
+- Documentation: the privacy assessment and the G9 index claimed the query
+  history had no deletion control, but Settings already exposes **Borrar
+  historial** with a confirmation dialog. The documents now describe the shipped
+  behavior and the remaining gaps (no per-record deletion, no automatic expiry).
+
 ## [1.0.0] - 2026-11-13
 
 ### Added

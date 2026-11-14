@@ -26,5 +26,6 @@ and correction path.
 - The source terms review covers Falcon's behavior (link-only catalog, no
   automated collection) and the hosts that reject automated clients. It does not
   include a clause-by-clause reading of 182 third-party terms of service.
-- The privacy assessment documents the current retention behavior, including the
-  fact that the query history has no deletion control in the interface yet.
+- The privacy assessment documents the current retention behavior: the query
+  history is capped at 25 records and can be cleared from Settings, but there is
+  no per-record deletion or automatic expiry.

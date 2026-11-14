@@ -78,10 +78,24 @@ export function isPublicHttpUrl(value) {
     return true;
 }
 
+/**
+ * Same policy as the provenance check: a 4xx that is not 404/410 means the host
+ * is alive and refused this client (bot protection, rate limit, login), which is
+ * `restricted`, not link rot. Reporting a 403 as broken made `npm run db:links`
+ * fail on sources that are perfectly reachable from a browser.
+ */
+export function classifyStatus(status) {
+    const code = Number(status);
+    if (!Number.isFinite(code)) return "broken";
+    if (code >= 200 && code < 400) return "verified";
+    if (code >= 400 && code < 500 && ![404, 410].includes(code)) return "restricted";
+    return "broken";
+}
+
 export async function checkUrl(url, fetchImpl = fetch) {
     try {
         if (!isPublicHttpUrl(url)) {
-            return { ok: false, status: null, error: "unsupported or non-public URL" };
+            return { ok: false, state: "broken", status: null, error: "unsupported or non-public URL" };
         }
         const res = await fetchImpl(url, {
             method: "HEAD",
@@ -89,25 +103,32 @@ export async function checkUrl(url, fetchImpl = fetch) {
             signal: AbortSignal.timeout(TIMEOUT_MS),
             headers: { "user-agent": "falcon-link-check/1.0" }
         });
-        return { ok: res.status >= 200 && res.status < 400, status: res.status, error: null };
+        const state = classifyStatus(res.status);
+        return { ok: state === "verified", state, status: res.status, error: null };
     } catch (error) {
-        return { ok: false, status: null, error: error.message };
+        return { ok: false, state: "broken", status: null, error: error.message };
     }
 }
 
 async function main() {
     const links = collectLinks(loadTools());
     let broken = 0;
+    let restricted = 0;
     for (const link of links) {
         const result = await checkUrl(link.url);
-        if (!result.ok) {
+        if (result.state === "restricted") {
+            restricted++;
+            console.warn(`RESTRICTED ${link.tool} [${link.field}] ${link.url} -> ${result.status}`);
+        } else if (!result.ok) {
             broken++;
             console.error(`BROKEN ${link.tool} [${link.field}] ${link.url} -> ${result.status ?? result.error}`);
         } else {
             console.log(`OK     ${link.tool} [${link.field}] ${result.status}`);
         }
     }
-    console.log(`Checked ${links.length} links, ${broken} broken.`);
+    const ok = links.length - broken - restricted;
+    console.log(`Checked ${links.length} links: ${ok} ok, ${restricted} restricted, ${broken} broken.`);
+    // Only link rot fails the command; a host refusing an automated client does not.
     if (broken > 0) process.exit(1);
 }
 

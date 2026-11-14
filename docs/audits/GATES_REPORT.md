@@ -1,6 +1,6 @@
 # Release gates
 
-- Fecha: 2026-11-14T00:19:33.883Z
+- Fecha: 2026-11-14T00:32:08.383Z
 - Versión: 1.0.0
 - Estado global: **PASS_WITH_OMITTED**
 - Gate real: omitido (evaluación de IA diferida a v1.1)

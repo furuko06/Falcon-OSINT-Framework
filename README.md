@@ -47,12 +47,20 @@ presupuestos de rendimiento, accesibilidad y evaluación del asistente. Escribe
 
 ```bash
 npm run gates                      # navegador incluido
+npm run gates -- --skip-ai         # difiere la evaluación del asistente a 1.1
 npm run gates -- --skip-browser
 npm run gates -- --require-real    # exige un modelo real
 ```
 
-La evaluación real usa Ollama en `127.0.0.1:11434` o `OPENROUTER_API_KEY`.
-Si usás una copia local de Ollama, `OLLAMA_MODELS` debe ser una ruta absoluta.
+Un gate omitido se informa como OMITIDO y el estado global queda en
+`PASS_WITH_OMITTED`, nunca en PASS. La evaluación real usa Ollama en
+`127.0.0.1:11434` o `OPENROUTER_API_KEY`; está diferida a 1.1. Si usás una copia
+local de Ollama, `OLLAMA_MODELS` debe ser una ruta absoluta.
+
+La salud de las fuentes corre en un workflow semanal independiente
+(`.github/workflows/source-health.yml`): revisa las 182 fuentes y publica el
+resultado en el resumen del run, sin commitear nada ni bloquear el build, el
+despliegue o el uso offline.
 
 ## Estado
 

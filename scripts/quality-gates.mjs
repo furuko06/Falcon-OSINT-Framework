@@ -66,8 +66,11 @@ async function main() {
             a11yOk = run("npm", ["run", "a11y"], env);
             results.push(["Auditoría de accesibilidad", a11yOk]);
         } else if (SKIP_BROWSER) {
-            results.push(["Presupuestos de rendimiento", false, "omitido con --skip-browser"]);
-            results.push(["Auditoría de accesibilidad", false, "omitido con --skip-browser"]);
+            // An explicit skip is reported as omitted, not as a failure: the row
+            // used to say "omitido" while the global state said FAIL, which made
+            // `--skip-browser` look like a red gate.
+            results.push(["Presupuestos de rendimiento", "OMITIDO", "omitido con --skip-browser"]);
+            results.push(["Auditoría de accesibilidad", "OMITIDO", "omitido con --skip-browser"]);
         }
 
         // The assistant and real-model gates are deferred to v1.1. Skipping them
@@ -104,7 +107,7 @@ async function main() {
     const blockedReal = !SKIP_AI && evalReport?.real?.status === "BLOCKED";
     const overall = failed.length
         ? "FAIL"
-        : SKIP_AI
+        : SKIP_AI || SKIP_BROWSER
             ? "PASS_WITH_OMITTED"
             : blockedReal ? "PASS_WITH_BLOCKED" : "PASS";
     const rows = results.map(([label, ok, detail]) => {

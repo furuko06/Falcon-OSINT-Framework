@@ -78,14 +78,18 @@ cover idempotency, duplicate names and removed tools.
 - [x] The app shell and SQLite WASM are precached; a second load works with the
       network disabled.
 - [x] A corrupt or missing database shows a recoverable error with a reset path.
-- [ ] Source-link health checks run on a schedule and never block offline use.
+- [x] Source-link health checks run on a schedule and never block offline use.
+      `.github/workflows/source-health.yml`
 - [x] Versioned cache invalidation so an upgrade does not serve stale assets.
 
 **Current:** the browser passed an offline reload with 182 tools and schema 2.
 A failed download, corrupt file or failed migration now renders a recoverable
 panel (retry plus cache/service-worker reset that preserves `localStorage`) and
-is covered by `tests/database-recovery.test.js`. Scheduled link checks that never
-block offline use are still missing.
+is covered by `tests/database-recovery.test.js`. A weekly scheduled workflow
+(`source-health.yml`) re-checks the 182 sources with `npm run db:verify --
+--dry-run` and writes a run summary: it runs on cron and `workflow_dispatch`,
+never on push or pull request, commits nothing and is not a release gate, so a
+dead provider cannot block the build, the deployment or the offline app.
 
 ### G3. Security and privacy
 
@@ -249,7 +253,7 @@ silently dropped:
 | Gate | Exception | Follow-up |
 | --- | --- | --- |
 | G7 | Assistant and real-model evaluation deferred | Run `npm run eval:model` with `llama3.2:3b` and publish the evidence in 1.1 |
-| G2 | Scheduled source-health workflow not shipped | Add a scheduled CI job that runs `npm run db:links` without blocking offline use |
+| G2 | Scheduled source-health workflow not in the tagged commit | Delivered right after the tag: `.github/workflows/source-health.yml` |
 | G4 | Real screen-reader pass not performed | NVDA or VoiceOver pass over the catalog, assistant, connectors, Academy and dialogs |
 | G6 | API and plugin contracts not frozen | Publish versioned schemas and a deprecation policy |
 | G9 | No counsel review of the legal artifacts | Legal review before the next major release |

@@ -1,0 +1,44 @@
+name: Source health
+
+# Weekly catalog health check, separate from the release gates on purpose: a
+# provider that is down, slow or blocking bots must never block a build, a
+# deployment or the offline app. Nothing is committed; the run summary is the
+# evidence. Refresh the provenance locally with `npm run db:verify` when the
+# summary shows rot.
+
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: source-health
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check every catalog source
+        env:
+          FALCON_VERIFY_CONCURRENCY: "4"
+        run: npm run db:verify -- --dry-run
+
+      - name: Summarize the result
+        if: always()
+        run: node scripts/source-health-summary.mjs >> "$GITHUB_STEP_SUMMARY"

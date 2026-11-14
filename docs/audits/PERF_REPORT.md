@@ -1,6 +1,6 @@
 # Performance report
 
-- Fecha: 2026-11-14T00:18:40.147Z
+- Fecha: 2026-11-14T00:31:31.428Z
 - Versión: 1.0.0
 - Entorno: Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz, 8 cores, 7.7 GB RAM, win32 10.0.19045
 - Navegador: Chrome headless
@@ -15,9 +15,9 @@ hardware distinto como si fueran una garantía absoluta.
 
 | Métrica | Medido | Presupuesto | Estado |
 | --- | ---: | ---: | --- |
-| Primer render del catálogo | 560.2 ms | 2500 ms | PASS |
-| Apertura de SQLite | 344.9 ms | 1200 ms | PASS |
-| Retrieval p95 (1.000 docs) | 1.221 ms | 100 ms | PASS |
+| Primer render del catálogo | 1145 ms | 2500 ms | PASS |
+| Apertura de SQLite | 407.1 ms | 1200 ms | PASS |
+| Retrieval p95 (1.000 docs) | 1.614 ms | 100 ms | PASS |
 | JavaScript gzip | 66.54 KB | 90 KB | PASS |
 | CSS gzip | 4.93 KB | 10 KB | PASS |
 | Artefacto dist completo | 1636.38 KB | 2500 KB | PASS |
@@ -27,10 +27,10 @@ hardware distinto como si fueran una garantía absoluta.
 ## Detalle
 
 - Catálogo: 182 tarjetas.
-- SQLite: 104 KB; apertura 344.9 ms.
-- Consulta de herramientas: 33.8 ms.
-- Primer contenido: n/d ms; DOMContentLoaded: 421.4 ms.
-- Retrieval de 1.000 documentos: p50 0.656 ms, p95 1.221 ms, máximo 2.158 ms (500 muestras).
+- SQLite: 104 KB; apertura 407.1 ms.
+- Consulta de herramientas: 29.2 ms.
+- Primer contenido: 1068 ms; DOMContentLoaded: 347.7 ms.
+- Retrieval de 1.000 documentos: p50 1.136 ms, p95 1.614 ms, máximo 3.019 ms (500 muestras).
 - Memoria del corpus de 1.000 documentos: +0.2 MB.
 - JS gzip: 66.54 KB; CSS gzip: 4.93 KB; dist: 1636.38 KB.
 

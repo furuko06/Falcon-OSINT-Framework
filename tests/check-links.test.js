@@ -22,11 +22,28 @@ describe("check-links", () => {
         expect((await checkUrl("https://x.example", fetchRedirect)).ok).toBe(true);
     });
 
-    it("marks 4xx/5xx responses as broken", async () => {
+    it("marks missing pages and server errors as broken", async () => {
         const fetch404 = async () => ({ status: 404 });
         const result = await checkUrl("https://x.example", fetch404);
         expect(result.ok).toBe(false);
+        expect(result.state).toBe("broken");
         expect(result.status).toBe(404);
+
+        const fetchGone = async () => ({ status: 410 });
+        expect((await checkUrl("https://x.example", fetchGone)).state).toBe("broken");
+
+        const fetch500 = async () => ({ status: 500 });
+        expect((await checkUrl("https://x.example", fetch500)).state).toBe("broken");
+    });
+
+    it("marks a refused automated client as restricted, not broken", async () => {
+        const fetch403 = async () => ({ status: 403 });
+        const fetch429 = async () => ({ status: 429 });
+        const forbidden = await checkUrl("https://x.example", fetch403);
+        expect(forbidden.ok).toBe(false);
+        expect(forbidden.state).toBe("restricted");
+        expect(forbidden.status).toBe(403);
+        expect((await checkUrl("https://x.example", fetch429)).state).toBe("restricted");
     });
 
     it("marks network errors and non-http protocols as broken", async () => {

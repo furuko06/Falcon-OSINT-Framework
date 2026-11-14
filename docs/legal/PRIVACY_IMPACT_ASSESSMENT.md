@@ -21,7 +21,7 @@ someone else's machine.
 | Favorites | `localStorage` `falcon:favorites` | Tool ids | Until cleared |
 | Collections, graph, IOC, playbooks, Academy | `localStorage` `falcon:collections`, `falcon:graph`, `falcon:iocs`, `falcon:playbooks`, `falcon:academy` | Analyst-created investigation data | Until cleared |
 | Assistant settings | `localStorage` `falcon:assistant` | Endpoint, model name, include-notes flag | Until cleared |
-| Query history | `localStorage` `falcon:query-history` | Last **25** queries: question, notes if opted in, sources, retrieved context, exact prompt, provider, model, environment, answer | Until cleared; no automatic expiry |
+| Query history | `localStorage` `falcon:query-history` | Last **25** queries: question, notes if opted in, sources, retrieved context, exact prompt, provider, model, environment, answer | Until cleared with **Borrar historial** in Settings; no automatic expiry |
 | OpenRouter session | `sessionStorage` `falcon:openrouter:session` | API key and selected model for the current tab | Deleted when the tab closes or the user disconnects |
 | Policy acknowledgment | `localStorage` `falcon:privacy-ack` | Date and policy version accepted | Until cleared |
 | Backup file | User-chosen file | `local_data` (all non-sensitive `falcon:` keys), `queries`, optional SQLite snapshot and checksum | Under the user's control; Falcon cannot delete it |
@@ -57,7 +57,7 @@ automatic sync.
 | Backup file leaks investigation data | Medium | High | Credentials are excluded, the file carries a warning and a checksum; encryption is the user's responsibility |
 | Another script on the origin reads `localStorage` | Low | High | Strict CSP with no inline script, no third-party scripts, secret scan and dependency audit in CI |
 | Prompt injection in a note or a retrieved document | Medium | Medium | Delimited notes, retrieved context marked as data, injection case in the evaluation set, model output never presented as verified fact |
-| History keeps more than intended | Medium | Medium | Capped at 25 records; **no deletion control in the interface yet** (see open work) |
+| History keeps more than intended | Medium | Medium | Capped at 25 records; Settings offers **Borrar historial** with a confirmation dialog |
 | Data retained by a remote provider | Low | High | Remote calls require consent and OpenRouter applies its own retention; Falcon stores no remote credentials |
 
 ## 5. Data subject rights and deletion
@@ -76,10 +76,9 @@ automatic sync.
 
 ## 6. Open work
 
-- There is no button to delete the query history or a single record.
-  `clearQueryHistory()` exists in `framework/modules/assistant/context.js` but no
-  panel calls it; today the only paths are clearing site data or restoring a
-  backup. This is a usability and privacy gap, not a hidden data flow.
+- The history can be cleared from Settings (Ajustes → Historial de consultas IA
+  → Borrar historial, with a confirmation dialog), but there is no per-record
+  deletion and no preview of an individual record before deleting it.
 - No automatic expiry for investigation data. Retention is manual by design, but
   a retention policy with an explicit prompt (for example, "records older than
   90 days") is not implemented.
