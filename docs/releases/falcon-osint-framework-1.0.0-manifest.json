@@ -4,10 +4,10 @@
   "tag": "v1.0.0",
   "commit": "1609e6185a252afbfe482596ee832e2c3de9b19a",
   "tagType": "tag",
-  "generatedAt": "2026-11-14T01:38:57.930Z",
+  "generatedAt": "2026-11-14T01:44:51.322Z",
   "node": "v22.23.3",
   "platform": "win32 10.0.19045",
-  "dirty": true,
+  "dirty": false,
   "files": [
     {
       "path": "docs/releases/falcon-osint-framework-1.0.0.tar.gz",
