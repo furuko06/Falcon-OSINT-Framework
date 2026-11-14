@@ -1,0 +1,35 @@
+[
+  {
+    "id": "mx_gob_mx",
+    "name": "Portal gob.mx",
+    "country": "MX",
+    "category": "Government",
+    "website": "https://www.gob.mx",
+    "status": "verified",
+    "subcategory": "Portal de Gobierno",
+    "description": "Portal central con trámites, dependencias y publicaciones del gobierno mexicano.",
+    "last_verified": "2026-11-13"
+  },
+  {
+    "id": "mx_sat",
+    "name": "SAT (Servicio de Administración Tributaria)",
+    "country": "MX",
+    "category": "Companies",
+    "website": "https://www.gob.mx/sat",
+    "status": "verified",
+    "subcategory": "Registro Fiscal",
+    "description": "Autoridad fiscal mexicana: RFC, obligaciones y situación fiscal.",
+    "last_verified": "2026-11-13"
+  },
+  {
+    "id": "mx_cnbv",
+    "name": "CNBV (Comisión Nacional Bancaria y de Valores)",
+    "country": "MX",
+    "category": "Companies",
+    "website": "https://www.gob.mx/cnbv",
+    "status": "verified",
+    "subcategory": "Regulación Financiera",
+    "description": "Regula y supervisa entidades financieras; incluye registros y sanciones.",
+    "last_verified": "2026-11-13"
+  }
+]

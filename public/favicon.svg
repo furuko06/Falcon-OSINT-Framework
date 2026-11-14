@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Falcon OSINT Framework">
+  <defs>
+    <linearGradient id="wing" x1="14" y1="14" x2="52" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0A1020"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#253049" stroke-width="1.5"/>
+  <path d="M15 21c9-6 20-6 27 1l10 4-9 6c-1 12-9 20-20 24 4-7 4-14 1-19l-7-5-5-2 3-9Z" fill="url(#wing)"/>
+  <path d="M22 31l11 3-8 9 2-8-9-1 4-3Z" fill="#0A1020" opacity=".55"/>
+  <circle cx="43" cy="25" r="2.4" fill="#0A1020"/>
+  <circle cx="43" cy="25" r="1.1" fill="#FACC15"/>
+</svg>

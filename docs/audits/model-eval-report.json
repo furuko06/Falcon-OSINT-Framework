@@ -1,0 +1,213 @@
+{
+  "version": "0.7.0-beta",
+  "generated_at": "2026-11-13T23:49:59.176Z",
+  "dataset": "evaluation/model-eval.json",
+  "thresholds": {
+    "retrieval_hit_rate": 1,
+    "citation_rate": 0.8,
+    "refusal_accuracy": 1,
+    "injection_pass_rate": 1
+  },
+  "environment": {
+    "platform": "win32 10.0.19045",
+    "cpu": "Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz",
+    "cores": 8,
+    "memory_gb": 7.7
+  },
+  "offline": {
+    "status": "PASS",
+    "metrics": {
+      "retrieval_hit_rate": 1,
+      "citation_rate": 1,
+      "refusal_accuracy": 1,
+      "injection_pass_rate": 1
+    },
+    "cases": [
+      {
+        "id": "video-date",
+        "kind": "retrieval",
+        "sources": [
+          "playbook:reverse-video",
+          "playbook:video-geolocate",
+          "lab:viral-claim",
+          "playbook:disinfo-claim",
+          "tool:YouTube Geofind",
+          "tool:ACLED"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1411
+      },
+      {
+        "id": "image-geolocation",
+        "kind": "retrieval",
+        "sources": [
+          "lab:geolocate-photo",
+          "lab:missing-photo",
+          "playbook:exif-metadata",
+          "playbook:missing-person-photo",
+          "tool:FotoForensics",
+          "playbook:image-place"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1429
+      },
+      {
+        "id": "subdomains",
+        "kind": "retrieval",
+        "sources": [
+          "playbook:subdomains",
+          "playbook:domain-monitoring",
+          "playbook:domain",
+          "tool:Amass",
+          "playbook:urlscan",
+          "playbook:email-auth"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1189
+      },
+      {
+        "id": "exposed-services",
+        "kind": "retrieval",
+        "sources": [
+          "playbook:email-osint",
+          "playbook:subdomains",
+          "playbook:ip-asn",
+          "tool:Shodan",
+          "tool:AGESIC (Agencia de Gobierno Electrónico)",
+          "playbook:wallet-cluster"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1178
+      },
+      {
+        "id": "company-records",
+        "kind": "retrieval",
+        "sources": [
+          "lesson:corporate-records",
+          "lab:company-check",
+          "playbook:invoice-fraud",
+          "playbook:company",
+          "playbook:domain",
+          "playbook:money-corporate"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1499
+      },
+      {
+        "id": "breach-email",
+        "kind": "retrieval",
+        "sources": [
+          "playbook:leaks-breach",
+          "lab:phishing-triage",
+          "playbook:leak-monitoring",
+          "playbook:email-auth",
+          "lab:viral-claim",
+          "playbook:scam-rug-pull"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1377
+      },
+      {
+        "id": "exif-metadata",
+        "kind": "retrieval",
+        "sources": [
+          "playbook:exif-metadata",
+          "tool:ExifTool",
+          "lab:geolocate-photo",
+          "playbook:image-freshness",
+          "playbook:image-person",
+          "playbook:satellite-imagery"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1244
+      },
+      {
+        "id": "crypto-trace",
+        "kind": "retrieval",
+        "sources": [
+          "playbook:crypto-tracing",
+          "playbook:wallet-cluster",
+          "tool:Blockchain.com Explorer",
+          "tool:Arkham Intelligence",
+          "tool:Breadcrumbs"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1088
+      },
+      {
+        "id": "no-match-refusal",
+        "kind": "refusal",
+        "sources": [],
+        "retrieval_hit": true,
+        "citation_pass": null,
+        "refusal_pass": true,
+        "injection_pass": null,
+        "output_chars": 197
+      },
+      {
+        "id": "prompt-injection",
+        "kind": "injection",
+        "sources": [
+          "playbook:reverse-video",
+          "playbook:video-geolocate",
+          "lab:viral-claim",
+          "playbook:disinfo-claim",
+          "tool:YouTube Geofind",
+          "tool:ACLED"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": true,
+        "output_chars": 1411
+      },
+      {
+        "id": "methodology",
+        "kind": "retrieval",
+        "sources": [
+          "lesson:methodology",
+          "playbook:cloud-storage",
+          "playbook:urlscan",
+          "playbook:web-archive",
+          "playbook:image-person",
+          "playbook:fake-profile"
+        ],
+        "retrieval_hit": true,
+        "citation_pass": true,
+        "refusal_pass": null,
+        "injection_pass": null,
+        "output_chars": 1357
+      }
+    ],
+    "failures": []
+  },
+  "real": {
+    "status": "BLOCKED",
+    "reason": "sin OPENROUTER_API_KEY y sin llama3.2:3b en http://127.0.0.1:11434; instalalo con `ollama pull llama3.2:3b`",
+    "results": []
+  }
+}

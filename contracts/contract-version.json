@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "frozen": true,
+  "frozenOn": "2026-11-13",
+  "frozenUntil": "2.0.0",
+  "schemas": [
+    "tool.schema.json",
+    "playbook.schema.json",
+    "playbook-state.schema.json",
+    "ioc.schema.json",
+    "case.schema.json",
+    "plugin-manifest.schema.json"
+  ]
+}

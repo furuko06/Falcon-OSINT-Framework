@@ -1,5 +1,5 @@
 ﻿export const state = {
-    version:"0.1.0-alpha",
+    version:"1.0.0",
     theme:"falcon-dark",
     databaseReady:false
 };

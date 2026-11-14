@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -9,58 +9,38 @@
 
 <title>Falcon OSINT Framework</title>
 
-<link rel="manifest" href="manifest.webmanifest"/>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml"/>
 
-<style>
+<meta name="theme-color" content="#22d3ee"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; img-src 'self' data:; font-src 'self'; connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:* https://openrouter.ai; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none';">
 
-body{
-margin:0;
-background:#020617;
-color:#E2E8F0;
-font-family:Segoe UI;
-}
-
-header{
-padding:18px;
-background:#0F172A;
-border-bottom:1px solid #1E293B;
-}
-
-main{
-padding:20px;
-}
-
-.card{
-background:#111827;
-padding:18px;
-border-radius:12px;
-margin-bottom:18px;
-}
-
-</style>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="stylesheet" href="./framework/styles/shell.css">
+<link rel="stylesheet" href="./framework/styles/explorer.css">
 
 </head>
 
 <body>
 
-<header>
+<a class="skip-link" href="#main-content">Saltar al catálogo</a>
 
-<h1>Falcon OSINT Framework</h1>
+<div class="app-layout">
 
-<small>Version 0.1.0-alpha</small>
+    <nav id="sidebar" class="sidebar" aria-label="Navegación principal"></nav>
 
-</header>
+    <main class="content" id="main-content" tabindex="-1">
 
-<main id="app">
+        <h1 class="visually-hidden">Falcon OSINT Framework</h1>
 
-<div class="card">
-<h2>Dashboard</h2>
-<p>Framework iniciado correctamente.</p>
+        <div id="toolbar" class="toolbar"></div>
+
+        <section id="cards" class="cards"></section>
+
+    </main>
+
 </div>
 
-</main>
-
-<script type="module" src="./framework/core/app.js"></script>
+<script type="module" src="./framework/app.js"></script>
 
 </body>
 </html>

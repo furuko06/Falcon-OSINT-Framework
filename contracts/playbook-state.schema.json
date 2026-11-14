@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://falcon-osint.local/contracts/playbook-state.schema.json",
+  "title": "Falcon playbook progress",
+  "description": "Value stored under falcon:playbooks: progress keyed by playbook id.",
+  "contractVersion": "1.0.0",
+  "type": "object",
+  "patternProperties": {
+    "^[a-z0-9][a-z0-9-]{1,63}$": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "favorite", "checked"],
+      "properties": {
+        "state": { "type": ["string", "null"], "enum": ["in_progress", "completed", null] },
+        "favorite": { "type": "boolean" },
+        "checked": { "type": "array", "uniqueItems": true, "items": { "type": "string" } }
+      }
+    }
+  },
+  "additionalProperties": false
+}

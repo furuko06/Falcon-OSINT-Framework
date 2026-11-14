@@ -1,0 +1,10 @@
+# Public repository ownership and review routing.
+# Replace @furuko06 if repository ownership changes.
+
+* @furuko06
+
+/.github/ @furuko06
+/framework/database/ @furuko06
+/framework/modules/assistant/ @furuko06
+/docs/security/ @furuko06
+/SECURITY.md @furuko06

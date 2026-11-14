@@ -1,0 +1,13 @@
+[
+  {
+    "id": "cl_sii",
+    "name": "SII (Servicio de Impuestos Internos)",
+    "country": "CL",
+    "category": "Companies",
+    "website": "https://www.sii.cl",
+    "status": "verified",
+    "subcategory": "Registro Fiscal",
+    "description": "Servicio de Impuestos Internos de Chile: situación tributaria de empresas y personas.",
+    "last_verified": "2026-11-13"
+  }
+]

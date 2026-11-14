@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://falcon-osint.local/contracts/tool.schema.json",
+  "title": "Falcon tool record",
+  "description": "One catalog entry, both in intelligence/**/*.json and in the tools table.",
+  "contractVersion": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "category", "status"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "category": { "type": "string", "minLength": 2, "maxLength": 40 },
+    "subcategory": { "type": "string", "maxLength": 120 },
+    "description": { "type": "string", "maxLength": 1200 },
+    "country": { "type": "string", "minLength": 2, "maxLength": 40 },
+    "website": { "type": "string", "pattern": "^https?://" },
+    "docs": { "type": "string", "pattern": "^https?://" },
+    "github": { "type": "string", "pattern": "^[^/\\s]+/[^/\\s]+$" },
+    "license": { "type": "string", "maxLength": 64 },
+    "offline": { "type": "boolean" },
+    "docker": { "type": "boolean" },
+    "api": { "type": "boolean" },
+    "tor_friendly": { "type": "boolean" },
+    "vpn_friendly": { "type": "boolean" },
+    "quality_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "opsec_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "last_verified": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Required by the provenance gate for every status except unchecked."
+    },
+    "status": { "enum": ["verified", "beta", "restricted", "broken", "deprecated", "unchecked"] }
+  }
+}

@@ -1,0 +1,82 @@
+name: Bug report
+description: Report a reproducible problem in Falcon OSINT Framework.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Do not include real investigation data, private identifiers, credentials, or sensitive screenshots.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly describe the problem.
+      placeholder: What went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide a minimal, reproducible sequence.
+      placeholder: |
+        1. Open ...
+        2. Search for ...
+        3. Click ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead?
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Blocks investigation workflow
+        - Incorrect or missing intelligence result
+        - UI or usability issue
+        - Build, test, or developer workflow issue
+        - Documentation issue
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: 0.1.0-alpha or commit SHA
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: OS, browser, Node.js version
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Paste relevant logs only after removing sensitive data.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checks
+      options:
+        - label: I removed sensitive investigation data from this report.
+          required: true
+        - label: I searched existing issues for a duplicate.
+          required: true
+

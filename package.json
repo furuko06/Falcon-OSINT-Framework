@@ -1,24 +1,41 @@
-﻿{
-  "name":"falcon-osint-framework",
-  "version":"0.1.0-alpha",
+{
+  "name": "falcon-osint-framework",
+  "version": "1.0.0",
   "private": true,
-  "type":"module",
-
-  "scripts":{
-    "dev":"vite",
-    "build":"vite build",
-    "preview":"vite preview",
-    "test":"vitest"
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/prepare-dist.mjs",
+    "preview": "vite preview",
+    "test": "vitest",
+    "db:compile": "node intelligence/build/compile-db.mjs",
+    "db:validate": "node intelligence/build/validate-json.mjs",
+    "db:seed": "node intelligence/build/seed.mjs",
+    "db:links": "node intelligence/build/check-links.mjs",
+    "db:verify": "node scripts/verify-sources.mjs",
+    "db:provenance": "node scripts/verify-sources.mjs --check",
+    "db:import": "node intelligence/build/import-tools.mjs",
+    "a11y": "node scripts/a11y-audit.mjs",
+    "security:scan": "node scripts/security-scan.mjs",
+    "perf": "node --expose-gc scripts/perf-benchmark.mjs",
+    "eval:model": "node scripts/eval-model.mjs",
+    "gates": "node scripts/quality-gates.mjs",
+    "contracts:check": "node scripts/contracts-check.mjs",
+    "contracts:freeze": "node scripts/contracts-freeze.mjs",
+    "screenreader": "node scripts/screen-reader-audit.mjs",
+    "release:manifest": "node scripts/release-manifest.mjs",
+    "screenshots": "node scripts/screenshots.mjs"
   },
-
-  "dependencies":{
-    "lit":"^3.2.0",
-    "sql.js":"^1.13.0"
+  "dependencies": {
+    "lit": "^3.2.0",
+    "sql.js": "^1.13.0"
   },
-
-  "devDependencies":{
-    "vite":"^7.1.3",
-    "vitest":"^3.2.4",
-    "eslint":"^9.30.1"
-  }
+  "devDependencies": {
+    "axe-core": "^4.14.0",
+    "eslint": "^9.30.1",
+    "playwright-core": "^1.65.0",
+    "vite": "^7.3.8",
+    "vitest": "^5.1.0"
+  },
+  "license": "AGPL-3.0-only"
 }

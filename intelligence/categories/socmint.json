@@ -1,0 +1,22 @@
+[
+  {
+    "id": "telegram",
+    "name": "Telegram Intelligence"
+  },
+  {
+    "id": "reddit",
+    "name": "Reddit Intelligence"
+  },
+  {
+    "id": "discord",
+    "name": "Discord Intelligence"
+  },
+  {
+    "id": "instagram",
+    "name": "Instagram Intelligence"
+  },
+  {
+    "id": "linkedin",
+    "name": "LinkedIn Intelligence"
+  }
+]

@@ -1,0 +1,1470 @@
+{
+  "date": "2026-11-13",
+  "mode": "write",
+  "totals": {
+    "verified": 146,
+    "restricted": 18,
+    "beta": 13,
+    "broken": 2,
+    "deprecated": 1,
+    "unchecked": 2
+  },
+  "entries": [
+    {
+      "name": "Distill",
+      "category": "Archive",
+      "url": "https://distill.io",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "ICIJ Datashare",
+      "category": "Archive",
+      "url": "https://datashare.icij.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Conifer",
+      "category": "Archive",
+      "url": "https://conifer.rhizome.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Auto Archiver",
+      "category": "Archive",
+      "url": "https://github.com/bellingcat/auto-archiver",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Archive-It",
+      "category": "Archive",
+      "url": "https://archive-it.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Atlos",
+      "category": "Archive",
+      "url": "https://atlos.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Wikidata Query Service",
+      "category": "Data & Analysis",
+      "url": "https://query.wikidata.org",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Open Measures",
+      "category": "Data & Analysis",
+      "url": "https://openmeasures.io",
+      "status": "beta",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "4CAT",
+      "category": "Data & Analysis",
+      "url": "https://github.com/digitalmethodsinitiative/4cat",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Datasette",
+      "category": "Data & Analysis",
+      "url": "https://datasette.io",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OpenRefine",
+      "category": "Data & Analysis",
+      "url": "https://openrefine.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Datawrapper",
+      "category": "Data & Analysis",
+      "url": "https://www.datawrapper.de",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "EIA Global Environmental Crime Tracker",
+      "category": "Environment",
+      "url": "https://eia-international.org/global-environmental-crime-tracker/",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Aqueduct Water Risk Atlas",
+      "category": "Environment",
+      "url": "https://www.wri.org/aqueduct",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "AllTrails",
+      "category": "Environment",
+      "url": "https://www.alltrails.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "CITES Trade Database",
+      "category": "Environment",
+      "url": "https://trade.cites.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Global Forest Watch",
+      "category": "Environment",
+      "url": "https://www.globalforestwatch.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Wildlife Trade Portal",
+      "category": "Environment",
+      "url": "https://www.wildlifetradeportal.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "SkyTruth",
+      "category": "Environment",
+      "url": "https://skytruth.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Global Fishing Watch",
+      "category": "Environment",
+      "url": "https://globalfishingwatch.org/map",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Global Energy Monitor",
+      "category": "Environment",
+      "url": "https://globalenergymonitor.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Global Monitoring System ECOSOLVE",
+      "category": "Environment",
+      "url": "https://www.ecosolve.eco/dashboard",
+      "status": "beta",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Blockchain.com Explorer",
+      "category": "Finance",
+      "url": "https://www.blockchain.com/explorer",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Breadcrumbs",
+      "category": "Finance",
+      "url": "https://www.breadcrumbs.app",
+      "status": "beta",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Etherscan",
+      "category": "Finance",
+      "url": "https://etherscan.io",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OpenCorporates",
+      "category": "Companies",
+      "url": "https://opencorporates.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Arkham Intelligence",
+      "category": "Finance",
+      "url": "https://arkhamintelligence.com",
+      "status": "beta",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "OpenSanctions",
+      "category": "Finance",
+      "url": "https://www.opensanctions.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "SEC EDGAR",
+      "category": "Companies",
+      "url": "https://www.sec.gov/edgar",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OCCRP Aleph",
+      "category": "Companies",
+      "url": "https://aleph.occrp.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "ICIJ Offshore Leaks",
+      "category": "Companies",
+      "url": "https://offshoreleaks.icij.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "North Data",
+      "category": "Companies",
+      "url": "https://www.northdata.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "LittleSis",
+      "category": "Companies",
+      "url": "https://littlesis.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "ImportYeti",
+      "category": "Companies",
+      "url": "https://www.importyeti.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "OpenSecrets",
+      "category": "Finance",
+      "url": "https://www.opensecrets.org",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Companies House",
+      "category": "Companies",
+      "url": "https://find-and-update.company-information.service.gov.uk",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Open Ownership",
+      "category": "Companies",
+      "url": "https://www.openownership.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OEC",
+      "category": "Finance",
+      "url": "https://oec.world",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "GLEIF",
+      "category": "Companies",
+      "url": "https://search.gleif.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OpenLEIs",
+      "category": "Companies",
+      "url": "https://openleis.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "USAspending",
+      "category": "Finance",
+      "url": "https://www.usaspending.gov",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OXT",
+      "category": "Finance",
+      "url": "https://oxt.me",
+      "status": "broken",
+      "http": null,
+      "error": "fetch failed"
+    },
+    {
+      "name": "Mapillary",
+      "category": "GEOINT",
+      "url": "https://www.mapillary.com",
+      "status": "restricted",
+      "http": 400,
+      "error": null
+    },
+    {
+      "name": "Sentinel Hub EO Browser",
+      "category": "GEOINT",
+      "url": "https://apps.sentinel-hub.com/eo-browser/",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Google Earth",
+      "category": "GEOINT",
+      "url": "https://earth.google.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Windy",
+      "category": "GEOINT",
+      "url": "https://www.windy.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Bing Maps",
+      "category": "GEOINT",
+      "url": "https://www.bing.com/maps",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Overpass Turbo",
+      "category": "GEOINT",
+      "url": "https://overpass-turbo.eu",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OpenStreetMap",
+      "category": "GEOINT",
+      "url": "https://www.openstreetmap.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "YouTube Geofind",
+      "category": "GEOINT",
+      "url": "https://mattw.io/youtube-geofind/",
+      "status": "beta",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "SunCalc",
+      "category": "GEOINT",
+      "url": "https://www.suncalc.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "NASA FIRMS",
+      "category": "GEOINT",
+      "url": "https://firms.modaps.eosdis.nasa.gov",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "NASA Worldview",
+      "category": "GEOINT",
+      "url": "https://worldview.earthdata.nasa.gov",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OpenAerialMap",
+      "category": "GEOINT",
+      "url": "https://openaerialmap.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "MapChecking",
+      "category": "GEOINT",
+      "url": "https://www.mapchecking.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Wikimapia",
+      "category": "GEOINT",
+      "url": "https://wikimapia.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Yandex Maps",
+      "category": "GEOINT",
+      "url": "https://yandex.com/maps",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "GeoHints",
+      "category": "GEOINT",
+      "url": "https://geohints.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "USGS EarthExplorer",
+      "category": "GEOINT",
+      "url": "https://earthexplorer.usgs.gov",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "ShadeMap",
+      "category": "GEOINT",
+      "url": "https://shademap.app",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Copernicus Browser",
+      "category": "GEOINT",
+      "url": "https://browser.dataspace.copernicus.eu",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OpenTopoMap",
+      "category": "GEOINT",
+      "url": "https://opentopomap.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "GeoNames",
+      "category": "GEOINT",
+      "url": "https://www.geonames.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "PeakVisor",
+      "category": "GEOINT",
+      "url": "https://peakvisor.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Chronotrains",
+      "category": "GEOINT",
+      "url": "https://www.chronotrains.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "F4Map",
+      "category": "GEOINT",
+      "url": "https://f4map.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Baidu Maps",
+      "category": "GEOINT",
+      "url": "https://map.baidu.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Naver Map",
+      "category": "GEOINT",
+      "url": "https://map.naver.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "EUR-Lex",
+      "category": "Government",
+      "url": "https://eur-lex.europa.eu",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Federal Register",
+      "category": "Government",
+      "url": "https://www.federalregister.gov",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Sherlock",
+      "category": "HUMINT",
+      "url": "https://github.com/sherlock-project/sherlock",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Holehe",
+      "category": "HUMINT",
+      "url": "https://github.com/megadose/holehe",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Maigret",
+      "category": "HUMINT",
+      "url": "https://github.com/soxoj/maigret",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Emailrep",
+      "category": "Email",
+      "url": "https://emailrep.io",
+      "status": "restricted",
+      "http": 400,
+      "error": null
+    },
+    {
+      "name": "Hunter.io",
+      "category": "Email",
+      "url": "https://hunter.io",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "GLEIF LEI Search",
+      "category": "Identity",
+      "url": "https://search.gleif.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OFAC Sanctions Search",
+      "category": "Identity",
+      "url": "https://sanctionssearch.ofac.treas.gov",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "OpenOwnership",
+      "category": "Identity",
+      "url": "https://www.openownership.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "EU Sanctions Map",
+      "category": "Identity",
+      "url": "https://www.sanctionsmap.eu",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Google Lens",
+      "category": "Image",
+      "url": "https://lens.google.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "PimEyes",
+      "category": "Image",
+      "url": "https://pimeyes.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "TinEye",
+      "category": "Image",
+      "url": "https://tineye.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "ExifTool",
+      "category": "Image",
+      "url": "https://exiftool.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "FotoForensics",
+      "category": "Image",
+      "url": "https://fotoforensics.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Jimpl",
+      "category": "Image",
+      "url": "https://jimpl.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "InVID Verification Plugin",
+      "category": "Video",
+      "url": "https://github.com/AFP-Medialab/verification-plugin",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Forensically",
+      "category": "Image",
+      "url": "https://29a.ch/photo-forensics/",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Deepware Scanner",
+      "category": "Video",
+      "url": "https://deepware.ai",
+      "status": "beta",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "yt-dlp",
+      "category": "Video",
+      "url": "https://github.com/yt-dlp/yt-dlp",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Yandex Images",
+      "category": "Image",
+      "url": "https://yandex.com/images",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "MediaInfo",
+      "category": "Video",
+      "url": "https://mediaarea.net/en/MediaInfo",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "KartaView",
+      "category": "Image",
+      "url": "https://kartaview.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Bing Visual Search",
+      "category": "Image",
+      "url": "https://www.bing.com/visualsearch",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Watch Frame by Frame",
+      "category": "Video",
+      "url": "https://www.watchframebyframe.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Shodan",
+      "category": "Infrastructure",
+      "url": "https://www.shodan.io",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Censys",
+      "category": "Infrastructure",
+      "url": "https://search.censys.io",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "SecurityTrails",
+      "category": "Domains",
+      "url": "https://securitytrails.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Wappalyzer",
+      "category": "Infrastructure",
+      "url": "https://www.wappalyzer.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Amass",
+      "category": "Domains",
+      "url": "https://github.com/owasp-amass/amass",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Subfinder",
+      "category": "Domains",
+      "url": "https://github.com/projectdiscovery/subfinder",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "AbuseIPDB",
+      "category": "Infrastructure",
+      "url": "https://www.abuseipdb.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "BuiltWith",
+      "category": "Infrastructure",
+      "url": "https://builtwith.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "urlscan.io",
+      "category": "Infrastructure",
+      "url": "https://urlscan.io",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "MXToolbox",
+      "category": "Email",
+      "url": "https://mxtoolbox.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "GrayhatWarfare",
+      "category": "Infrastructure",
+      "url": "https://grayhatwarfare.com",
+      "status": "beta",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "IPinfo",
+      "category": "Infrastructure",
+      "url": "https://ipinfo.io",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "DNSlytics",
+      "category": "Domains",
+      "url": "https://dnslytics.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "crt.sh",
+      "category": "Domains",
+      "url": "https://crt.sh",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "VirusTotal",
+      "category": "Infrastructure",
+      "url": "https://www.virustotal.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Flightradar24",
+      "category": "Monitoring",
+      "url": "https://www.flightradar24.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "ADS-B Exchange",
+      "category": "Monitoring",
+      "url": "https://globe.adsbexchange.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "MarineTraffic",
+      "category": "Monitoring",
+      "url": "https://www.marinetraffic.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Feedly",
+      "category": "Monitoring",
+      "url": "https://feedly.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Windy Webcams",
+      "category": "Monitoring",
+      "url": "https://www.windy.com/webcams",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Liveuamap",
+      "category": "Monitoring",
+      "url": "https://liveuamap.com",
+      "status": "beta",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "ACLED",
+      "category": "Monitoring",
+      "url": "https://acleddata.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "FlightAware",
+      "category": "Monitoring",
+      "url": "https://www.flightaware.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "VesselFinder",
+      "category": "Monitoring",
+      "url": "https://www.vesselfinder.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "EarthCam",
+      "category": "Monitoring",
+      "url": "https://www.earthcam.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "GDELT",
+      "category": "Monitoring",
+      "url": "https://www.gdeltproject.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "ReliefWeb",
+      "category": "Monitoring",
+      "url": "https://reliefweb.int",
+      "status": "restricted",
+      "http": 406,
+      "error": null
+    },
+    {
+      "name": "HDX",
+      "category": "Monitoring",
+      "url": "https://data.humdata.org",
+      "status": "restricted",
+      "http": 406,
+      "error": null
+    },
+    {
+      "name": "GPSJam",
+      "category": "Monitoring",
+      "url": "https://gpsjam.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "UCDP",
+      "category": "Monitoring",
+      "url": "https://ucdp.uu.se",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "GeoConfirmed",
+      "category": "Monitoring",
+      "url": "https://geoconfirmed.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Equasis",
+      "category": "Monitoring",
+      "url": "https://www.equasis.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "MarineCadastre",
+      "category": "Monitoring",
+      "url": "https://marinecadastre.gov",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "World Bank Open Data",
+      "category": "Open Data",
+      "url": "https://data.worldbank.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "UNdata",
+      "category": "Open Data",
+      "url": "https://data.un.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Data.gov",
+      "category": "Open Data",
+      "url": "https://data.gov",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Eurostat",
+      "category": "Open Data",
+      "url": "https://ec.europa.eu/eurostat",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "DeHashed",
+      "category": "Email",
+      "url": "https://dehashed.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Have I Been Pwned",
+      "category": "Email",
+      "url": "https://haveibeenpwned.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "WhatsMyName",
+      "category": "Username",
+      "url": "https://github.com/webbreacher/whatsmyname",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "PhoneInfoga",
+      "category": "People",
+      "url": "https://github.com/sundowndev/phoneinfoga",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Gephi",
+      "category": "People",
+      "url": "https://gephi.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Epieos",
+      "category": "Email",
+      "url": "https://epieos.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Intelligence X",
+      "category": "Email",
+      "url": "https://intelx.io",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "PeekYou",
+      "category": "People",
+      "url": "https://www.peekyou.com",
+      "status": "beta",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Maltego",
+      "category": "People",
+      "url": "https://www.maltego.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Instant Username Search",
+      "category": "Username",
+      "url": "https://instantusername.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Twint",
+      "category": "SOCMINT",
+      "url": "https://github.com/twintproject/twint",
+      "status": "deprecated",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "UserSearch.org",
+      "category": "Username",
+      "url": "https://usersearch.org",
+      "status": "beta",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Namechk",
+      "category": "Username",
+      "url": "https://namechk.com",
+      "status": "restricted",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "social-analyzer",
+      "category": "Username",
+      "url": "https://github.com/qeeqbox/social-analyzer",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "h8mail",
+      "category": "HUMINT",
+      "url": "https://github.com/khast3x/h8mail",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "theHarvester",
+      "category": "HUMINT",
+      "url": "https://github.com/laramies/theHarvester",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "GHunt",
+      "category": "HUMINT",
+      "url": "https://github.com/mxrch/GHunt",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "SpiderFoot",
+      "category": "SOCMINT",
+      "url": "https://github.com/smicallef/spiderfoot",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Sublist3r",
+      "category": "Domains",
+      "url": "https://github.com/aboul3la/Sublist3r",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Recon-ng",
+      "category": "HUMINT",
+      "url": "https://github.com/lanmaster53/recon-ng",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Photon",
+      "category": "HUMINT",
+      "url": "https://github.com/s0md3v/Photon",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Blackbird",
+      "category": "HUMINT",
+      "url": "https://github.com/p1ngul1n0/blackbird",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Nmap",
+      "category": "Infrastructure",
+      "url": "https://nmap.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Telepathy",
+      "category": "SOCMINT",
+      "url": "",
+      "status": "unchecked",
+      "http": null,
+      "error": "sin URL pública"
+    },
+    {
+      "name": "Social Analyzer",
+      "category": "SOCMINT",
+      "url": "",
+      "status": "unchecked",
+      "http": null,
+      "error": "sin URL pública"
+    },
+    {
+      "name": "TGStat",
+      "category": "SOCMINT",
+      "url": "https://tgstat.com",
+      "status": "beta",
+      "http": 403,
+      "error": null
+    },
+    {
+      "name": "Instaloader",
+      "category": "SOCMINT",
+      "url": "https://github.com/instaloader/instaloader",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Strava Heatmap",
+      "category": "SOCMINT",
+      "url": "https://www.strava.com/heatmap",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Snapchat Map",
+      "category": "SOCMINT",
+      "url": "https://map.snapchat.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "TikTok Creative Center",
+      "category": "SOCMINT",
+      "url": "https://ads.tiktok.com/business/creativecenter",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Google Fact Check Explorer",
+      "category": "Verification",
+      "url": "https://toolbox.google.com/factcheck/explorer",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Hoaxy",
+      "category": "Verification",
+      "url": "https://hoaxy.osome.iu.edu",
+      "status": "beta",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Media Cloud",
+      "category": "Verification",
+      "url": "https://www.mediacloud.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "DeepFake-O-Meter",
+      "category": "Verification",
+      "url": "https://zinc.cse.buffalo.edu/ubmdfl/deepfake-o-meter/",
+      "status": "beta",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Hunchly",
+      "category": "Archive",
+      "url": "https://www.hunch.ly",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Full Fact",
+      "category": "Verification",
+      "url": "https://fullfact.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Wayback Machine",
+      "category": "Archive",
+      "url": "https://web.archive.org",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "PolitiFact",
+      "category": "Verification",
+      "url": "https://www.politifact.com",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "archive.today",
+      "category": "Archive",
+      "url": "https://archive.ph",
+      "status": "broken",
+      "http": null,
+      "error": "fetch failed"
+    },
+    {
+      "name": "Constancia de CUIT (ARCA/AFIP)",
+      "category": "Companies",
+      "url": "https://www.arca.gob.ar",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "NIC Argentina",
+      "category": "Domains",
+      "url": "https://nic.ar",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Datos Argentina",
+      "category": "Open Data",
+      "url": "https://datos.gob.ar",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "RENAPER",
+      "category": "Identity",
+      "url": "https://www.argentina.gob.ar/interior/renaper",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Boletín Oficial de la República Argentina",
+      "category": "Government",
+      "url": "https://www.boletinoficial.gob.ar",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Padrón Electoral",
+      "category": "People",
+      "url": "https://www.padron.gob.ar",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "SII (Servicio de Impuestos Internos)",
+      "category": "Companies",
+      "url": "https://www.sii.cl",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "SAT (Servicio de Administración Tributaria)",
+      "category": "Companies",
+      "url": "https://www.gob.mx/sat",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Portal gob.mx",
+      "category": "Government",
+      "url": "https://www.gob.mx",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "CNBV (Comisión Nacional Bancaria y de Valores)",
+      "category": "Companies",
+      "url": "https://www.gob.mx/cnbv",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "Portal gub.uy",
+      "category": "Government",
+      "url": "https://www.gub.uy",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    },
+    {
+      "name": "AGESIC (Agencia de Gobierno Electrónico)",
+      "category": "Government",
+      "url": "https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento",
+      "status": "verified",
+      "http": 200,
+      "error": null
+    }
+  ]
+}

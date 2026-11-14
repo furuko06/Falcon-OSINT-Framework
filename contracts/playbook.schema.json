@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://falcon-osint.local/contracts/playbook.schema.json",
+  "title": "Falcon playbook",
+  "description": "A step-by-step investigation recipe shipped with the app.",
+  "contractVersion": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "tactic", "title", "objective", "requirements", "steps", "checklist", "tools", "resources"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" },
+    "tactic": {
+      "enum": ["reconnaissance", "identity", "imagery", "infrastructure", "finance", "dynamic", "verification"]
+    },
+    "title": { "type": "string", "minLength": 3, "maxLength": 120 },
+    "objective": { "type": "string", "minLength": 10, "maxLength": 400 },
+    "requirements": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 3 } },
+    "steps": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 10 } },
+    "checklist": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 3 } },
+    "tools": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "url"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "pattern": "^https?://" }
+        }
+      }
+    },
+    "resources": { "type": "array", "items": { "type": "string", "minLength": 3 } }
+  }
+}

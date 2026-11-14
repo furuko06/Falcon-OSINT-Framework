@@ -1,0 +1,64 @@
+##################################################
+# Falcon OSINT Framework
+##################################################
+
+# Node
+node_modules/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Build
+dist/
+coverage/
+.vite/
+
+# SQLite
+*.sqlite
+*.db
+*.db-journal
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+Thumbs.db
+.DS_Store
+
+# GitHub CLI local
+tools/
+!intelligence/tools/
+gh_*.zip
+
+# Logs
+logs/
+*.log
+
+# Temporary
+tmp/
+temp/
+.cache/
+
+# Python
+__pycache__/
+*.pyc
+
+# Docker
+.docker/
+estructura.txt
+gh_*.zip
+
+# Local agent metadata
+.freebuff/
+
+# Local evaluation runtime and models (never committed)
+.tools/
+
+# Release artifacts uploaded to GitHub Releases, not committed
+docs/releases/*.tar.gz
